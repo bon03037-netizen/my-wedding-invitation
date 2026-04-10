@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+@import "tailwindcss";
+
+/* ── Local Font: Sermo ────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Sermo';
+  src: url('/fonts/SERMOItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ── Film animations ──────────────────────────────────────────────────────── */
+
+@keyframes filmGrainAnim {
+  0%   { transform: translate(0,   0);    opacity: 0.11; }
+  10%  { transform: translate(-2%,-3%);   opacity: 0.14; }
+  20%  { transform: translate( 3%, 1%);   opacity: 0.09; }
+  30%  { transform: translate(-1%, 4%);   opacity: 0.15; }
+  40%  { transform: translate( 4%,-2%);   opacity: 0.10; }
+  50%  { transform: translate(-3%, 3%);   opacity: 0.13; }
+  60%  { transform: translate( 2%,-4%);   opacity: 0.14; }
+  70%  { transform: translate(-4%, 2%);   opacity: 0.08; }
+  80%  { transform: translate( 3%,-1%);   opacity: 0.12; }
+  90%  { transform: translate(-2%, 4%);   opacity: 0.13; }
+  100% { transform: translate(0,   0);    opacity: 0.11; }
+}
+
+
+@keyframes filmStripScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes filmRollUp {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes filmRollLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes filmGrainDrift {
+  0%   { transform: translate(0,    0);   }
+  20%  { transform: translate(-2%,  1%);  }
+  40%  { transform: translate( 3%, -2%);  }
+  60%  { transform: translate(-1%,  3%);  }
+  80%  { transform: translate( 2%, -1%);  }
+  100% { transform: translate(0,    0);   }
+}
+
+/* ── Hide scrollbar (scroll still works) ─────────────────────────────────── */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
