@@ -10,54 +10,42 @@
 
 
         <style>
-        @keyframes popAndRotate {
-            0% { transform: translate(-50%, -50%) scale(0) rotate(-30deg); opacity: 0; }
-            60% { transform: translate(-50%, -50%) scale(1.2) rotate(10deg); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-        }
-        
-        .arch-rose {
-            position: absolute;
-            width: 50px; /* 장미 크기 */
-            height: 50px;
-            animation: popAndRotate 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            /*filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));*/
-        }
-        </style>
-
-
-        <style>
-        /* 🌹 새로 피어난 장미의 눈부신 반짝임 효과 */
-        @keyframes sparkleAndPop {
-            0% { 
-            transform: translate(-50%, -50%) scale(0); 
-            filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0)); 
+            @keyframes sparkleAndPop {
+                0% { transform: translate(-50%, -50%) scale(0); filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0)); }
+                50% { transform: translate(-50%, -50%) scale(1.4); filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.9)); }
+                100% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(rgba(200, 20, 40, 0.7) 0px 0px 5px) drop-shadow(rgba(180, 0, 30, 0.4) 0px 0px 12px); }
             }
-            50% { 
-            transform: translate(-50%, -50%) scale(1.4); 
-            /* 하얗고 노란 빛이 팡! 하고 강하게 퍼지는 효과 */
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.9)); 
-            }
-            100% { 
-            transform: translate(-50%, -50%) scale(1); 
-            /* 원래 장미의 기본 그림자로 부드럽게 복귀 */
-            /*filter: drop-shadow(rgba(200, 20, 40, 0.7) 0px 0px 5px) drop-shadow(rgba(180, 0, 30, 0.4) 0px 0px 12px); */
-            }
-        }
 
-        /* 방금 피어난 새 장미 전용 클래스 */
-        .rose-new {
-            animation: sparkleAndPop 1.5s ease-out forwards;
-            z-index: 999; /* 새 장미가 다른 장미에 묻히지 않고 무조건 맨 위에서 반짝이도록 설정 */
-        }
+            .rose-new {
+                animation: sparkleAndPop 1.5s ease-out forwards;
+                z-index: 999;
+            }
 
-        /* 기존에 있던 장미들은 얌전하게 고정 */
-        .rose-static {
-            transform: translate(-50%, -50%) scale(1);
-            /*filter: drop-shadow(rgba(200, 20, 40, 0.7) 0px 0px 5px) drop-shadow(rgba(180, 0, 30, 0.4) 0px 0px 12px);*/
-            z-index: 10;
-        }
-        </style>
+            .rose-static {
+                transform: translate(-50%, -50%) scale(1);
+                filter: drop-shadow(rgba(200, 20, 40, 0.7) 0px 0px 5px) drop-shadow(rgba(180, 0, 30, 0.4) 0px 0px 12px);
+                z-index: 10;
+            }
+
+            /* 슬라이드 패널 CSS (수정 완료: 확실하게 숨기고 부드럽게 올림) */
+            #guestbook-slide {
+                position: fixed;
+                bottom: -100%; /* 처음엔 무조건 화면 아래에 숨김 */
+                left: 0;
+                width: 100%;
+                height: 75vh;
+                background: rgba(218, 210, 183, 0.95);
+                z-index: 9999;
+                border-top-left-radius: 24px;
+                border-top-right-radius: 24px;
+                transition: bottom 0.4s ease-in-out; /* 스르륵 닫히고 열리는 속도 */
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+                padding: 24px;
+                box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            }
+            </style>
 </head>
 
 <body
@@ -2786,41 +2774,36 @@
 
 
 
-                <div style="order:6; position:relative; padding:56px 28px;">
-                    <div style="height:1px;background:rgba(107,76,42,0.2);margin-bottom:32px"></div>
-                    <p style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:24px;letter-spacing:0.28em;color:#3a2f28;text-align:center;margin-bottom:20px">방명록</p>
-                    
-                <div style="order:6; position:relative; padding:56px 28px;">
-                    <div style="height:1px;background:rgba(107,76,42,0.2);margin-bottom:32px"></div>
-                    <p style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:24px;letter-spacing:0.28em;color:#3a2f28;text-align:center;margin-bottom:20px">방명록</p>
-                    
-                    <div>
-                        <div onclick="openGuestbookSlide()" style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;border-radius:12px;background:#e8f0e8;cursor:pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                            
-                            <img src="./images/vine2.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                    <div style="order:6; position:relative; padding:56px 28px;">
+                        <div style="height:1px;background:rgba(107,76,42,0.2);margin-bottom:32px"></div>
+                        <p style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:24px;letter-spacing:0.28em;color:#3a2f28;text-align:center;margin-bottom:20px">방명록</p>
+                        
+                        <div>
+                            <div onclick="openGuestbookSlide()" style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;border-radius:12px;background:#e8f0e8;cursor:pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                                <img src="./images/vine2.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                                <div id="roses-container" style="position:absolute; inset:0; z-index:10; pointer-events:none;"></div>
+                                <div style="position:absolute;bottom:6px;right:8px;font-family:monospace;font-size:7px;color:rgba(255,255,255,0.7);letter-spacing:0.18em;pointer-events:none">TAP TO READ</div>
+                            </div>
 
-                            <div id="roses-container" style="position:absolute; inset:0; z-index:10; pointer-events:none;"></div>
-                            
-                            <div style="position:absolute;bottom:6px;right:8px;font-family:monospace;font-size:7px;color:rgba(255,255,255,0.7);letter-spacing:0.18em;pointer-events:none">TAP TO READ</div>
-                        </div>
-
-                        <div style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;margin-top:16px">
-                            <p style="font-family:monospace;font-size:9px;letter-spacing:0.4em;color:#9a9490;text-transform:uppercase">장미를 꽃피워주세요 🌹</p>
-                            <input id="guestName" placeholder="이름" style="font-family:var(--font-gowun);font-size:13px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
-                            <textarea id="guestContent" placeholder="축하 메시지를 남겨주세요" rows="2" style="font-family:var(--font-gowun);font-size:13px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box;resize:none;line-height:1.65"></textarea>
-                            <input id="guestPw" placeholder="삭제용 비밀번호" type="password" style="font-family:var(--font-gowun);font-size:12px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
-                            <button onclick="submitGuestbook()" style="font-family:monospace;font-size:11px;letter-spacing:0.25em;color:#6b4c2a;background:none;border:1px solid #6b4c2a;border-radius:999px;padding:9px 0;cursor:pointer;text-transform:uppercase">장미 한 송이 피우기 🌹</button>
+                            <div style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;margin-top:16px">
+                                <p style="font-family:monospace;font-size:9px;letter-spacing:0.4em;color:#9a9490;text-transform:uppercase">장미를 꽃피워주세요 🌹</p>
+                                <input id="guestName" placeholder="이름" style="font-family:var(--font-gowun);font-size:13px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
+                                <textarea id="guestContent" placeholder="축하 메시지를 남겨주세요" rows="2" style="font-family:var(--font-gowun);font-size:13px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box;resize:none;line-height:1.65"></textarea>
+                                <input id="guestPw" placeholder="삭제용 비밀번호" type="password" style="font-family:var(--font-gowun);font-size:12px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
+                                <button onclick="submitGuestbook()" style="font-family:monospace;font-size:11px;letter-spacing:0.25em;color:#6b4c2a;background:none;border:1px solid #6b4c2a;border-radius:999px;padding:9px 0;cursor:pointer;text-transform:uppercase">장미 한 송이 피우기 🌹</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div id="guestbook-slide">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:15px;">
-                        <h3 style="color:#ffd700; font-family:var(--font-gowun), serif; margin:0; font-size:18px;">피어난 장미들 🌹</h3>
-                        <button onclick="closeGuestbookSlide()" style="background:none; border:none; color:white; font-size:28px; line-height:1; cursor:pointer; padding:0;">×</button>
+                    <div id="guestbook-slide">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:15px;">
+                            <h3 style="color:#ffd700; font-family:var(--font-gowun), serif; margin:0; font-size:18px;">피어난 장미들 🌹</h3>
+                            <button onclick="closeGuestbookSlide()" style="background:none; border:none; color:white; font-size:32px; line-height:1; cursor:pointer; padding:0; outline:none;">&times;</button>
+                        </div>
+                        <div id="guestbook-list" style="flex:1; overflow-y:auto; padding-right:5px;"></div>
                     </div>
-                    <div id="guestbook-list" style="flex:1; overflow-y:auto; padding-right:5px;"></div>
-                </div>
+
+
 
 
 
@@ -2914,130 +2897,112 @@
         { x: 8, y: 30 }, // 26. 정중앙 살짝 아래
     ];
 
-    function openGuestbookSlide() {
-        document.getElementById('guestbook-slide').style.bottom = '0';
-    }
-    function closeGuestbookSlide() {
-        document.getElementById('guestbook-slide').style.bottom = '-100%';
-    }
-
-
-    // 🌹 화면에 장미 그리기 함수
-    function addRoseToGarden(item, isNew = false) {
-        const container = document.getElementById('roses-container');
-        const rose = document.createElement('div');
-        rose.style.position = 'absolute';
-        
-        // DB에 저장된 위치(좌표) 그대로 배치
-        rose.style.left = item.pos_x + '%';
-        rose.style.top = item.pos_y + '%';
-        rose.style.width = '34px';
-        rose.style.height = '34px';
-        /*rose.style.filter = 'drop-shadow(rgba(200, 20, 40, 0.7) 0px 0px 5px) drop-shadow(rgba(180, 0, 30, 0.4) 0px 0px 12px)';*/
-        
-        // 무작위 회전 코드를 삭제하고 중앙 정렬만 남깁니다!
-        rose.style.transform = `translate(-50%, -50%)`;
-        
-        rose.className = isNew ? 'rose-new' : 'rose-static';
-
-        const img = document.createElement('img');
-        
-        // ==========================================
-        // 💡 2가지 장미 일러스트 번갈아 배정하기
-        // ==========================================
-        const roseTypes = [
-            './images/rose-icon1.png', // 1번 장미 이미지
-            './images/rose-icon2.png'  // 2번 장미 이미지
-        ];
-        
-        // X좌표와 Y좌표를 더한 값을 2로 나눈 '나머지(0 또는 1)'를 구합니다.
-        // 이 공식을 사용하면 데이터베이스 수정 없이도 위치마다 두 장미가 골고루 섞여 피어납니다!
-        const typeIndex = (item.pos_x + item.pos_y) % 2;
-        
-        img.src = roseTypes[typeIndex];
-        // ==========================================
-
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'contain';
-
-        rose.appendChild(img);
-        container.appendChild(rose);
-    }
-
-    // 초기 로드
-    async function loadGuestbook() {
-        const { data, error } = await _supabase.from('guestbook').select('*').order('created_at', { ascending: false });
-
-        if (data) {
-        // 💡 3. 데이터를 불러올 때, 현재 방명록 개수를 저장해둡니다!
-        currentGuestCount = data.length;
-
-        document.getElementById('roses-container').innerHTML = '';
-        data.slice(0, 50).forEach(item => addRoseToGarden(item, false));
-        updateSlideList(data);
+    // 💡 슬라이드 제어 함수 (열기/닫기)
+        function openGuestbookSlide() {
+            document.getElementById('guestbook-slide').style.bottom = '0';
         }
-    }
-
-    function updateSlideList(data) {
-        const listDiv = document.getElementById('guestbook-list');
-        listDiv.innerHTML = data.map(item => `
-        <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:16px; margin-bottom:12px; color:white; font-size:14px; position:relative; line-height:1.5;">
-            <div style="font-weight:bold; margin-bottom:6px; font-size:12px; color:#ffd700;">${item.name}</div>
-            <div>${item.content}</div>
-            <button onclick="deleteMsg('${item.id}')" style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.2); border:none; color:white; font-size:10px; cursor:pointer; padding:4px 8px; border-radius:4px;">삭제</button>
-        </div>
-        `).join('') || '<div style="color:rgba(255,255,255,0.5); text-align:center; margin-top:50px;">장미를 피워주세요.</div>';
-    }
-
-    // 방명록 등록
-    async function submitGuestbook() {
-        const name = document.getElementById('guestName').value;
-        const content = document.getElementById('guestContent').value;
-        const password = document.getElementById('guestPw').value;
-
-        if (!name || !content || !password) return alert("모든 빈칸을 채워주세요 🌹");
-
-        // ==========================================
-        // 💡 4. 현재 개수를 이용해 다음 '순서'의 좌표를 가져옵니다.
-        // (만약 30명이 넘어가면 다시 1번 자리부터 덧씌워지도록 % 사용)
-        // ==========================================
-        const nextIndex = currentGuestCount % archSpots.length;
-        const newPosX = archSpots[nextIndex].x;
-        const newPosY = archSpots[nextIndex].y;
-
-        const { data, error } = await _supabase.from('guestbook').insert([
-        { name, content, password, pos_x: newPosX, pos_y: newPosY }
-        ]).select().single();
-
-        if (error) {
-        alert("장미를 피우지 못했습니다.");
-        } else {
-        alert("장미 한 송이가 피어났습니다! 🌹");
-        document.getElementById('guestName').value = '';
-        document.getElementById('guestContent').value = '';
-        document.getElementById('guestPw').value = '';
-        
-        // 장미 추가 및 카운트 1 증가!
-        addRoseToGarden(data, true);
-        currentGuestCount++; 
-        
-        const { data: allData } = await _supabase.from('guestbook').select('*').order('created_at', { ascending: false });
-        updateSlideList(allData);
+        function closeGuestbookSlide() {
+            document.getElementById('guestbook-slide').style.bottom = '-100%';
         }
-    }
 
-    async function deleteMsg(id) {
-        const pw = prompt("비밀번호를 입력해주세요.");
-        if (!pw) return;
-        const { data } = await _supabase.from('guestbook').delete().match({ id, password: pw }).select();
-        if (data && data.length > 0) {
-        alert("삭제되었습니다.");
-        loadGuestbook(); 
-        } else alert("비밀번호가 틀렸습니다.");
-    }
+        // 장미 화면에 그리기
+        function addRoseToGarden(item, isNew = false) {
+            const container = document.getElementById('roses-container');
+            const rose = document.createElement('div');
+            rose.style.position = 'absolute';
+            rose.style.left = item.pos_x + '%';
+            rose.style.top = item.pos_y + '%';
+            rose.style.width = '34px';
+            rose.style.height = '34px';
+            rose.style.transform = `translate(-50%, -50%)`;
+            rose.className = isNew ? 'rose-new' : 'rose-static';
 
-    window.addEventListener('load', loadGuestbook);
+            const img = document.createElement('img');
+            
+            // 장미 이미지 2개 번갈아가며 띄우기
+            const roseTypes = ['./images/rose-icon1.png', './images/rose-icon2.png'];
+            const typeIndex = (item.pos_x + item.pos_y) % 2;
+            img.src = roseTypes[typeIndex];
+
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'contain';
+
+            rose.appendChild(img);
+            container.appendChild(rose);
+        }
+
+        // 초기 로드
+        async function loadGuestbook() {
+            const { data, error } = await _supabase.from('guestbook').select('*').order('created_at', { ascending: false });
+            if (data) {
+                currentGuestCount = data.length;
+                document.getElementById('roses-container').innerHTML = '';
+                data.slice(0, 50).forEach(item => addRoseToGarden(item, false));
+                updateSlideList(data);
+            }
+        }
+
+        // 슬라이드 리스트 생성 (데이터가 없을 때 방어 코드 추가)
+        function updateSlideList(data) {
+            const listDiv = document.getElementById('guestbook-list');
+            if (!data || data.length === 0) {
+                listDiv.innerHTML = '<div style="color:rgba(255,255,255,0.5); text-align:center; margin-top:50px;">가장 먼저 장미를 피워주세요.</div>';
+                return;
+            }
+            listDiv.innerHTML = data.map(item => `
+            <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:16px; margin-bottom:12px; color:white; font-size:14px; position:relative; line-height:1.5;">
+                <div style="font-weight:bold; margin-bottom:6px; font-size:12px; color:#ffd700;">${item.name || '이름 없음'}</div>
+                <div>${item.content || '내용이 없습니다.'}</div>
+                <button onclick="deleteMsg('${item.id}')" style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.2); border:none; color:white; font-size:10px; cursor:pointer; padding:4px 8px; border-radius:4px;">삭제</button>
+            </div>
+            `).join('');
+        }
+
+        // 방명록 쓰기
+        async function submitGuestbook() {
+            const name = document.getElementById('guestName').value;
+            const content = document.getElementById('guestContent').value;
+            const password = document.getElementById('guestPw').value;
+
+            if (!name || !content || !password) return alert("모든 빈칸을 채워주세요 🌹");
+
+            const nextIndex = currentGuestCount % archSpots.length;
+            const newPosX = archSpots[nextIndex].x;
+            const newPosY = archSpots[nextIndex].y;
+
+            const { data, error } = await _supabase.from('guestbook').insert([
+                { name, content, password, pos_x: newPosX, pos_y: newPosY }
+            ]).select().single();
+
+            if (error) {
+                alert("장미를 피우지 못했습니다.");
+            } else {
+                alert("장미 한 송이가 피어났습니다! 🌹");
+                document.getElementById('guestName').value = '';
+                document.getElementById('guestContent').value = '';
+                document.getElementById('guestPw').value = '';
+                
+                addRoseToGarden(data, true);
+                currentGuestCount++; 
+                
+                const { data: allData } = await _supabase.from('guestbook').select('*').order('created_at', { ascending: false });
+                updateSlideList(allData);
+            }
+        }
+
+        // 삭제
+        async function deleteMsg(id) {
+            const pw = prompt("비밀번호를 입력해주세요.");
+            if (!pw) return;
+            const { data } = await _supabase.from('guestbook').delete().match({ id, password: pw }).select();
+            if (data && data.length > 0) {
+                alert("삭제되었습니다.");
+                loadGuestbook(); 
+            } else alert("비밀번호가 틀렸습니다.");
+        }
+
+        window.addEventListener('load', loadGuestbook);
     </script>
 
 
