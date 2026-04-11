@@ -2829,9 +2829,10 @@
     <div id="its-image-search-container"></div>
     <div id="its-image-crop-container"></div>
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-        integrity="sha384-TiCmbVXZbxeUKRNDg-Nmg22zePe10Fwt//Dkpsg1fE2uIeL1QZdBjIfXkE8O2P8n" crossorigin="anonymous"
-        data-nscript="afterInteractive"></script><next-route-announcer
-        style="position: absolute;"></next-route-announcer>
+  integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
+        
+        <next-route-announcer
+        style="position: absolute;"></next-route-announcer>*/
 
 
 
@@ -3881,16 +3882,23 @@ window.addEventListener('load', function () {
     if (typeof kakao === 'undefined' || !kakao.maps) return;
 
     kakao.maps.load(function () {
-        var container = document.getElementById('kakao-map');
+        var container = document.getElementById('kakao-map'); // HTML에 id="kakao-map" 필수!
         if (!container) return;
 
         function renderMap(coords) {
             var map = new kakao.maps.Map(container, { center: coords, level: 3 });
-            new kakao.maps.Marker({ position: coords, map: map });
-            new kakao.maps.InfoWindow({
-                content: '<div style="padding:6px 12px;font-size:12px;font-family:\'Gowun Dodum\',sans-serif;color:#3a2f28;white-space:nowrap;line-height:1.7">' +
-                         '엠타워컨벤션 안양<br><span style="font-size:10px;color:#9a9490">9F 메리엘홀</span></div>'
-            }).open(map, new kakao.maps.Marker({ position: coords, map: map }));
+            
+            // 💡 1. 마커를 하나만 생성하고 변수에 저장합니다.
+            var marker = new kakao.maps.Marker({ position: coords, map: map });
+            
+            // 💡 2. 인포윈도우 생성 (text-align:center를 살짝 추가해 글자를 가운데 정렬했습니다)
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="padding:6px 12px;font-size:12px;font-family:\'Gowun Dodum\',sans-serif;color:#3a2f28;white-space:nowrap;line-height:1.7;text-align:center;border:none;">' +
+                         '<strong>엠타워컨벤션 안양</strong><br><span style="font-size:10px;color:#9a9490">9F 메리엘홀</span></div>'
+            });
+            
+            // 💡 3. 위에서 만든 동일한 마커를 연결하여 말풍선을 엽니다.
+            infowindow.open(map, marker);
         }
 
         // Geocoder: 주소 → 좌표 변환
