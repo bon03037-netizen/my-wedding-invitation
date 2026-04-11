@@ -3908,27 +3908,46 @@ html, body {
 window.addEventListener('load', function () {
     if (typeof kakao === 'undefined' || !kakao.maps) return;
 
-    kakao.maps.load(function () {
-        var container = document.getElementById('kakao-map');
-        if (!container) return;
+        kakao.maps.load(function () {
+            var container = document.getElementById('kakao-map');
+            var container = document.getElementById('kakao-map'); // HTML에 id="kakao-map" 필수!
+            if (!container) return;
 
-        // 경기 안양시 만안구 안양로 104 의 고정 좌표 (Geocoder 비동기 불필요)
-        var coords = new kakao.maps.LatLng(37.39635, 126.92527);
+            function renderMap(coords) {
+                var map = new kakao.maps.Map(container, { center: coords, level: 3 });
+                new kakao.maps.Marker({ position: coords, map: map });
+                new kakao.maps.InfoWindow({
+                    content: '<div style="padding:6px 12px;font-size:12px;font-family:\'Gowun Dodum\',sans-serif;color:#3a2f28;white-space:nowrap;line-height:1.7">' +
+                            '엠타워컨벤션 안양<br><span style="font-size:10px;color:#9a9490">9F 메리엘홀</span></div>'
+                }).open(map, new kakao.maps.Marker({ position: coords, map: map }));
+                
+                // 💡 1. 마커를 하나만 생성하고 변수에 저장합니다.
+                var marker = new kakao.maps.Marker({ position: coords, map: map });
+                
+                // 💡 2. 인포윈도우 생성 (text-align:center를 살짝 추가해 글자를 가운데 정렬했습니다)
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="padding:6px 12px;font-size:12px;font-family:\'Gowun Dodum\',sans-serif;color:#3a2f28;white-space:nowrap;line-height:1.7;text-align:center;border:none;">' +
+                            '<strong>엠타워컨벤션 안양</strong><br><span style="font-size:10px;color:#9a9490">9F 메리엘홀</span></div>'
+                });
+                
+                // 💡 3. 위에서 만든 동일한 마커를 연결하여 말풍선을 엽니다.
+                infowindow.open(map, marker);
+            }
 
-        var map = new kakao.maps.Map(container, {
-            center: coords,
-            level: 3
+            // Geocoder: 주소 → 좌표 변환
+            var geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch('경기 안양시 만안구 안양로 104', function (result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    renderMap(new kakao.maps.LatLng(result[0].y, result[0].x));
+                } else {
+                    // 검색 실패 시 폴백 좌표
+                    renderMap(new kakao.maps.LatLng(37.3960, 126.9262));
+                }
+            });
         });
-
-        var marker = new kakao.maps.Marker({ position: coords, map: map });
-
-        var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="padding:6px 12px;font-size:12px;font-family:\'Gowun Dodum\',sans-serif;color:#3a2f28;white-space:nowrap;line-height:1.7;text-align:center;">' +
-                     '<strong>웨딩그룹위더스 안양</strong><br><span style="font-size:10px;color:#9a9490">9F 메리엘홀</span></div>'
-        });
-        infowindow.open(map, marker);
     });
-});
+
+
 </script>
 
 
@@ -4015,7 +4034,7 @@ function shareKakao() {
         objectType: 'feed',
         content: {
             title: '이호진💗차나리 결혼합니다!💍',
-            description: '26.06.20 (토) 오전 11:30 웨딩그룹위더스 안양.',
+            description: '26.06.20 (토) 오전 11:30 웨딩그룹위더스 안양 9층 메리엘홀',
             imageUrl: THUMB_URL,
             link: {
                 mobileWebUrl: SITE_URL,
