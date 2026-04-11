@@ -98,6 +98,7 @@
                             </div>
                         </div>
                     </div><img
+                        id="hero-img"
                         src="https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753201535-ndqk4t4nrn.jpg"
                         alt=""
                         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center">
@@ -255,7 +256,7 @@
                                             style="font-size:17px;font-weight:700;color:#4a4440">&nbsp;차나리</span>
                                     </p>
                                 </div>
-                                <div style="display:flex;justify-content:center;margin-top:28px"><button tabindex="0"
+                                <div style="display:flex;justify-content:center;margin-top:28px"><button tabindex="0" onclick="openContactSheet()"
                                         style="display: flex; align-items: center; gap: 12px; padding: 11px 26px; border: 1px solid rgba(0, 0, 0, 0.07); border-radius: 999px; background: rgba(0, 0, 0, 0.04); color: rgb(154, 148, 144); font-size: 13px; letter-spacing: 0.16em; cursor: pointer; font-family: var(--font-gowun), 'Gowun Dodum', sans-serif; font-weight: 400; transform: none;"><svg
                                             xmlns="http://www.w3.org/2000/svg" width="13" height="13"
                                             viewBox="0 0 24 24" fill="none" stroke="#6b4c2a" stroke-width="2"
@@ -504,7 +505,7 @@
                                     style="font-family:'Sermo', serif;font-style:italic;font-size:36px;letter-spacing:0.06em;color:#4a4440;text-align:center;margin-bottom:28px;line-height:1">
                                     GALLERY</p>
                                 <div
-                                    style="position:relative;width:100%;height:150px;margin-bottom:22px;overflow:hidden;background:#000;border:1px solid #222;box-shadow:0 0 20px rgba(255,255,255,0.03), 0 0 40px rgba(212,175,55,0.05);cursor:pointer">
+                                    id="film-gallery" onclick="openGallery(0)" style="position:relative;width:100%;height:150px;margin-bottom:22px;overflow:hidden;background:#000;box-shadow:0 0 20px rgba(255,255,255,0.03), 0 0 40px rgba(212,175,55,0.05);cursor:pointer">
                                     <div
                                         style="position:absolute;inset:0;background:linear-gradient(to right, #f8f8f4 0%, transparent 12%, transparent 88%, #f8f8f4 100%);z-index:2;pointer-events:none">
                                     </div>
@@ -2730,9 +2731,9 @@
                                      <br>
                                 </p>
                                 <div style="display:flex;flex-direction:column;gap:12px">
-                                    <div
+                                    <div id="groom-accordion"
                                         style="background:rgba(0,0,0,0.04);border-radius:14px;border:1px solid rgba(0,0,0,0.07);box-shadow:0 2px 20px rgba(0,0,0,0.07);overflow:hidden">
-                                        <button
+                                        <button onclick="toggleAccordion('groom')"
                                             style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:5px 5px;background:none;border:none;cursor:pointer">
                                             <div style="display:flex;align-items:center;gap:10px"><span
                                                     style="font-size:17px">&nbsp;💌</span>
@@ -2749,9 +2750,9 @@
                                                 </svg></div>
                                         </button>
                                     </div>
-                                    <div
+                                    <div id="bride-accordion"
                                         style="background:rgba(0,0,0,0.04);border-radius:14px;border:1px solid rgba(0,0,0,0.07);box-shadow:0 2px 20px rgba(0,0,0,0.07);overflow:hidden">
-                                        <button
+                                        <button onclick="toggleAccordion('bride')"
                                             style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:5px 5px;background:none;border:none;cursor:pointer">
                                             <div style="display:flex;align-items:center;gap:10px"><span
                                                     style="font-size:18px">&nbsp;💌</span>
@@ -3194,11 +3195,538 @@
 
 
 
-    
+
 </script>
 
 
 
+
+<!-- ============================================================
+     추가 기능: 연락처 바텀 시트 / 갤러리 스와이퍼 / 아코디언
+     ============================================================ -->
+
+<!-- 1. 연락처 바텀 시트 오버레이 -->
+<div id="contact-overlay" onclick="closeContactSheet()"
+    style="display:none;opacity:0;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:8000;transition:opacity 0.3s;"></div>
+
+<!-- 2. 연락처 바텀 시트 본체 -->
+<div id="contact-sheet"
+    style="position:fixed;bottom:-100%;left:0;right:0;z-index:8001;background:#f8f8f4;border-top-left-radius:24px;border-top-right-radius:24px;padding:0 0 env(safe-area-inset-bottom,24px);box-shadow:0 -8px 32px rgba(0,0,0,0.18);transition:bottom 0.4s cubic-bezier(.4,0,.2,1);max-height:80vh;overflow-y:auto;">
+
+    <!-- 드래그 핸들 -->
+    <div style="display:flex;justify-content:center;padding:14px 0 6px;">
+        <div style="width:40px;height:4px;border-radius:999px;background:rgba(0,0,0,0.13);"></div>
+    </div>
+
+    <!-- 헤더 -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 24px 16px;">
+        <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:18px;color:#4a4440;letter-spacing:0.12em;margin:0;">연락처</p>
+        <button onclick="closeContactSheet()" style="background:none;border:none;font-size:26px;color:#9a9490;cursor:pointer;padding:0;line-height:1;">×</button>
+    </div>
+
+    <!-- 탭 바 -->
+    <div style="display:flex;margin:0 20px;border-bottom:1px solid rgba(0,0,0,0.08);margin-bottom:20px;">
+        <button id="tab-groom" onclick="switchContactTab('groom')"
+            style="flex:1;padding:11px 0;font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:15px;letter-spacing:0.08em;background:none;border:none;border-bottom:2px solid #6b4c2a;color:#4a4440;cursor:pointer;font-weight:600;transition:all 0.2s;">신랑측</button>
+        <button id="tab-bride" onclick="switchContactTab('bride')"
+            style="flex:1;padding:11px 0;font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:15px;letter-spacing:0.08em;background:none;border:none;border-bottom:2px solid transparent;color:#9a9490;cursor:pointer;font-weight:400;transition:all 0.2s;">신부측</button>
+    </div>
+
+    <!-- 신랑측 연락처 -->
+    <div id="contact-groom" style="padding:0 20px 16px;display:block;">
+        <div class="contact-row">
+            <p class="contact-name">신랑 &nbsp;이호진</p>
+            <div class="contact-btns">
+                <a href="sms:010-8403-3537" class="contact-btn-sms">문자</a>
+                <a href="tel:010-8403-3537" class="contact-btn-tel">전화</a>
+            </div>
+        </div>
+        <div class="contact-row">
+            <p class="contact-name">신랑 아버지 &nbsp;이창영</p>
+            <div class="contact-btns">
+                <a href="sms:010-3774-3538" class="contact-btn-sms">문자</a>
+                <a href="tel:010-3774-3538" class="contact-btn-tel">전화</a>
+            </div>
+        </div>
+        <div class="contact-row" style="border-bottom:none;">
+            <p class="contact-name">신랑 어머니 &nbsp;정경란</p>
+            <div class="contact-btns">
+                <a href="sms:010-2743-3538" class="contact-btn-sms">문자</a>
+                <a href="tel:010-2743-3538" class="contact-btn-tel">전화</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 신부측 연락처 -->
+    <div id="contact-bride" style="padding:0 20px 16px;display:none;">
+        <div class="contact-row">
+            <p class="contact-name">신부 &nbsp;차나리</p>
+            <div class="contact-btns">
+                <a href="sms:010-8200-0847" class="contact-btn-sms">문자</a>
+                <a href="tel:010-8200-0847" class="contact-btn-tel">전화</a>
+            </div>
+        </div>
+        <div class="contact-row">
+            <p class="contact-name">신부 아버지 &nbsp;차강호</p>
+            <div class="contact-btns">
+                <a href="sms:010-2763-0847" class="contact-btn-sms">문자</a>
+                <a href="tel:010-2763-0847" class="contact-btn-tel">전화</a>
+            </div>
+        </div>
+        <div class="contact-row" style="border-bottom:none;">
+            <p class="contact-name">신부 어머니 &nbsp;길복동</p>
+            <div class="contact-btns">
+                <a href="sms:010-4316-0847" class="contact-btn-sms">문자</a>
+                <a href="tel:010-4316-0847" class="contact-btn-tel">전화</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 3. 갤러리 전체화면 모달 -->
+<div id="gallery-modal"
+    style="display:none;position:fixed;inset:0;z-index:9000;background:#000;touch-action:none;-webkit-user-select:none;user-select:none;">
+
+    <!-- 닫기 버튼 -->
+    <button onclick="closeGallery()"
+        style="position:absolute;top:16px;right:16px;z-index:10;background:rgba(255,255,255,0.14);border:none;color:#fff;font-size:26px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;backdrop-filter:blur(4px);">×</button>
+
+    <!-- 사진 카운터 -->
+    <div id="gallery-counter"
+        style="position:absolute;top:20px;left:50%;transform:translateX(-50%);z-index:10;color:rgba(255,255,255,0.7);font-family:monospace;font-size:13px;letter-spacing:0.1em;pointer-events:none;">1 / 21</div>
+
+    <!-- 스와이퍼 트랙 -->
+    <div id="gallery-swiper" style="width:100%;height:100%;overflow:hidden;">
+        <div id="gallery-track" style="display:flex;height:100%;will-change:transform;transition:transform 0.35s ease;">
+            <!-- JS로 슬라이드 생성 -->
+        </div>
+    </div>
+
+    <!-- 이전/다음 버튼 (데스크탑) -->
+    <button onclick="galleryPrev()"
+        style="position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:28px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);">‹</button>
+    <button onclick="galleryNext()"
+        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:28px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);">›</button>
+</div>
+
+<!-- 4. 복사 토스트 알림 -->
+<div id="toast-msg"
+    style="display:none;opacity:0;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(50,38,28,0.92);color:#f8f8f4;font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:14px;letter-spacing:0.1em;padding:10px 26px;border-radius:999px;z-index:10000;white-space:nowrap;pointer-events:none;transition:opacity 0.3s;">복사되었습니다</div>
+
+
+<!-- ============================================================
+     추가 CSS
+     ============================================================ -->
+<style>
+/* ── 1. 히어로 이미지 줌 효과 완전 제거 ─────────────────────── */
+#hero-img {
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    will-change: unset !important;
+}
+
+/* ── 2. 스크롤 페이드인 ──────────────────────────────────────── */
+.scroll-fade {
+    opacity: 0 !important;
+    transform: translateY(28px) !important;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.scroll-fade.is-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* ── 3. 연락처 바텀 시트 ─────────────────────────────────────── */
+.contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.contact-name {
+    font-family: var(--font-gowun), 'Gowun Dodum', serif;
+    font-size: 15px;
+    color: #4a4440;
+    letter-spacing: 0.06em;
+    margin: 0;
+}
+.contact-btns { display: flex; gap: 8px; }
+.contact-btn-sms, .contact-btn-tel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-family: var(--font-gowun), serif;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.contact-btn-sms {
+    background: rgba(107,76,42,0.1);
+    color: #6b4c2a;
+    border: 1px solid rgba(107,76,42,0.25);
+}
+.contact-btn-tel {
+    background: #6b4c2a;
+    color: #f8f8f4;
+    border: 1px solid #6b4c2a;
+}
+
+/* ── 4. 갤러리 슬라이드 & 이미지 보호 ───────────────────────── */
+.gallery-slide {
+    flex-shrink: 0;
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.gallery-slide img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+/* ── 5. 아코디언 ─────────────────────────────────────────────── */
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+.accordion-content.is-open {
+    max-height: 700px;
+}
+.account-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    gap: 12px;
+}
+.account-row:last-child {
+    border-bottom: none;
+    padding-bottom: 18px;
+}
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.account-holder {
+    font-family: var(--font-gowun), 'Gowun Dodum', serif;
+    font-size: 14px;
+    color: #4a4440;
+    letter-spacing: 0.05em;
+}
+.account-number {
+    font-family: monospace;
+    font-size: 12px;
+    color: #9a9490;
+    letter-spacing: 0.03em;
+}
+.copy-btn {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    background: rgba(107,76,42,0.08);
+    border: 1px solid rgba(107,76,42,0.22);
+    border-radius: 999px;
+    font-family: var(--font-gowun), serif;
+    font-size: 12px;
+    color: #6b4c2a;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+}
+</style>
+
+
+<!-- ============================================================
+     추가 JavaScript
+     ============================================================ -->
+<script>
+/* ── 1. 히어로 이미지 줌 완전 제거 ──────────────────────────── */
+(function () {
+    function lockHero() {
+        var img = document.getElementById('hero-img');
+        if (img) img.style.transform = 'none';
+    }
+    lockHero();
+    window.addEventListener('scroll', lockHero, { passive: true });
+})();
+
+/* ── 2. 스크롤 페이드인 (Intersection Observer) ─────────────── */
+(function () {
+    // 히어로(100svh) 섹션을 제외한 모든 section > div 대상
+    document.querySelectorAll('section:not([style*="100svh"]) > div').forEach(function (el) {
+        el.classList.add('scroll-fade');
+    });
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.scroll-fade').forEach(function (el) {
+        observer.observe(el);
+    });
+})();
+
+/* ── 3. 연락처 바텀 시트 ─────────────────────────────────────── */
+function openContactSheet() {
+    var overlay = document.getElementById('contact-overlay');
+    var sheet   = document.getElementById('contact-sheet');
+    overlay.style.display = 'block';
+    requestAnimationFrame(function () { overlay.style.opacity = '1'; });
+    sheet.style.bottom = '0';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeContactSheet() {
+    var overlay = document.getElementById('contact-overlay');
+    var sheet   = document.getElementById('contact-sheet');
+    sheet.style.bottom = '-100%';
+    overlay.style.opacity = '0';
+    setTimeout(function () {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+    }, 400);
+}
+
+function switchContactTab(side) {
+    var groomTab     = document.getElementById('tab-groom');
+    var brideTab     = document.getElementById('tab-bride');
+    var groomContent = document.getElementById('contact-groom');
+    var brideContent = document.getElementById('contact-bride');
+
+    var active   = { borderBottom: '2px solid #6b4c2a', color: '#4a4440', fontWeight: '600' };
+    var inactive = { borderBottom: '2px solid transparent', color: '#9a9490', fontWeight: '400' };
+
+    if (side === 'groom') {
+        Object.assign(groomTab.style, active);
+        Object.assign(brideTab.style, inactive);
+        groomContent.style.display = 'block';
+        brideContent.style.display = 'none';
+    } else {
+        Object.assign(brideTab.style, active);
+        Object.assign(groomTab.style, inactive);
+        brideContent.style.display = 'block';
+        groomContent.style.display = 'none';
+    }
+}
+
+/* ── 4. 갤러리 전체화면 스와이퍼 ────────────────────────────── */
+var GALLERY_IMAGES = [
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753346351-knrjnnvf6k.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753346360-1b8rhx3y5he.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753346329-agdbi0zd2b4.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753346342-8oa56xhdv2g.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753356513-k6mjibjboqq.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753356524-it6a1nvgdlh.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753367793-38rm3u0i8lo.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753367805-lwlv649rnsq.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753400632-yukng7r533.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753400622-l4xqu4l95a.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753408971-vwpnswywa7g.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753408960-b16ykvmfbsp.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753426931-yheeni5mzle.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753426941-s8k93166mme.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753426950-mrzd89ayg8h.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753432401-ynw2p992zc.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753437559-dku8ji6a0dv.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753442921-xtzzw1ld0c.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753566720-mg91uwckhg.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753566707-sdem956ise.jpg',
+    'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/1775753566729-k98daq0yxx9.jpg'
+];
+
+var galleryIndex   = 0;
+var galleryBuilt   = false;
+var gTouchStartX   = 0;
+var gTouchStartY   = 0;
+var gTouchDelta    = 0;
+var gDragging      = false;
+
+function buildGallery() {
+    if (galleryBuilt) return;
+    var track = document.getElementById('gallery-track');
+    track.innerHTML = '';
+    GALLERY_IMAGES.forEach(function (src) {
+        var slide = document.createElement('div');
+        slide.className = 'gallery-slide';
+        var img = document.createElement('img');
+        img.src = src;
+        img.alt = '';
+        img.draggable = false;
+        img.addEventListener('contextmenu',  function (e) { e.preventDefault(); });
+        img.addEventListener('dragstart',    function (e) { e.preventDefault(); });
+        img.addEventListener('touchstart',   function (e) { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+        slide.appendChild(img);
+        track.appendChild(slide);
+    });
+
+    var swiper = document.getElementById('gallery-swiper');
+    swiper.addEventListener('touchstart', onGTouchStart, { passive: true });
+    swiper.addEventListener('touchmove',  onGTouchMove,  { passive: false });
+    swiper.addEventListener('touchend',   onGTouchEnd);
+
+    galleryBuilt = true;
+}
+
+function openGallery(startIndex) {
+    buildGallery();
+    galleryIndex = startIndex || 0;
+    updateGallerySlide(false);
+    var modal = document.getElementById('gallery-modal');
+    modal.style.display = 'block';
+    modal.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    document.body.style.overflow = 'hidden';
+}
+
+function closeGallery() {
+    document.getElementById('gallery-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function updateGallerySlide(animate) {
+    var track = document.getElementById('gallery-track');
+    track.style.transition = (animate === false) ? 'none' : 'transform 0.35s ease';
+    track.style.transform  = 'translateX(' + (-galleryIndex * 100) + 'vw)';
+    document.getElementById('gallery-counter').textContent =
+        (galleryIndex + 1) + ' / ' + GALLERY_IMAGES.length;
+}
+
+function galleryNext() {
+    if (galleryIndex < GALLERY_IMAGES.length - 1) { galleryIndex++; updateGallerySlide(true); }
+}
+function galleryPrev() {
+    if (galleryIndex > 0) { galleryIndex--; updateGallerySlide(true); }
+}
+
+function onGTouchStart(e) {
+    gTouchStartX = e.touches[0].clientX;
+    gTouchStartY = e.touches[0].clientY;
+    gTouchDelta  = 0;
+    gDragging    = true;
+}
+function onGTouchMove(e) {
+    if (!gDragging || e.touches.length > 1) { e.preventDefault(); return; }
+    var dx = e.touches[0].clientX - gTouchStartX;
+    var dy = e.touches[0].clientY - gTouchStartY;
+    if (Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault();
+        gTouchDelta = dx;
+        var track = document.getElementById('gallery-track');
+        track.style.transition = 'none';
+        track.style.transform  = 'translateX(calc(' + (-galleryIndex * 100) + 'vw + ' + dx + 'px))';
+    }
+}
+function onGTouchEnd() {
+    if (!gDragging) return;
+    gDragging = false;
+    var threshold = window.innerWidth * 0.2;
+    if      (gTouchDelta < -threshold && galleryIndex < GALLERY_IMAGES.length - 1) galleryIndex++;
+    else if (gTouchDelta >  threshold && galleryIndex > 0)                          galleryIndex--;
+    updateGallerySlide(true);
+    gTouchDelta = 0;
+}
+
+/* ── 5. 아코디언 & 계좌번호 복사 ────────────────────────────── */
+// ★ 실제 계좌번호와 전화번호로 교체해 주세요!
+var ACCOUNT_DATA = {
+    groom: [
+        { holder: '신랑  이호진',    bank: '카카오뱅크',  account: '3333-XXXX-XXXX' },
+        { holder: '신랑 부  이창영', bank: '국민은행',    account: '123-XX-XXXXXX' },
+        { holder: '신랑 모  정경란', bank: '신한은행',    account: '110-XXX-XXXXXX' }
+    ],
+    bride: [
+        { holder: '신부  차나리',    bank: '카카오뱅크',  account: '3333-XXXX-XXXX' },
+        { holder: '신부 부  차강호', bank: '국민은행',    account: '123-XX-XXXXXX' },
+        { holder: '신부 모  길복동', bank: '신한은행',    account: '110-XXX-XXXXXX' }
+    ]
+};
+
+function buildAccountHTML(side) {
+    return ACCOUNT_DATA[side].map(function (item) {
+        return '<div class="account-row">' +
+            '<div class="account-info">' +
+            '<span class="account-holder">' + item.holder + '</span>' +
+            '<span class="account-number">' + item.bank + '  ' + item.account + '</span>' +
+            '</div>' +
+            '<button class="copy-btn" onclick="copyAccount(\'' + item.account + '\')">복사</button>' +
+            '</div>';
+    }).join('');
+}
+
+function toggleAccordion(side) {
+    var container = document.getElementById(side + '-accordion');
+    var content   = container.querySelector('.accordion-content');
+
+    if (!content) {
+        content = document.createElement('div');
+        content.className  = 'accordion-content';
+        content.innerHTML  = buildAccountHTML(side);
+        container.appendChild(content);
+    }
+
+    var isOpen      = content.classList.contains('is-open');
+    content.classList.toggle('is-open', !isOpen);
+
+    // 화살표 회전
+    var btn       = container.querySelector('button');
+    var chevronEl = btn ? btn.querySelector('div:last-child') : null;
+    if (chevronEl) {
+        chevronEl.style.transition = 'transform 0.35s ease';
+        chevronEl.style.transform  = isOpen ? '' : 'rotate(180deg)';
+    }
+}
+
+async function copyAccount(accountNumber) {
+    try {
+        await navigator.clipboard.writeText(accountNumber);
+    } catch (err) {
+        // 폴백 (older browsers)
+        var ta = document.createElement('textarea');
+        ta.value = accountNumber;
+        ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+    }
+    showToast('복사되었습니다');
+}
+
+function showToast(msg) {
+    var toast = document.getElementById('toast-msg');
+    toast.textContent  = msg;
+    toast.style.display = 'block';
+    clearTimeout(toast._tid);
+    requestAnimationFrame(function () { toast.style.opacity = '1'; });
+    toast._tid = setTimeout(function () {
+        toast.style.opacity = '0';
+        setTimeout(function () { toast.style.display = 'none'; }, 320);
+    }, 2200);
+}
+</script>
 
 
 
