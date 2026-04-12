@@ -2755,10 +2755,16 @@
                         </div>
                         
                         <div>
-                            <div onclick="openGuestbookSlide()" style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;border-radius:12px;background:#e8f0e8;cursor:pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                            <div id="guestbook-img-wrap" onclick="openGuestbookSlide()" style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;border-radius:12px;background:#e8f0e8;cursor:pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
                                 <img src="./images/vine2.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                                <!-- 몽환적 가장자리 블러 비네트 -->
+                                <div style="position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(ellipse 72% 72% at 50% 50%, transparent 38%, rgba(248,246,241,0.45) 62%, rgba(248,246,241,0.82) 82%, rgba(248,246,241,0.97) 100%);"></div>
+                                <!-- 나비 3마리 -->
+                                <div class="butterfly bf1" style="position:absolute;font-size:13px;pointer-events:none;z-index:8;">🦋</div>
+                                <div class="butterfly bf2" style="position:absolute;font-size:11px;pointer-events:none;z-index:8;filter:hue-rotate(30deg);">🦋</div>
+                                <div class="butterfly bf3" style="position:absolute;font-size:10px;pointer-events:none;z-index:8;filter:hue-rotate(280deg) brightness(1.1);">🦋</div>
                                 <div id="roses-container" style="position:absolute; inset:0; z-index:10; pointer-events:none;"></div>
-                                <div style="position:absolute;bottom:6px;right:8px;font-family:monospace;font-size:7px;color:rgba(255,255,255,0.7);letter-spacing:0.18em;pointer-events:none">TAP TO READ</div>
+                                <div style="position:absolute;bottom:6px;right:8px;font-family:monospace;font-size:7px;color:rgba(255,255,255,0.7);letter-spacing:0.18em;pointer-events:none;z-index:11;">TAP TO READ</div>
                             </div>
 
                             <div style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:2px 18px;display:flex;flex-direction:column;gap:5px;margin-top:16px;text-align: center">
@@ -2795,7 +2801,7 @@
 
                     <!-- ══ RSVP 모달 패널 (아래서 위로 슬라이드) ══ -->
                     <div id="rsvp-modal"
-                        style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9601;background:#ffffff;border-top-left-radius:24px;border-top-right-radius:24px;padding:28px 24px 40px;box-shadow:0 -12px 40px rgba(0,0,0,0.25);transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.32,1.1,0.64,1);box-sizing:border-box;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+                        style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9601;background:#ffffff;border-top-left-radius:24px;border-top-right-radius:24px;padding:28px 24px 40px;box-shadow:0 -12px 40px rgba(0,0,0,0.25);transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.32,1.1,0.64,1);box-sizing:border-box;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;pointer-events:auto;">
                         <!-- 드래그 핸들 -->
                         <div style="width:40px;height:4px;background:rgba(0,0,0,0.12);border-radius:99px;margin:0 auto 24px;"></div>
                         <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:18px;letter-spacing:0.22em;color:#3a2f28;text-align:center;margin:0 0 28px;">참석 의사 전달하기</p>
@@ -4123,6 +4129,42 @@ p[style*="color:#b0a898"]                              { color: #b0a898 !importa
 /* RSVP 섹션 노이즈 레이어 */
 #rsvp-section > div:first-child { z-index: 0; }
 #rsvp-section > div:last-child  { position: relative; z-index: 1; }
+
+/* ══════════════════════════════════════════════════════════════
+   나비 날아다니기 애니메이션
+   ══════════════════════════════════════════════════════════════ */
+@keyframes bf1-fly {
+    0%   { transform: translate(8%,  75%) rotate(-20deg) scaleX(1);  opacity:0; }
+    6%   { opacity: 0.85; }
+    20%  { transform: translate(28%, 22%) rotate(12deg)  scaleX(-1); }
+    38%  { transform: translate(55%, 45%) rotate(-8deg)  scaleX(1);  }
+    58%  { transform: translate(72%, 18%) rotate(18deg)  scaleX(-1); }
+    76%  { transform: translate(42%, 62%) rotate(-14deg) scaleX(1);  }
+    92%  { transform: translate(14%, 30%) rotate(8deg)   scaleX(-1); opacity: 0.85; }
+    100% { transform: translate(8%,  75%) rotate(-20deg) scaleX(1);  opacity:0; }
+}
+@keyframes bf2-fly {
+    0%   { transform: translate(62%, 12%) rotate(15deg)  scaleX(1);  opacity:0; }
+    8%   { opacity: 0.75; }
+    22%  { transform: translate(80%, 55%) rotate(-10deg) scaleX(-1); }
+    44%  { transform: translate(38%, 78%) rotate(20deg)  scaleX(1);  }
+    65%  { transform: translate(18%, 38%) rotate(-5deg)  scaleX(-1); }
+    85%  { transform: translate(50%, 20%) rotate(12deg)  scaleX(1);  opacity: 0.75; }
+    100% { transform: translate(62%, 12%) rotate(15deg)  scaleX(1);  opacity:0; }
+}
+@keyframes bf3-fly {
+    0%   { transform: translate(45%, 88%) rotate(-8deg)  scaleX(1);  opacity:0; }
+    10%  { opacity: 0.7; }
+    28%  { transform: translate(15%, 55%) rotate(22deg)  scaleX(-1); }
+    50%  { transform: translate(68%, 32%) rotate(-15deg) scaleX(1);  }
+    72%  { transform: translate(85%, 70%) rotate(10deg)  scaleX(-1); }
+    90%  { transform: translate(55%, 45%) rotate(-18deg) scaleX(1);  opacity: 0.7; }
+    100% { transform: translate(45%, 88%) rotate(-8deg)  scaleX(1);  opacity:0; }
+}
+.butterfly { will-change: transform; }
+.bf1 { animation: bf1-fly 14s ease-in-out infinite; animation-delay: 0.5s; }
+.bf2 { animation: bf2-fly 18s ease-in-out infinite; animation-delay: 4s; }
+.bf3 { animation: bf3-fly 22s ease-in-out infinite; animation-delay: 9s; }
 </style>
 
 
@@ -4384,13 +4426,22 @@ function shareKakao() {
 /* ─────────────────────────────────────────────────────────
    3. RSVP 모달 제어
 ───────────────────────────────────────────────────────── */
+var _rsvpScrollY = 0;
+
 function openRsvpModal() {
     var overlay = document.getElementById('rsvp-overlay');
     var modal   = document.getElementById('rsvp-modal');
     if (!overlay || !modal) return;
+
+    // iOS에서 overflow:hidden 대신 position:fixed 방식 사용
+    // → input focus가 첫 탭에서 즉시 동작함
+    _rsvpScrollY = window.scrollY || window.pageYOffset;
+    document.body.style.position = 'fixed';
+    document.body.style.top      = '-' + _rsvpScrollY + 'px';
+    document.body.style.width    = '100%';
+
     overlay.style.display = 'block';
     modal.style.display   = 'block';
-    document.body.style.overflow = 'hidden';
     requestAnimationFrame(function () {
         requestAnimationFrame(function () {
             overlay.style.opacity   = '1';
@@ -4405,10 +4456,16 @@ function closeRsvpModal() {
     if (!overlay || !modal) return;
     overlay.style.opacity = '0';
     modal.style.transform = 'translateY(100%)';
+
+    // body 스크롤 복원
+    document.body.style.position = '';
+    document.body.style.top      = '';
+    document.body.style.width    = '';
+    window.scrollTo(0, _rsvpScrollY);
+
     setTimeout(function () {
         overlay.style.display = 'none';
         modal.style.display   = 'none';
-        document.body.style.overflow = '';
     }, 420);
 }
 
@@ -4470,11 +4527,23 @@ async function submitRsvp() {
             phone_last4: phoneVal
         });
         if (res.error) throw res.error;
-        msgEl.textContent = attEl.value === 'yes'
-            ? '✓ 참석 의사가 전달되었습니다. 감사합니다 💛'
-            : '✓ 전달되었습니다. 마음만으로도 감사합니다 💛';
-        btnEl.textContent = '전달 완료';
-        setTimeout(closeRsvpModal, 2200);
+
+        var alertMsg = attEl.value === 'yes'
+            ? '참석 의사가 전달되었습니다 💛\n축복해 주셔서 감사합니다!'
+            : '전달되었습니다 💛\n마음만으로도 충분히 감사드립니다.';
+        alert(alertMsg);
+
+        // 폼 초기화
+        document.getElementById('rsvp-name').value  = '';
+        document.getElementById('rsvp-phone').value = '';
+        document.querySelectorAll('input[name="rsvp-side"], input[name="rsvp-att"]')
+            .forEach(function (el) { el.checked = false; });
+        rsvpRadioStyle();
+        btnEl.disabled    = false;
+        btnEl.textContent = '전달하기';
+        msgEl.textContent = '';
+
+        closeRsvpModal();
     } catch (e) {
         console.error('RSVP error', e);
         msgEl.textContent = '전송에 실패했습니다. 잠시 후 다시 시도해 주세요.';
@@ -4543,29 +4612,41 @@ async function submitRsvp() {
 <script>
 /* ── 5. 배경음악 재생/정지 ── */
 (function () {
-    var audio  = document.getElementById('bgm');
-    var btn    = document.getElementById('bgm-btn');
-    var played = false;
+    var audio   = document.getElementById('bgm');
+    var btn     = document.getElementById('bgm-btn');
+    var played  = false;
+    var userOff = false; // 사용자가 수동으로 끈 상태
 
     function updateBtn(isPlaying) {
-        btn.textContent = isPlaying ? '🎵' : '🔇';
+        btn.innerHTML = isPlaying
+            ? '<span>🎵</span>'
+            : '🔇';
         if (isPlaying) btn.classList.add('playing');
-        else btn.classList.remove('playing');
+        else           btn.classList.remove('playing');
     }
 
-    // 첫 사용자 인터랙션(터치/클릭/스크롤) 시 자동 재생 시도
+    // volume을 0 → target 으로 부드럽게 올림
+    function fadeIn(target, duration) {
+        audio.volume = 0;
+        var start = performance.now();
+        function step(now) {
+            var t = Math.min((now - start) / duration, 1);
+            audio.volume = t * target;
+            if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    // 첫 사용자 인터랙션 시 자동 재생
     function tryAutoPlay() {
-        if (played) return;
+        if (played || userOff) return;
         played = true;
-        audio.volume = 0.35;
         audio.play().then(function () {
+            fadeIn(0.35, 1800); // 1.8초 fade-in
             updateBtn(true);
         }).catch(function () {
-            // 브라우저 정책으로 차단된 경우 조용히 무시
+            updateBtn(false);
         });
-        document.removeEventListener('touchstart', tryAutoPlay);
-        document.removeEventListener('click', tryAutoPlay);
-        document.removeEventListener('scroll', tryAutoPlay, { passive: true });
     }
 
     document.addEventListener('touchstart', tryAutoPlay, { once: true, passive: true });
@@ -4575,15 +4656,20 @@ async function submitRsvp() {
     window.toggleBgm = function () {
         played = true;
         if (audio.paused) {
-            audio.volume = 0.35;
-            audio.play().then(function () { updateBtn(true); }).catch(function () {});
+            userOff = false;
+            audio.play().then(function () {
+                fadeIn(0.35, 800);
+                updateBtn(true);
+            }).catch(function () {});
         } else {
+            userOff = true;
             audio.pause();
             updateBtn(false);
         }
     };
 
-    updateBtn(false);
+    // 초기 상태: '재생 예정(ON)' 처럼 보이도록 playing 클래스 적용
+    updateBtn(true);
 })();
 </script>
 
