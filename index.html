@@ -7,6 +7,7 @@
     <title>초대합니다👰❤️🤵</title>
     <link rel="stylesheet" href="./globals.css">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
 
 
         <style>
@@ -111,6 +112,9 @@
                     <div
                         style="position:absolute;inset:0;opacity:0.09;pointer-events:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E&quot;);background-size:200px 200px;mix-blend-mode:overlay">
                     </div>
+                    <!-- 무대 스포트라이트 -->
+                    <div id="spotlight-1" style="position:absolute;width:240px;height:320px;left:2%;top:-60px;background:radial-gradient(ellipse at 50% 25%,rgba(255,242,195,0.32) 0%,transparent 68%);mix-blend-mode:screen;pointer-events:none;filter:blur(20px);animation:spot1 9s ease-in-out infinite alternate;z-index:1;"></div>
+                    <div id="spotlight-2" style="position:absolute;width:220px;height:300px;right:-2%;top:-80px;background:radial-gradient(ellipse at 50% 25%,rgba(255,218,168,0.26) 0%,transparent 68%);mix-blend-mode:screen;pointer-events:none;filter:blur(24px);animation:spot2 11s ease-in-out infinite alternate;z-index:1;"></div>
                     <div
                         style="position:absolute;top:36px;left:18px;z-index:2;font-family:monospace;font-size:8px;color:#1e1e1e;letter-spacing:0.22em">
                         KODAK · 400TX</div>
@@ -3425,6 +3429,26 @@
     letter-spacing: 0.06em;
     margin: 0;
 }
+/* ── 신랑측 연락처 이름: NanumGothic Bold ──────────────────────── */
+#contact-groom .contact-name {
+    font-family: 'Nanum Gothic', 'NanumGothic', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    letter-spacing: 0.03em !important;
+}
+/* ── 무대 스포트라이트 keyframes ─────────────────────────────── */
+@keyframes spot1 {
+    0%   { transform: translate(0px,   0px) rotate(-8deg) scaleX(0.92); opacity: 0.60; }
+    30%  { transform: translate(20px, 55px) rotate( 3deg) scaleX(1.08); opacity: 0.88; }
+    65%  { transform: translate(10px, 90px) rotate(-2deg) scaleX(1.00); opacity: 0.72; }
+    100% { transform: translate(30px, 65px) rotate( 7deg) scaleX(0.88); opacity: 0.80; }
+}
+@keyframes spot2 {
+    0%   { transform: translate(  0px,  0px) rotate( 7deg) scaleX(0.88); opacity: 0.68; }
+    35%  { transform: translate(-25px, 60px) rotate(-5deg) scaleX(1.10); opacity: 0.82; }
+    70%  { transform: translate(-14px, 95px) rotate( 2deg) scaleX(0.95); opacity: 0.62; }
+    100% { transform: translate(-35px, 70px) rotate(-8deg) scaleX(1.05); opacity: 0.75; }
+}
 .contact-btns { display: flex; gap: 8px; }
 .contact-btn-sms, .contact-btn-tel {
     display: inline-flex;
@@ -4653,7 +4677,7 @@ async function submitRsvp() {
 
 
 <!-- ============================================================
-     컨페티(히어로) + 꽃잎(방명록) 파티클 생성
+     폭죽(히어로) + 꽃잎(방명록) 파티클 생성
      ============================================================ -->
 <script>
 (function () {
@@ -4661,111 +4685,173 @@ async function submitRsvp() {
 
     var rnd = Math.random.bind(Math);
 
-    /* ── 공통 유틸: <style> 태그를 head에 주입 ── */
     function injectStyle(css) {
         var s = document.createElement('style');
         s.textContent = css;
         document.head.appendChild(s);
     }
 
-    /* ══════════════════════════════════════════════
-       1. 히어로 컨페티 (은은한 꽃가루)
-       ══════════════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════════
+       1. 히어로 폭죽 (Firework Burst) – 5색 화려한 터짐
+       ══════════════════════════════════════════════════════ */
     var heroMount = document.getElementById('hero-confetti');
     if (heroMount) {
-        var CF_N    = 20;
-        var CF_CLR  = ['#f9c0cc','#f7a8b8','#fde8f0','#fff0f5','#fcebd7','#fce4ec','#ffffff','#ffe8ee','#f5d0d8'];
-        var cfCss   = '';
-        var frag    = document.createDocumentFragment();
+        var FW_N     = 5;   // burst 그룹 수
+        var FW_S     = 10;  // 그룹당 불꽃 수
+        var FW_CYCLE = 9;   // 전체 반복 사이클 (초)
 
-        for (var i = 0; i < CF_N; i++) {
-            var w    = (rnd() * 4 + 3).toFixed(1);          // 3-7 px
-            var h    = (rnd() > 0.5
-                          ? (w * 1.8).toFixed(1)            // 직사각 조각
-                          : w);                             // 정사각 조각
-            var br   = parseFloat(h) > parseFloat(w) * 1.2 ? '1px 50%' : '50%';
-            var left = (rnd() * 96 + 2).toFixed(1);
-            var dur  = (rnd() * 5 + 10).toFixed(1);         // 10-15s
-            var del  = (rnd() * 10).toFixed(2);             // 0-10s
-            var op   = (rnd() * 0.2 + 0.3).toFixed(2);     // 0.30-0.50
-            var sx   = (rnd() * 60 - 30).toFixed(0);       // 중간 sway
-            var ex   = (rnd() * 80 - 40).toFixed(0);       // 최종 sway
-            var er   = (rnd() * 720 - 360).toFixed(0);     // 최종 회전
-            var mr   = (rnd() * 180 - 90).toFixed(0);      // 중간 회전
-            var clr  = CF_CLR[Math.floor(rnd() * CF_CLR.length)];
+        // 5색 웨딩 팔레트 (골드 / 핑크 / 피치 / 라벤더 / 화이트아이보리)
+        var FW_COLORS = [
+            ['#ffd966', '#ffe599', '#fff2cc'],
+            ['#f4a7b9', '#ff8fa3', '#ffc0cb'],
+            ['#ffb347', '#ffc87a', '#ffd580'],
+            ['#c9a0dc', '#b19cd9', '#dbc5f5'],
+            ['#ffffff', '#ffeef2', '#fff9e6']
+        ];
 
-            // 파티클 전용 keyframe
-            cfCss += '@keyframes cf' + i + '{' +
-                '0%{transform:translate(0,-20px) rotate(0deg);opacity:0;}' +
-                '7%{opacity:' + op + ';}' +
-                '45%{transform:translate(' + sx + 'px,45vh) rotate(' + mr + 'deg);}' +
-                '93%{opacity:' + op + ';}' +
-                '100%{transform:translate(' + ex + 'px,112vh) rotate(' + er + 'deg);opacity:0;}}';
+        // 버스트 원점 (left%, top% 기준)
+        var FW_POS = [
+            [18, 22], [72, 18], [44, 38], [20, 55], [76, 32]
+        ];
 
-            var el = document.createElement('div');
-            el.style.cssText =
-                'position:absolute;left:' + left + '%;top:0;' +
-                'width:' + w + 'px;height:' + h + 'px;' +
-                'background:' + clr + ';border-radius:' + br + ';' +
-                'will-change:transform;' +
-                'animation:cf' + i + ' ' + dur + 's ' + del + 's linear infinite;';
-            frag.appendChild(el);
+        var fwCss  = '';
+        var fwFrag = document.createDocumentFragment();
+        var SP = 2;   // 키프레임 내 버스트 시작 %
+        var EP = SP + 10; // 버스트 종료 %
+
+        for (var g = 0; g < FW_N; g++) {
+            var bx     = FW_POS[g][0];
+            var by     = FW_POS[g][1];
+            var colors = FW_COLORS[g];
+            var delay  = (g * FW_CYCLE / FW_N).toFixed(2);
+
+            /* 중앙 플래시 */
+            var fKey = 'fwf' + g;
+            fwCss += '@keyframes ' + fKey + '{' +
+                '0%{transform:scale(0);opacity:0;}' +
+                SP + '%{transform:scale(1);opacity:0.9;}' +
+                (SP + 5) + '%{transform:scale(2.8);opacity:0;}' +
+                '100%{transform:scale(0);opacity:0;}}';
+            var fl = document.createElement('div');
+            fl.style.cssText =
+                'position:absolute;left:' + bx + '%;top:' + by + '%;' +
+                'width:12px;height:12px;margin:-6px 0 0 -6px;' +
+                'background:radial-gradient(circle,#fff 0%,' + colors[0] + ' 55%,transparent 100%);' +
+                'border-radius:50%;will-change:transform,opacity;' +
+                'animation:' + fKey + ' ' + FW_CYCLE + 's ' + delay + 's ease-out infinite;';
+            fwFrag.appendChild(fl);
+
+            /* 불꽃 스파크 */
+            for (var s = 0; s < FW_S; s++) {
+                var angle = (s / FW_S) * 2 * Math.PI + (rnd() - 0.5) * 0.45;
+                var dist  = rnd() * 55 + 50;
+                var dx    = (Math.cos(angle) * dist).toFixed(1);
+                var dy    = (Math.sin(angle) * dist).toFixed(1);
+                var op    = (rnd() * 0.30 + 0.55).toFixed(2);
+                var sz    = (rnd() * 3.5 + 2).toFixed(1);
+                var half  = (parseFloat(sz) / 2).toFixed(1);
+                var clr   = colors[Math.floor(rnd() * colors.length)];
+                var kn    = 'fws' + g + '_' + s;
+                var mid   = SP + 5;
+
+                fwCss += '@keyframes ' + kn + '{' +
+                    '0%{transform:translate(0,0) scale(1);opacity:0;}' +
+                    SP  + '%{transform:translate(' + (parseFloat(dx)*0.15).toFixed(1) + 'px,' + (parseFloat(dy)*0.15).toFixed(1) + 'px) scale(1);opacity:' + op + ';}' +
+                    mid + '%{transform:translate(' + dx + 'px,' + dy + 'px) scale(0.4);opacity:' + (parseFloat(op)*0.5).toFixed(2) + ';}' +
+                    EP  + '%{transform:translate(' + (parseFloat(dx)*1.12).toFixed(1) + 'px,' + (parseFloat(dy)*1.12).toFixed(1) + 'px) scale(0);opacity:0;}' +
+                    '100%{transform:translate(' + (parseFloat(dx)*1.12).toFixed(1) + 'px,' + (parseFloat(dy)*1.12).toFixed(1) + 'px) scale(0);opacity:0;}}';
+
+                var el = document.createElement('div');
+                el.style.cssText =
+                    'position:absolute;left:' + bx + '%;top:' + by + '%;' +
+                    'width:' + sz + 'px;height:' + sz + 'px;' +
+                    'margin:-' + half + 'px 0 0 -' + half + 'px;' +
+                    'background:' + clr + ';border-radius:50%;' +
+                    'will-change:transform,opacity;' +
+                    'animation:' + kn + ' ' + FW_CYCLE + 's ' + delay + 's ease-out infinite;';
+                fwFrag.appendChild(el);
+            }
         }
 
-        injectStyle(cfCss);
-        heroMount.appendChild(frag);
+        injectStyle(fwCss);
+        heroMount.appendChild(fwFrag);
     }
 
-    /* ══════════════════════════════════════════════
-       2. 방명록 꽃잎 낙하 (연핑크, 바람에 흔들리며 회전)
-       ══════════════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════════
+       2. 방명록 꽃잎 낙하 (개선된 리얼 꽃잎 – 그라데이션 + 비대칭)
+       ══════════════════════════════════════════════════════ */
     var petalMount = document.getElementById('petal-rain');
     if (petalMount) {
-        var PT_N   = 14;
-        var PT_CLR = ['#ffb7c5','#f9a8d4','#ffc0cb','#ffcdd9','#ffd6e0','#ff9eb5','#ffb3c6','#fca5b8'];
+        var PT_N = 14;
+
+        // 꽃잎 그라데이션 팔레트 [밝은색, 어두운색]
+        var PT_PAL = [
+            ['#ffe4ec', '#f9a8be'],
+            ['#ffd6e7', '#ff8fa3'],
+            ['#fce4f0', '#f4a0c0'],
+            ['#ffe8f0', '#ffb3c6'],
+            ['#ffc0cb', '#e8709a'],
+            ['#ffd0dc', '#ffb7c5']
+        ];
+
+        // 5가지 꽃잎 모양 (비대칭 border-radius)
+        var PT_SHP = [
+            '68% 32% 63% 37% / 41% 44% 56% 59%',
+            '54% 46% 38% 62% / 60% 44% 56% 40%',
+            '72% 28% 55% 45% / 45% 60% 40% 55%',
+            '42% 58% 70% 30% / 55% 38% 62% 45%',
+            '60% 40% 45% 55% / 50% 65% 35% 50%'
+        ];
+
         var ptCss  = '';
-        var pfrag  = document.createDocumentFragment();
+        var ptFrag = document.createDocumentFragment();
 
         for (var j = 0; j < PT_N; j++) {
-            var pw   = (rnd() * 8 + 8).toFixed(1);          // 8-16 px
-            var ph   = (parseFloat(pw) * (rnd() * 0.35 + 0.6)).toFixed(1); // 타원
-            // 진짜 꽃잎 느낌의 비대칭 border-radius
-            var pbr  = '50% 40% 55% 45% / 60% 50% 65% 50%';
-            var pl   = (rnd() * 94 + 3).toFixed(1);
-            var pd   = (rnd() * 10).toFixed(2);
-            var pdu  = (rnd() * 6 + 10).toFixed(1);         // 10-16s
-            var pop  = (rnd() * 0.25 + 0.4).toFixed(2);    // 0.40-0.65
-            var pc   = PT_CLR[Math.floor(rnd() * PT_CLR.length)];
+            var pw  = (rnd() * 10 + 10).toFixed(1);   // 10-20px
+            var ph  = (parseFloat(pw) * (rnd() * 0.3 + 0.55)).toFixed(1);
+            var pl  = (rnd() * 92 + 4).toFixed(1);
+            var pd  = (rnd() * 10).toFixed(2);
+            var pdu = (rnd() * 6 + 11).toFixed(1);    // 11-17s
+            var pop = (rnd() * 0.25 + 0.45).toFixed(2); // 0.45-0.70
+            var pal = PT_PAL[Math.floor(rnd() * PT_PAL.length)];
+            var shp = PT_SHP[Math.floor(rnd() * PT_SHP.length)];
+            var ga  = Math.floor(rnd() * 60 + 110);   // 그라데이션 각도 110-170deg
 
-            // 3단계 바람 흔들림 좌표
-            var x1 = (rnd() * 40 - 20).toFixed(0);
-            var x2 = (parseInt(x1) + rnd() * 50 - 25).toFixed(0);
-            var x3 = (parseInt(x2) + rnd() * 40 - 20).toFixed(0);
-            var r0 = (rnd() * 30 - 15).toFixed(0);
-            var r1 = (parseInt(r0) + rnd() * 120 - 60).toFixed(0);
-            var r2 = (parseInt(r1) + rnd() * 120 - 60).toFixed(0);
-            var r3 = (parseInt(r2) + rnd() * 160 - 80).toFixed(0);
+            // 4단계 바람 흔들림 + scale 변화
+            var x1 = (rnd() * 50 - 25).toFixed(0);
+            var x2 = (parseInt(x1) + rnd() * 60 - 30).toFixed(0);
+            var x3 = (parseInt(x2) + rnd() * 50 - 25).toFixed(0);
+            var x4 = (parseInt(x3) + rnd() * 40 - 20).toFixed(0);
+            var r0 = (rnd() * 40  - 20).toFixed(0);
+            var r1 = (parseInt(r0) + rnd() * 130 - 65).toFixed(0);
+            var r2 = (parseInt(r1) + rnd() * 130 - 65).toFixed(0);
+            var r3 = (parseInt(r2) + rnd() * 150 - 75).toFixed(0);
+            var r4 = (parseInt(r3) + rnd() * 180 - 90).toFixed(0);
+            var sc1 = (rnd() * 0.20 + 0.90).toFixed(2);
+            var sc2 = (rnd() * 0.20 + 0.92).toFixed(2);
 
             ptCss += '@keyframes pt' + j + '{' +
-                '0%{transform:translate(0,-20px) rotate(' + r0 + 'deg);opacity:0;}' +
+                '0%{transform:translate(0,-20px) rotate(' + r0 + 'deg) scale(1);opacity:0;}' +
                 '8%{opacity:' + pop + ';}' +
-                '28%{transform:translate(' + x1 + 'px,28vh) rotate(' + r1 + 'deg);}' +
-                '56%{transform:translate(' + x2 + 'px,58vh) rotate(' + r2 + 'deg);}' +
-                '90%{opacity:' + pop + ';}' +
-                '100%{transform:translate(' + x3 + 'px,1300px) rotate(' + r3 + 'deg);opacity:0;}}';
+                '25%{transform:translate(' + x1 + 'px,22vh) rotate(' + r1 + 'deg) scale(' + sc1 + ');}' +
+                '50%{transform:translate(' + x2 + 'px,48vh) rotate(' + r2 + 'deg) scale(' + sc2 + ');}' +
+                '75%{transform:translate(' + x3 + 'px,74vh) rotate(' + r3 + 'deg) scale(' + sc1 + ');}' +
+                '92%{opacity:' + pop + ';}' +
+                '100%{transform:translate(' + x4 + 'px,1300px) rotate(' + r4 + 'deg) scale(0.9);opacity:0;}}';
 
             var pel = document.createElement('div');
             pel.style.cssText =
                 'position:absolute;left:' + pl + '%;top:0;' +
                 'width:' + pw + 'px;height:' + ph + 'px;' +
-                'background:' + pc + ';border-radius:' + pbr + ';' +
-                'will-change:transform;' +
+                'background:linear-gradient(' + ga + 'deg,' + pal[0] + ',' + pal[1] + ');' +
+                'border-radius:' + shp + ';' +
+                'will-change:transform,opacity;' +
                 'animation:pt' + j + ' ' + pdu + 's ' + pd + 's ease-in-out infinite;';
-            pfrag.appendChild(pel);
+            ptFrag.appendChild(pel);
         }
 
         injectStyle(ptCss);
-        petalMount.appendChild(pfrag);
+        petalMount.appendChild(ptFrag);
     }
 })();
 </script>
