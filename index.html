@@ -2758,7 +2758,7 @@
                             <div id="guestbook-img-wrap" onclick="openGuestbookSlide()" style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;border-radius:12px;background:#e8f0e8;cursor:pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
                                 <img src="./images/vine2.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                                 <!-- 몽환적 가장자리 블러 비네트 -->
-                                <div style="position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(ellipse 72% 72% at 50% 50%, transparent 38%, rgba(248,246,241,0.45) 62%, rgba(248,246,241,0.82) 82%, rgba(248,246,241,0.97) 100%);"></div>
+                                <div style="position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(ellipse 95% 95% at 50% 50%, transparent 48%, rgba(248,246,241,0.45) 62%, rgba(248,246,241,0.82) 82%, rgba(248,246,241,0.97) 100%);"></div>
                                 <!-- 나비 3마리 -->
                                 <div class="butterfly bf1" style="position:absolute;font-size:13px;pointer-events:none;z-index:8;">🦋</div>
                                 <div class="butterfly bf2" style="position:absolute;font-size:11px;pointer-events:none;z-index:8;filter:hue-rotate(30deg);">🦋</div>
@@ -4134,7 +4134,7 @@ p[style*="color:#b0a898"]                              { color: #b0a898 !importa
    나비 날아다니기 애니메이션
    ══════════════════════════════════════════════════════════════ */
 @keyframes bf1-fly {
-    0%   { transform: translate(8%,  75%) rotate(-20deg) scaleX(1);  opacity:0; }
+    0%   { transform: translate(8%,  75%) rotate(-20deg) scaleX(10);  opacity:0; }
     6%   { opacity: 0.85; }
     20%  { transform: translate(28%, 22%) rotate(12deg)  scaleX(-1); }
     38%  { transform: translate(55%, 45%) rotate(-8deg)  scaleX(1);  }
@@ -4231,7 +4231,7 @@ window.addEventListener('load', function () {
                 // 💡 2. 인포윈도우 생성 (text-align:center를 살짝 추가해 글자를 가운데 정렬했습니다)
                 var infowindow = new kakao.maps.InfoWindow({
                     content: '<div style="padding:6px 12px;font-size:12px;font-family:\'Gowun Dodum\',sans-serif;color:#3a2f28;white-space:nowrap;line-height:1.7;text-align:center;border:none;">' +
-                            '<strong>엠타워컨벤션 안양</strong><br><span style="font-size:10px;color:#9a9490">9F 메리엘홀</span></div>'
+                            '<strong>웨딩그룹위더스 안양</strong><br><span style="font-size:10px;color:#9a9490">9F 메리엘홀</span></div>'
                 });
                 
                 // 💡 3. 위에서 만든 동일한 마커를 연결하여 말풍선을 엽니다.
@@ -4332,7 +4332,7 @@ function shareKakao() {
     }
 
     var SITE_URL    = 'https://nari-hojin-invitation.vercel.app/';
-    var THUMB_URL   = 'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/KakaoTalk_Photo_2026-04-11-23-08-25.jpeg';
+    var THUMB_URL   = 'https://zcttzkkjnqnmnsmzrwux.supabase.co/storage/v1/object/public/wedding-photos/KakaoTalk_Photo_2026-04-12-19-18-08.jpeg';
 
     Kakao.Share.sendDefault({
         objectType: 'feed',
