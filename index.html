@@ -43,7 +43,7 @@
                 flex-direction: column;
                 box-sizing: border-box;
                 padding: 24px;
-                box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+                box-shadow: 0 -6px 24px rgba(0,0,0,0.12);
             }
             </style>
 </head>
@@ -52,9 +52,9 @@
     class="noto_serif_kr_5d56114b-module__fkw0lW__variable nanum_myeongjo_2f668448-module__CKVyzG__variable gowun_dodum_9e6b329d-module__sZX-pq__variable nanum_gothic_38833b3e-module__LYJIua__variable antialiased">
     <div hidden=""><!--$--><!--/$--></div>
     <div style="opacity: 1;">
-        <div style="background:linear-gradient(168deg,#243324 0%,#1a2a1a 60%,#0f1f0f 100%);min-height:100%">
+        <div style="background:#fdfbf7;min-height:100%">
             <div
-                style="background:transparent;color:#e8f0e8;font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;min-height:100%;position:relative;overflow:hidden;line-height:1.85;letter-spacing:0.035em">
+                style="background:transparent;color:#3a2f28;font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;min-height:100%;position:relative;overflow:hidden;line-height:1.85;letter-spacing:0.035em">
                 <section id="hero-section"
                     style="position:relative;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden">
                     <div style="position:absolute;top:0;left:0;right:0;z-index:3">
@@ -2688,7 +2688,7 @@
                                     style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:22px;letter-spacing:0.18em;color:#9a9490;text-transform:uppercase;text-align:center;margin-bottom:8px">
                                     마음 전하실 곳</p>
                                 <p
-                                    style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:14px;color:#ffffff;text-align:center;letter-spacing:0.03em;line-height:1.7;margin-bottom:24px;white-space:pre-line"
+                                    style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:14px;color:#6b4c2a;text-align:center;letter-spacing:0.03em;line-height:1.7;margin-bottom:24px;white-space:pre-line"
                                     멀리서도 축하의 마음을<!-- -->
                                     <!-- -->전하고 싶으신 분들을 위해<!-- -->
                                     <!-- -->계좌번호를 안내드립니다.<!-- -->
@@ -3243,7 +3243,7 @@
       // 2. 2000ms(2.0초) 뒤 화면에서 완전히 삭제 (기존 React 코드의 t2 부분)
       setTimeout(function() {
         intro.style.display = 'none';
-      }, 1200);
+      }, 1600);
     }
   });
 
@@ -3471,7 +3471,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 13px 0;
-    border-bottom: 1px solid rgba(212,175,55,0.12);
+    border-bottom: 1px solid rgba(107,76,42,0.1);
     gap: 12px;
 }
 .account-row:last-child {
@@ -3486,18 +3486,17 @@
 .account-holder {
     font-family: var(--font-gowun), 'Gowun Dodum', serif;
     font-size: 14px;
-    color: #e8e0cc;
+    color: #3a2f28;
     letter-spacing: 0.05em;
 }
 .account-number {
     font-family: monospace;
     font-size: 12px;
-    color: rgba(212,175,55,0.65);
+    color: #6b4c2a;
     letter-spacing: 0.06em;
 }
 
-/* ── 전역 CTA 버튼 통일 스타일 ──────────────────────────────── */
-/* '참석의사 체크하기' 와 동일한 골든 무드 */
+/* ── 전역 CTA 버튼 통일 스타일 (아이보리 테마) ───────────────── */
 .copy-btn,
 button[onclick="openContactSheet()"],
 button[onclick*="toggleAccordion"] {
@@ -3507,19 +3506,19 @@ button[onclick*="toggleAccordion"] {
     justify-content: center;
     gap: 6px;
     padding: 8px 20px;
-    background: rgba(212,175,55,0.10);
-    border: 1px solid rgba(212,175,55,0.42);
+    background: rgba(107,76,42,0.07);
+    border: 1px solid rgba(107,76,42,0.25);
     border-radius: 999px;
     font-family: var(--font-gowun), 'Gowun Dodum', serif;
     font-size: 13px;
-    color: #f0e6c8;
+    color: #6b4c2a;
     letter-spacing: 0.12em;
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
 }
 .copy-btn:active,
 button[onclick="openContactSheet()"]:active {
-    background: rgba(212,175,55,0.22);
+    background: rgba(107,76,42,0.14);
 }
 
 /* 아코디언 토글 버튼은 전체 너비 유지 */
@@ -3532,20 +3531,20 @@ button[onclick*="toggleAccordion"] {
     background: transparent;
 }
 button[onclick*="toggleAccordion"]:active {
-    background: rgba(212,175,55,0.08);
+    background: rgba(107,76,42,0.06);
 }
 
-/* 아코디언 컨테이너 - 골든 버튼 스타일 */
+/* 아코디언 컨테이너 */
 #groom-accordion,
 #bride-accordion {
-    background: rgba(212,175,55,0.12) !important;
-    border: 1px solid rgba(212,175,55,0.45) !important;
-    box-shadow: none !important;
+    background: rgba(255,255,255,0.7) !important;
+    border: 1px solid rgba(107,76,42,0.14) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
 }
 
 /* 연락하기 버튼 텍스트·아이콘 색상 보정 */
-button[onclick="openContactSheet()"] svg { stroke: rgba(212,175,55,0.75) !important; }
-button[onclick="openContactSheet()"] { color: #f0e6c8 !important; }
+button[onclick="openContactSheet()"] svg { stroke: rgba(107,76,42,0.65) !important; }
+button[onclick="openContactSheet()"] { color: #6b4c2a !important; }
 </style>
 
 
@@ -3884,23 +3883,16 @@ html, body {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   3. 방명록 섹션 – 장미 정원 배경 & 타이틀
+   3. 방명록 섹션 – 아이보리 테마
    ══════════════════════════════════════════════════════════════ */
 #guestbook-section {
-    background: linear-gradient(168deg, #243324 0%, #1a2a1a 60%, #0f1f0f 100%);
+    background: rgba(107,76,42,0.04);
     position: relative;
     overflow: hidden;
 }
 
-/* 배경 질감: 미세한 노이즈 오버레이 */
 #guestbook-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
-    pointer-events: none;
-    z-index: 0;
+    content: none;
 }
 #guestbook-section > * { position: relative; z-index: 1; }
 
@@ -3910,65 +3902,65 @@ html, body {
     align-items: center;
     gap: 14px;
     padding: 13px 32px;
-    border: 1px solid rgba(212, 175, 55, 0.35);
+    border: 1px solid rgba(107,76,42,0.18);
     border-radius: 14px;
-    background: rgba(255, 255, 255, 0.04);
-    box-shadow:
-        0 0 24px rgba(212, 175, 55, 0.08),
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        inset 0 -1px 0 rgba(0,0,0,0.2);
+    background: rgba(255,255,255,0.65);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 .guestbook-title-text {
     font-family: var(--font-gowun), 'Gowun Dodum', serif;
     font-size: 22px;
     letter-spacing: 0.38em;
-    color: #f0e6c8;
+    color: #3a2f28;
     margin: 0;
-    text-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
 }
 .guestbook-title-deco {
-    color: rgba(212, 175, 55, 0.55);
+    color: rgba(107,76,42,0.45);
     font-size: 11px;
 }
 .guestbook-subtitle {
     font-family: 'Sermo', serif;
     font-style: italic;
     font-size: 13px;
-    color: rgba(212, 175, 55, 0.45);
+    color: rgba(107,76,42,0.5);
     letter-spacing: 0.22em;
     margin: 8px 0 0;
 }
 
-/* 방명록 섹션 내 입력창 색상 보정 */
+/* 방명록 섹션 내 입력창 */
 #guestbook-section input,
 #guestbook-section textarea {
-    background: rgba(255, 255, 255, 0.09) !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
-    color: #f0ece4 !important;
+    background: rgba(255,255,255,0.85) !important;
+    border-color: rgba(107,76,42,0.12) !important;
+    color: #3a2f28 !important;
 }
 #guestbook-section input::placeholder,
 #guestbook-section textarea::placeholder {
-    color: rgba(240, 236, 228, 0.38) !important;
+    color: rgba(107,76,42,0.35) !important;
 }
 #guestbook-section input:focus,
 #guestbook-section textarea:focus {
-    border-color: rgba(212,175,55,0.4) !important;
+    border-color: rgba(107,76,42,0.4) !important;
     outline: none;
 }
 /* "장미를 꽃피워주세요" 라벨 */
 #guestbook-section > div > div > div > p:first-child {
-    color: rgba(212, 175, 55, 0.7) !important;
+    color: rgba(107,76,42,0.65) !important;
 }
 /* 방명록 남기기 버튼 */
 #guestbook-section button[onclick="submitGuestbook()"] {
-    color: #f0e6c8 !important;
-    border-color: rgba(212,175,55,0.4) !important;
+    color: #6b4c2a !important;
+    border-color: rgba(107,76,42,0.35) !important;
 }
 /* 방명록 폼 컨테이너 */
 #guestbook-section > div > div:last-child {
-    background: rgba(255,255,255,0.04) !important;
-    border-color: rgba(255,255,255,0.08) !important;
+    background: rgba(255,255,255,0.55) !important;
+    border-color: rgba(107,76,42,0.1) !important;
 }
+/* 방명록 슬라이드 패널 */
+#guestbook-slide h3 { color: #3a2f28 !important; }
+#guestbook-slide > div:first-child { border-bottom-color: rgba(107,76,42,0.12) !important; }
+#guestbook-slide > div:first-child button { color: #6b4c2a !important; }
 
 /* ══════════════════════════════════════════════════════════════
    1-FIX. 히어로 섹션 – dvh 픽스 (모바일 주소창 리사이즈 버그)
@@ -4006,78 +3998,99 @@ html, body {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   5. 전역 다크 테마 – body·wrapper 배경, 텍스트, 박스 UI
+   5. 전역 아이보리 테마 – body·wrapper 배경, 텍스트, 박스 UI
    ══════════════════════════════════════════════════════════════ */
 
-/* 최상위 래퍼 배경 덮어쓰기 */
+/* 최상위 배경 */
 body {
-    background: #0f1a0f !important;
-}
-body > div > div[style*="background-color:#f8f8f4"],
-body > div > div > div[style*="background:#f8f8f4"] {
-    background: linear-gradient(168deg, #1a2714 0%, #0f1a0f 60%, #0a130a 100%) !important;
-    color: #f0ece4 !important;
+    background: #fdfbf7 !important;
 }
 
 /* 날짜/장소 표시줄 */
 div[style*="border-top:1px solid rgba(0,0,0,0.07)"][style*="border-bottom:1px solid"] {
-    border-color: rgba(212,175,55,0.15) !important;
-    background: rgba(0,0,0,0.22) !important;
+    border-color: rgba(107,76,42,0.1) !important;
+    background: rgba(255,255,255,0.55) !important;
 }
 div[style*="border-top:1px solid rgba(0,0,0,0.07)"][style*="border-bottom:1px solid"] p {
-    color: #d4c8b0 !important;
+    color: #4a4440 !important;
 }
 
-/* 초대문구 박스 - 화이트 테마 */
+/* 초대문구 박스 */
 #invitation-box {
-    background: rgba(255,255,255,0.92) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.08) !important;
+    background: rgba(255,255,255,0.88) !important;
+    border-color: rgba(107,76,42,0.08) !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05) !important;
 }
 #invitation-box p { color: #3a2f28 !important; }
 #invitation-box [style*="rgba(107,76,42"] { color: rgba(107,76,42,0.45) !important; }
-#invitation-box [style*="background:rgba(107,76,42"] { background: rgba(107,76,42,0.2) !important; }
+#invitation-box [style*="background:rgba(107,76,42"] { background: rgba(107,76,42,0.15) !important; }
 
 /* 달력 컨테이너 */
 div[style*="font-family:monospace;font-size:11px"][style*="letter-spacing:0.4em"] {
-    color: rgba(212,175,55,0.55) !important;
+    color: #9a9490 !important;
 }
 div[style*="display:grid;grid-template-columns:repeat(7"] {
-    background: rgba(0,0,0,0) !important;
+    background: transparent !important;
 }
 
 /* D-Day 카운터 */
 #dday-counter {
-    color: rgba(212,175,55,0.9) !important;
-    text-shadow: 0 0 12px rgba(212,175,55,0.3);
+    color: #6b4c2a !important;
+    text-shadow: none;
 }
 
-/* LOCATION / 오시는 길 박스 - 화이트 테마 */
+/* LOCATION / 오시는 길 박스 */
 div[style*="background:rgba(255,255,255,0.78)"] {
-    background: rgba(255,255,255,0.92) !important;
-    border-color: rgba(0,0,0,0.07) !important;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.08) !important;
+    background: rgba(255,255,255,0.88) !important;
+    border-color: rgba(107,76,42,0.08) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
 }
 div[style*="background:rgba(255,255,255,0.78)"] p,
 div[style*="background:rgba(255,255,255,0.78)"] span {
     color: #4a4440 !important;
 }
 
-/* 계좌 아코디언 - 골든 버튼 스타일 */
+/* 계좌 아코디언 */
 #groom-accordion, #bride-accordion {
-    background: rgba(212,175,55,0.12) !important;
-    border: 1px solid rgba(212,175,55,0.45) !important;
-    box-shadow: none !important;
+    background: rgba(255,255,255,0.7) !important;
+    border: 1px solid rgba(107,76,42,0.14) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
 }
-#groom-accordion p, #bride-accordion p { color: #f0e6c8 !important; }
+#groom-accordion p, #bride-accordion p { color: #3a2f28 !important; }
 
-/* 이름/날짜 텍스트 전체 밝게 */
-p[style*="color:#4a4440"], span[style*="color:#4a4440"] { color: #d4c8b0 !important; }
-p[style*="color:#9a8e82"], p[style*="color:#9a9490"]   { color: rgba(212,175,55,0.65) !important; }
-p[style*="color:#b0a898"]                              { color: rgba(212,175,55,0.55) !important; }
+/* 이름/날짜 텍스트 원복 */
+p[style*="color:#4a4440"], span[style*="color:#4a4440"] { color: #4a4440 !important; }
+p[style*="color:#9a8e82"], p[style*="color:#9a9490"]   { color: #9a8e82 !important; }
+p[style*="color:#b0a898"]                              { color: #b0a898 !important; }
+
+/* RSVP 섹션 콘텐츠 (아이보리 배경용) */
+#rsvp-section {
+    background: rgba(107,76,42,0.04) !important;
+}
+#rsvp-section div[style*="border:1px solid rgba(212,175,55"] {
+    border-color: rgba(107,76,42,0.18) !important;
+    background: rgba(255,255,255,0.7) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+}
+#rsvp-section p[style*="color:#f0e6c8"],
+#rsvp-section p[style*="color:rgba(240,236,228"] {
+    color: #3a2f28 !important;
+    text-shadow: none !important;
+}
+#rsvp-section p[style*="color:rgba(212,175,55"] {
+    color: #9a8e82 !important;
+}
+#rsvp-section span[style*="color:rgba(212,175,55"] {
+    color: rgba(107,76,42,0.4) !important;
+}
+#rsvp-section button[onclick="openRsvpModal()"] {
+    background: rgba(107,76,42,0.08) !important;
+    border-color: rgba(107,76,42,0.35) !important;
+    color: #3a2f28 !important;
+}
 
 /* ══════════════════════════════════════════════════════════════
-   6. RSVP 모달 입력창 포커스 스타일 (화이트 테마)
+   6. RSVP 모달 입력창 포커스 스타일 (아이보리 테마)
    ══════════════════════════════════════════════════════════════ */
 #rsvp-name, #rsvp-phone {
     touch-action: manipulation;
@@ -4088,19 +4101,25 @@ p[style*="color:#b0a898"]                              { color: rgba(212,175,55,
 }
 #rsvp-name:focus, #rsvp-phone:focus {
     border-color: rgba(107,76,42,0.5) !important;
-    background: rgba(0,0,0,0.06) !important;
+    background: rgba(107,76,42,0.04) !important;
 }
 #rsvp-name::placeholder, #rsvp-phone::placeholder {
     color: rgba(0,0,0,0.3);
 }
 /* 라디오 선택 활성 스타일 */
 .rsvp-radio-active {
-    border-color: rgba(212,175,55,0.7) !important;
-    background: rgba(212,175,55,0.18) !important;
-    color: #6b4c2a !important;
+    border-color: rgba(107,76,42,0.55) !important;
+    background: rgba(107,76,42,0.09) !important;
+    color: #3a2f28 !important;
 }
 /* 제출 버튼 active */
-#rsvp-submit-btn:active { background: rgba(212,175,55,0.32) !important; }
+#rsvp-submit-btn:active { background: rgba(107,76,42,0.18) !important; }
+/* 제출 버튼 (아이보리 톤) */
+#rsvp-submit-btn {
+    background: rgba(107,76,42,0.1) !important;
+    border-color: rgba(107,76,42,0.35) !important;
+    color: #3a2f28 !important;
+}
 /* RSVP 섹션 노이즈 레이어 */
 #rsvp-section > div:first-child { z-index: 0; }
 #rsvp-section > div:last-child  { position: relative; z-index: 1; }
