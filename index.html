@@ -112,9 +112,9 @@
                     <div
                         style="position:absolute;inset:0;opacity:0.09;pointer-events:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E&quot;);background-size:200px 200px;mix-blend-mode:overlay">
                     </div>
-                    <!-- 무대 스포트라이트 -->
-                    <div id="spotlight-1" style="position:absolute;width:240px;height:320px;left:2%;top:-60px;background:radial-gradient(ellipse at 50% 25%,rgba(255,242,195,0.32) 0%,transparent 68%);mix-blend-mode:screen;pointer-events:none;filter:blur(20px);animation:spot1 9s ease-in-out infinite alternate;z-index:1;"></div>
-                    <div id="spotlight-2" style="position:absolute;width:220px;height:300px;right:-2%;top:-80px;background:radial-gradient(ellipse at 50% 25%,rgba(255,218,168,0.26) 0%,transparent 68%);mix-blend-mode:screen;pointer-events:none;filter:blur(24px);animation:spot2 11s ease-in-out infinite alternate;z-index:1;"></div>
+                    <!-- 무대 스포트라이트: 모서리 원뿔형 빛줄기 -->
+                    <div id="spotlight-1" style="position:absolute;inset:0;z-index:5;pointer-events:none;transform-origin:0% 0%;background:conic-gradient(from 107deg at 0% 0%,transparent 0deg,rgba(255,252,240,0.07) 10deg,rgba(255,252,240,0.22) 28deg,rgba(255,252,240,0.07) 46deg,transparent 56deg);animation:spot1 7s ease-in-out infinite alternate;"></div>
+                    <div id="spotlight-2" style="position:absolute;inset:0;z-index:5;pointer-events:none;transform-origin:100% 0%;background:conic-gradient(from 197deg at 100% 0%,transparent 0deg,rgba(255,248,232,0.06) 10deg,rgba(255,248,232,0.18) 28deg,rgba(255,248,232,0.06) 46deg,transparent 56deg);animation:spot2 9s ease-in-out infinite alternate;"></div>
                     <div
                         style="position:absolute;top:36px;left:18px;z-index:2;font-family:monospace;font-size:8px;color:#1e1e1e;letter-spacing:0.22em">
                         KODAK · 400TX</div>
@@ -170,8 +170,6 @@
                             <path d="m6 9 6 6 6-6"></path>
                         </svg>
                     </div>
-                    <!-- 히어로 컨페티 마운트 (JS가 파티클 생성) -->
-                    <div id="hero-confetti" style="position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;"></div>
                 </section>
                 <div
                     style="text-align:center;padding:32px 28px;border-top:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07)">
@@ -3429,25 +3427,19 @@
     letter-spacing: 0.06em;
     margin: 0;
 }
-/* ── 신랑측 연락처 이름: NanumGothic Bold ──────────────────────── */
-#contact-groom .contact-name {
-    font-family: 'Nanum Gothic', 'NanumGothic', sans-serif !important;
-    font-weight: 700 !important;
-    font-size: 18px !important;
-    letter-spacing: 0.03em !important;
-}
-/* ── 무대 스포트라이트 keyframes ─────────────────────────────── */
+
+/* ── 무대 스포트라이트 keyframes (모서리 원뿔형, 숨쉬는 듯) ── */
 @keyframes spot1 {
-    0%   { transform: translate(0px,   0px) rotate(-8deg) scaleX(0.92); opacity: 0.60; }
-    30%  { transform: translate(20px, 55px) rotate( 3deg) scaleX(1.08); opacity: 0.88; }
-    65%  { transform: translate(10px, 90px) rotate(-2deg) scaleX(1.00); opacity: 0.72; }
-    100% { transform: translate(30px, 65px) rotate( 7deg) scaleX(0.88); opacity: 0.80; }
+    0%   { opacity: 0.55; transform: rotate(-5deg); }
+    40%  { opacity: 1.00; transform: rotate( 0deg); }
+    75%  { opacity: 0.70; transform: rotate( 4deg); }
+    100% { opacity: 0.85; transform: rotate( 7deg); }
 }
 @keyframes spot2 {
-    0%   { transform: translate(  0px,  0px) rotate( 7deg) scaleX(0.88); opacity: 0.68; }
-    35%  { transform: translate(-25px, 60px) rotate(-5deg) scaleX(1.10); opacity: 0.82; }
-    70%  { transform: translate(-14px, 95px) rotate( 2deg) scaleX(0.95); opacity: 0.62; }
-    100% { transform: translate(-35px, 70px) rotate(-8deg) scaleX(1.05); opacity: 0.75; }
+    0%   { opacity: 0.70; transform: rotate( 4deg); }
+    35%  { opacity: 0.45; transform: rotate(-2deg); }
+    70%  { opacity: 0.90; transform: rotate(-5deg); }
+    100% { opacity: 0.55; transform: rotate(-8deg); }
 }
 .contact-btns { display: flex; gap: 8px; }
 .contact-btn-sms, .contact-btn-tel {
@@ -4677,7 +4669,7 @@ async function submitRsvp() {
 
 
 <!-- ============================================================
-     폭죽(히어로) + 꽃잎(방명록) 파티클 생성
+     꽃잎(방명록) 파티클 생성
      ============================================================ -->
 <script>
 (function () {
@@ -4692,93 +4684,7 @@ async function submitRsvp() {
     }
 
     /* ══════════════════════════════════════════════════════
-       1. 히어로 폭죽 (Firework Burst) – 5색 화려한 터짐
-       ══════════════════════════════════════════════════════ */
-    var heroMount = document.getElementById('hero-confetti');
-    if (heroMount) {
-        var FW_N     = 5;   // burst 그룹 수
-        var FW_S     = 10;  // 그룹당 불꽃 수
-        var FW_CYCLE = 9;   // 전체 반복 사이클 (초)
-
-        // 5색 웨딩 팔레트 (골드 / 핑크 / 피치 / 라벤더 / 화이트아이보리)
-        var FW_COLORS = [
-            ['#ffd966', '#ffe599', '#fff2cc'],
-            ['#f4a7b9', '#ff8fa3', '#ffc0cb'],
-            ['#ffb347', '#ffc87a', '#ffd580'],
-            ['#c9a0dc', '#b19cd9', '#dbc5f5'],
-            ['#ffffff', '#ffeef2', '#fff9e6']
-        ];
-
-        // 버스트 원점 (left%, top% 기준)
-        var FW_POS = [
-            [18, 22], [72, 18], [44, 38], [20, 55], [76, 32]
-        ];
-
-        var fwCss  = '';
-        var fwFrag = document.createDocumentFragment();
-        var SP = 2;   // 키프레임 내 버스트 시작 %
-        var EP = SP + 10; // 버스트 종료 %
-
-        for (var g = 0; g < FW_N; g++) {
-            var bx     = FW_POS[g][0];
-            var by     = FW_POS[g][1];
-            var colors = FW_COLORS[g];
-            var delay  = (g * FW_CYCLE / FW_N).toFixed(2);
-
-            /* 중앙 플래시 */
-            var fKey = 'fwf' + g;
-            fwCss += '@keyframes ' + fKey + '{' +
-                '0%{transform:scale(0);opacity:0;}' +
-                SP + '%{transform:scale(1);opacity:0.9;}' +
-                (SP + 5) + '%{transform:scale(2.8);opacity:0;}' +
-                '100%{transform:scale(0);opacity:0;}}';
-            var fl = document.createElement('div');
-            fl.style.cssText =
-                'position:absolute;left:' + bx + '%;top:' + by + '%;' +
-                'width:12px;height:12px;margin:-6px 0 0 -6px;' +
-                'background:radial-gradient(circle,#fff 0%,' + colors[0] + ' 55%,transparent 100%);' +
-                'border-radius:50%;will-change:transform,opacity;' +
-                'animation:' + fKey + ' ' + FW_CYCLE + 's ' + delay + 's ease-out infinite;';
-            fwFrag.appendChild(fl);
-
-            /* 불꽃 스파크 */
-            for (var s = 0; s < FW_S; s++) {
-                var angle = (s / FW_S) * 2 * Math.PI + (rnd() - 0.5) * 0.45;
-                var dist  = rnd() * 55 + 50;
-                var dx    = (Math.cos(angle) * dist).toFixed(1);
-                var dy    = (Math.sin(angle) * dist).toFixed(1);
-                var op    = (rnd() * 0.30 + 0.55).toFixed(2);
-                var sz    = (rnd() * 3.5 + 2).toFixed(1);
-                var half  = (parseFloat(sz) / 2).toFixed(1);
-                var clr   = colors[Math.floor(rnd() * colors.length)];
-                var kn    = 'fws' + g + '_' + s;
-                var mid   = SP + 5;
-
-                fwCss += '@keyframes ' + kn + '{' +
-                    '0%{transform:translate(0,0) scale(1);opacity:0;}' +
-                    SP  + '%{transform:translate(' + (parseFloat(dx)*0.15).toFixed(1) + 'px,' + (parseFloat(dy)*0.15).toFixed(1) + 'px) scale(1);opacity:' + op + ';}' +
-                    mid + '%{transform:translate(' + dx + 'px,' + dy + 'px) scale(0.4);opacity:' + (parseFloat(op)*0.5).toFixed(2) + ';}' +
-                    EP  + '%{transform:translate(' + (parseFloat(dx)*1.12).toFixed(1) + 'px,' + (parseFloat(dy)*1.12).toFixed(1) + 'px) scale(0);opacity:0;}' +
-                    '100%{transform:translate(' + (parseFloat(dx)*1.12).toFixed(1) + 'px,' + (parseFloat(dy)*1.12).toFixed(1) + 'px) scale(0);opacity:0;}}';
-
-                var el = document.createElement('div');
-                el.style.cssText =
-                    'position:absolute;left:' + bx + '%;top:' + by + '%;' +
-                    'width:' + sz + 'px;height:' + sz + 'px;' +
-                    'margin:-' + half + 'px 0 0 -' + half + 'px;' +
-                    'background:' + clr + ';border-radius:50%;' +
-                    'will-change:transform,opacity;' +
-                    'animation:' + kn + ' ' + FW_CYCLE + 's ' + delay + 's ease-out infinite;';
-                fwFrag.appendChild(el);
-            }
-        }
-
-        injectStyle(fwCss);
-        heroMount.appendChild(fwFrag);
-    }
-
-    /* ══════════════════════════════════════════════════════
-       2. 방명록 꽃잎 낙하 (개선된 리얼 꽃잎 – 그라데이션 + 비대칭)
+       방명록 꽃잎 낙하 (리얼 꽃잎 – 그라데이션 + 비대칭)
        ══════════════════════════════════════════════════════ */
     var petalMount = document.getElementById('petal-rain');
     if (petalMount) {
