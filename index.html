@@ -166,6 +166,8 @@
                             <path d="m6 9 6 6 6-6"></path>
                         </svg>
                     </div>
+                    <!-- 히어로 컨페티 마운트 (JS가 파티클 생성) -->
+                    <div id="hero-confetti" style="position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;"></div>
                 </section>
                 <div
                     style="text-align:center;padding:32px 28px;border-top:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07)">
@@ -246,7 +248,7 @@
                             <div style="opacity: 1; transform: none;">
                                 <div style="display:flex;flex-direction:column;align-items:center;gap:18px">
                                     <p
-                                        style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:14px;color:#9a8e82;letter-spacing:0.04em;line-height:1;text-align:center">
+                                        style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:14px;color:#9a8e82;letter-spacing:0.04em;line-height:1;margin-top:30px;text-align:center">
                                         <span style="font-weight:400">이창영 · 정경란의 아들<!-- --> </span><span
                                             style="font-size:17px;font-weight:700;color:#4a4440">&nbsp;이호진</span>
                                     </p>
@@ -256,7 +258,7 @@
                                             style="font-size:17px;font-weight:700;color:#4a4440">&nbsp;차나리</span>
                                     </p>
                                 </div>
-                                <div style="display:flex;justify-content:center;margin-top:28px"><button tabindex="0" onclick="openContactSheet()"
+                                <div style="display:flex;justify-content:center;margin-top:20px"><button tabindex="0" onclick="openContactSheet()"
                                         style="display: flex; align-items: center; gap: 12px; padding: 11px 26px; border: 1px solid rgba(0, 0, 0, 0.07); border-radius: 999px; background: rgba(0, 0, 0, 0.04); color: rgb(154, 148, 144); font-size: 13px; letter-spacing: 0.16em; cursor: pointer; font-family: var(--font-gowun), 'Gowun Dodum', sans-serif; font-weight: 400; transform: none;"><svg
                                             xmlns="http://www.w3.org/2000/svg" width="13" height="13"
                                             viewBox="0 0 24 24" fill="none" stroke="#6b4c2a" stroke-width="2"
@@ -267,14 +269,14 @@
                                             </path>
                                         </svg>연락하기</button></div>
                                 <div
-                                    style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:24px">
+                                    style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:100px">
                                     <div style="flex:1;max-width:56px;height:1px;background:rgba(107,76,42,0.2)">
                                     </div><span style="color:rgba(107,76,42,0.45);font-size:11px">✦</span>
                                     <div style="flex:1;max-width:56px;height:1px;background:rgba(107,76,42,0.2)">
                                     </div>
                                 </div>
                                 <p
-                                    style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:14px;color:#4a4440;letter-spacing:0.1em;text-align:center;margin-top:16px">
+                                    style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:14px;color:#4a4440;letter-spacing:0.1em;text-align:center;margin-top:50px">
                                     2026년 6월 20일 토요일</p>
                                 <div style="width:100%;margin-top:28px">
                                     <p
@@ -2623,7 +2625,7 @@
                         <section style="padding:20px 10px">
                             <div style="opacity: 1; transform: none;">
                                 <p
-                                    style="font-family:'Sermo', serif;font-style:italic;font-size:36px;letter-spacing:0.06em;color:#4a4440;text-align:center;margin-bottom:28px;line-height:1">
+                                    style="font-family:'Sermo', serif;font-style:italic;font-size:36px;letter-spacing:0.06em;color:#4a4440;text-align:center;margin-top:100px;margin-bottom:28px;line-height:1">
                                     LOCATION</p>
                                 <div
                                     style="text-align:center;margin-bottom:18px;background:rgba(255,255,255,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:14px;padding:28px 24px;border:1px solid rgba(0,0,0,0.07);box-shadow:0 2px 20px rgba(0,0,0,0.07)">
@@ -2681,9 +2683,21 @@
                             </div>
                         </section>
                     </div>
+
+
+
                     <div style="order:4">
                         <section style="padding:56px 28px">
                             <div style="opacity: 1; transform: none;">
+
+                                <div
+                                    style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:50px">
+                                    <div style="flex:1;max-width:56px;height:1px;background:rgba(107,76,42,0.2)">
+                                    </div><span style="color:rgba(107,76,42,0.45);font-size:11px">✦</span>
+                                    <div style="flex:1;max-width:56px;height:1px;background:rgba(107,76,42,0.2)">
+                                    </div>
+                                </div>                   
+
                                 <p
                                     style="font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;font-size:22px;letter-spacing:0.18em;color:#9a9490;text-transform:uppercase;text-align:center;margin-bottom:8px">
                                     마음 전하실 곳</p>
@@ -2744,6 +2758,8 @@
 
 
                     <div id="guestbook-section" style="order:6; position:relative; padding:56px 28px 64px;">
+                        <!-- 꽃잎 낙하 마운트 (JS가 파티클 생성) -->
+                        <div id="petal-rain" style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;"></div>
                         <!-- 방명록 타이틀 프레임 -->
                         <div style="text-align:center;margin-bottom:32px;">
                             <div class="guestbook-title-frame">
@@ -2759,19 +2775,15 @@
                                 <img src="./images/vine2.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                                 <!-- 몽환적 가장자리 블러 비네트 -->
                                 <div style="position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(ellipse 95% 95% at 50% 50%, transparent 48%, rgba(248,246,241,0.45) 62%, rgba(248,246,241,0.82) 82%, rgba(248,246,241,0.97) 100%);"></div>
-                                <!-- 나비 3마리 -->
-                                <div class="butterfly bf1" style="position:absolute;font-size:13px;pointer-events:none;z-index:8;">🦋</div>
-                                <div class="butterfly bf2" style="position:absolute;font-size:11px;pointer-events:none;z-index:8;filter:hue-rotate(30deg);">🦋</div>
-                                <div class="butterfly bf3" style="position:absolute;font-size:10px;pointer-events:none;z-index:8;filter:hue-rotate(280deg) brightness(1.1);">🦋</div>
                                 <div id="roses-container" style="position:absolute; inset:0; z-index:10; pointer-events:none;"></div>
                                 <div style="position:absolute;bottom:6px;right:8px;font-family:monospace;font-size:7px;color:rgba(255,255,255,0.7);letter-spacing:0.18em;pointer-events:none;z-index:11;">TAP TO READ</div>
                             </div>
 
                             <div style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:2px 18px;display:flex;flex-direction:column;gap:5px;margin-top:16px;text-align: center">
                                 <p style="font-family:var(--font-gowun);font-size:13px;letter-spacing:0.2em;color:#9a9490;text-transform:uppercase">장미를 만들어주세요 🌹</p>
-                                <input id="guestName" placeholder="이름" style="font-family:var(--font-gowun);font-size:13px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
-                                <textarea id="guestContent" placeholder="축하 메시지를 남겨주세요" rows="3" style="font-family:var(--font-gowun);font-size:13px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box;resize:none;line-height:1.65"></textarea>
-                                <input id="guestPw" placeholder="삭제용 비밀번호" type="password" style="font-family:var(--font-gowun);font-size:12px;color:#4a4440;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
+                                <input id="guestName" placeholder="이름" style="font-family:var(--font-gowun);font-size:13px;color:#9a9490;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
+                                <textarea id="guestContent" placeholder="축하 메시지를 남겨주세요" rows="3" style="font-family:var(--font-gowun);font-size:13px;color:#9a9490;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box;resize:none;line-height:1.65"></textarea>
+                                <input id="guestPw" placeholder="삭제용 비밀번호" type="password" style="font-family:var(--font-gowun);font-size:12px;color:#9a9490;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
                                 <button onclick="submitGuestbook()" style="font-family:monospace;font-size:11px;letter-spacing:0.25em;color:#6b4c2a;background:none;border:1px solid #6b4c2a;border-radius:800px;margin-top:16px;margin-bottom:8px;padding:8px 0;cursor:pointer;text-transform:uppercase">방명록 남기기 🌹</button>
                             </div>
                         </div>
@@ -4130,41 +4142,6 @@ p[style*="color:#b0a898"]                              { color: #b0a898 !importa
 #rsvp-section > div:first-child { z-index: 0; }
 #rsvp-section > div:last-child  { position: relative; z-index: 1; }
 
-/* ══════════════════════════════════════════════════════════════
-   나비 날아다니기 애니메이션
-   ══════════════════════════════════════════════════════════════ */
-@keyframes bf1-fly {
-    0%   { transform: translate(8%,  75%) rotate(-20deg) scaleX(10);  opacity:0; }
-    6%   { opacity: 0.85; }
-    20%  { transform: translate(28%, 22%) rotate(12deg)  scaleX(-1); }
-    38%  { transform: translate(55%, 45%) rotate(-8deg)  scaleX(1);  }
-    58%  { transform: translate(72%, 18%) rotate(18deg)  scaleX(-1); }
-    76%  { transform: translate(42%, 62%) rotate(-14deg) scaleX(1);  }
-    92%  { transform: translate(14%, 30%) rotate(8deg)   scaleX(-1); opacity: 0.85; }
-    100% { transform: translate(8%,  75%) rotate(-20deg) scaleX(1);  opacity:0; }
-}
-@keyframes bf2-fly {
-    0%   { transform: translate(62%, 12%) rotate(15deg)  scaleX(1);  opacity:0; }
-    8%   { opacity: 0.75; }
-    22%  { transform: translate(80%, 55%) rotate(-10deg) scaleX(-1); }
-    44%  { transform: translate(38%, 78%) rotate(20deg)  scaleX(1);  }
-    65%  { transform: translate(18%, 38%) rotate(-5deg)  scaleX(-1); }
-    85%  { transform: translate(50%, 20%) rotate(12deg)  scaleX(1);  opacity: 0.75; }
-    100% { transform: translate(62%, 12%) rotate(15deg)  scaleX(1);  opacity:0; }
-}
-@keyframes bf3-fly {
-    0%   { transform: translate(45%, 88%) rotate(-8deg)  scaleX(1);  opacity:0; }
-    10%  { opacity: 0.7; }
-    28%  { transform: translate(15%, 55%) rotate(22deg)  scaleX(-1); }
-    50%  { transform: translate(68%, 32%) rotate(-15deg) scaleX(1);  }
-    72%  { transform: translate(85%, 70%) rotate(10deg)  scaleX(-1); }
-    90%  { transform: translate(55%, 45%) rotate(-18deg) scaleX(1);  opacity: 0.7; }
-    100% { transform: translate(45%, 88%) rotate(-8deg)  scaleX(1);  opacity:0; }
-}
-.butterfly { will-change: transform; }
-.bf1 { animation: bf1-fly 14s ease-in-out infinite; animation-delay: 0.5s; }
-.bf2 { animation: bf2-fly 18s ease-in-out infinite; animation-delay: 4s; }
-.bf3 { animation: bf3-fly 22s ease-in-out infinite; animation-delay: 9s; }
 </style>
 
 
@@ -4674,4 +4651,122 @@ async function submitRsvp() {
 </script>
 
 
+
+<!-- ============================================================
+     컨페티(히어로) + 꽃잎(방명록) 파티클 생성
+     ============================================================ -->
+<script>
+(function () {
+    'use strict';
+
+    var rnd = Math.random.bind(Math);
+
+    /* ── 공통 유틸: <style> 태그를 head에 주입 ── */
+    function injectStyle(css) {
+        var s = document.createElement('style');
+        s.textContent = css;
+        document.head.appendChild(s);
+    }
+
+    /* ══════════════════════════════════════════════
+       1. 히어로 컨페티 (은은한 꽃가루)
+       ══════════════════════════════════════════════ */
+    var heroMount = document.getElementById('hero-confetti');
+    if (heroMount) {
+        var CF_N    = 20;
+        var CF_CLR  = ['#f9c0cc','#f7a8b8','#fde8f0','#fff0f5','#fcebd7','#fce4ec','#ffffff','#ffe8ee','#f5d0d8'];
+        var cfCss   = '';
+        var frag    = document.createDocumentFragment();
+
+        for (var i = 0; i < CF_N; i++) {
+            var w    = (rnd() * 4 + 3).toFixed(1);          // 3-7 px
+            var h    = (rnd() > 0.5
+                          ? (w * 1.8).toFixed(1)            // 직사각 조각
+                          : w);                             // 정사각 조각
+            var br   = parseFloat(h) > parseFloat(w) * 1.2 ? '1px 50%' : '50%';
+            var left = (rnd() * 96 + 2).toFixed(1);
+            var dur  = (rnd() * 5 + 10).toFixed(1);         // 10-15s
+            var del  = (rnd() * 10).toFixed(2);             // 0-10s
+            var op   = (rnd() * 0.2 + 0.3).toFixed(2);     // 0.30-0.50
+            var sx   = (rnd() * 60 - 30).toFixed(0);       // 중간 sway
+            var ex   = (rnd() * 80 - 40).toFixed(0);       // 최종 sway
+            var er   = (rnd() * 720 - 360).toFixed(0);     // 최종 회전
+            var mr   = (rnd() * 180 - 90).toFixed(0);      // 중간 회전
+            var clr  = CF_CLR[Math.floor(rnd() * CF_CLR.length)];
+
+            // 파티클 전용 keyframe
+            cfCss += '@keyframes cf' + i + '{' +
+                '0%{transform:translate(0,-20px) rotate(0deg);opacity:0;}' +
+                '7%{opacity:' + op + ';}' +
+                '45%{transform:translate(' + sx + 'px,45vh) rotate(' + mr + 'deg);}' +
+                '93%{opacity:' + op + ';}' +
+                '100%{transform:translate(' + ex + 'px,112vh) rotate(' + er + 'deg);opacity:0;}}';
+
+            var el = document.createElement('div');
+            el.style.cssText =
+                'position:absolute;left:' + left + '%;top:0;' +
+                'width:' + w + 'px;height:' + h + 'px;' +
+                'background:' + clr + ';border-radius:' + br + ';' +
+                'will-change:transform;' +
+                'animation:cf' + i + ' ' + dur + 's ' + del + 's linear infinite;';
+            frag.appendChild(el);
+        }
+
+        injectStyle(cfCss);
+        heroMount.appendChild(frag);
+    }
+
+    /* ══════════════════════════════════════════════
+       2. 방명록 꽃잎 낙하 (연핑크, 바람에 흔들리며 회전)
+       ══════════════════════════════════════════════ */
+    var petalMount = document.getElementById('petal-rain');
+    if (petalMount) {
+        var PT_N   = 14;
+        var PT_CLR = ['#ffb7c5','#f9a8d4','#ffc0cb','#ffcdd9','#ffd6e0','#ff9eb5','#ffb3c6','#fca5b8'];
+        var ptCss  = '';
+        var pfrag  = document.createDocumentFragment();
+
+        for (var j = 0; j < PT_N; j++) {
+            var pw   = (rnd() * 8 + 8).toFixed(1);          // 8-16 px
+            var ph   = (parseFloat(pw) * (rnd() * 0.35 + 0.6)).toFixed(1); // 타원
+            // 진짜 꽃잎 느낌의 비대칭 border-radius
+            var pbr  = '50% 40% 55% 45% / 60% 50% 65% 50%';
+            var pl   = (rnd() * 94 + 3).toFixed(1);
+            var pd   = (rnd() * 10).toFixed(2);
+            var pdu  = (rnd() * 6 + 10).toFixed(1);         // 10-16s
+            var pop  = (rnd() * 0.25 + 0.4).toFixed(2);    // 0.40-0.65
+            var pc   = PT_CLR[Math.floor(rnd() * PT_CLR.length)];
+
+            // 3단계 바람 흔들림 좌표
+            var x1 = (rnd() * 40 - 20).toFixed(0);
+            var x2 = (parseInt(x1) + rnd() * 50 - 25).toFixed(0);
+            var x3 = (parseInt(x2) + rnd() * 40 - 20).toFixed(0);
+            var r0 = (rnd() * 30 - 15).toFixed(0);
+            var r1 = (parseInt(r0) + rnd() * 120 - 60).toFixed(0);
+            var r2 = (parseInt(r1) + rnd() * 120 - 60).toFixed(0);
+            var r3 = (parseInt(r2) + rnd() * 160 - 80).toFixed(0);
+
+            ptCss += '@keyframes pt' + j + '{' +
+                '0%{transform:translate(0,-20px) rotate(' + r0 + 'deg);opacity:0;}' +
+                '8%{opacity:' + pop + ';}' +
+                '28%{transform:translate(' + x1 + 'px,28vh) rotate(' + r1 + 'deg);}' +
+                '56%{transform:translate(' + x2 + 'px,58vh) rotate(' + r2 + 'deg);}' +
+                '90%{opacity:' + pop + ';}' +
+                '100%{transform:translate(' + x3 + 'px,1300px) rotate(' + r3 + 'deg);opacity:0;}}';
+
+            var pel = document.createElement('div');
+            pel.style.cssText =
+                'position:absolute;left:' + pl + '%;top:0;' +
+                'width:' + pw + 'px;height:' + ph + 'px;' +
+                'background:' + pc + ';border-radius:' + pbr + ';' +
+                'will-change:transform;' +
+                'animation:pt' + j + ' ' + pdu + 's ' + pd + 's ease-in-out infinite;';
+            pfrag.appendChild(pel);
+        }
+
+        injectStyle(ptCss);
+        petalMount.appendChild(pfrag);
+    }
+})();
+</script>
 </html>
