@@ -113,7 +113,7 @@
                         style="position:absolute;inset:0;opacity:0.09;pointer-events:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E&quot;);background-size:200px 200px;mix-blend-mode:overlay">
                     </div>
                     <!-- 상단 중앙 원뿔형 스포트라이트 -->
-                    <div id="spotlight-center" style="position:absolute;inset:0;z-index:4;pointer-events:none;transform-origin:50% 0%;background:conic-gradient(from 155deg at 50% 0%,transparent 0deg,rgba(255,252,242,0.04) 12deg,rgba(255,252,242,0.13) 25deg,rgba(255,252,242,0.04) 38deg,transparent 50deg);animation:spotCenter 7s ease-in-out infinite alternate;will-change:transform,opacity;"></div>
+                    <div id="spotlight-center" style="position:absolute;inset:0;z-index:4;pointer-events:none;transform-origin:50% 0%;background:conic-gradient(from 155deg at 50% 0%,transparent 0deg,rgba(255,252,235,0.26) 4deg,rgba(255,252,235,0.30) 25deg,rgba(255,252,235,0.26) 46deg,transparent 50deg);animation:spotCenter 3s ease-in-out infinite;will-change:transform,opacity;"></div>
                     <div
                         style="position:absolute;top:36px;left:18px;z-index:2;font-family:monospace;font-size:8px;color:#1e1e1e;letter-spacing:0.22em">
                         KODAK · 400TX</div>
@@ -3434,11 +3434,11 @@
     letter-spacing: 0.03em !important;
 }
 
-/* ── 상단 중앙 원뿔형 스포트라이트: 숨 쉬는 pulsing ────────── */
+/* ── 상단 중앙 원뿔형 스포트라이트: 3초 주기 pulsing ──────── */
 @keyframes spotCenter {
-    0%   { opacity: 0.70; transform: scaleX(0.96); }
-    40%  { opacity: 1.00; transform: scaleX(1.04); }
-    100% { opacity: 0.75; transform: scaleX(0.97); }
+    0%   { transform: scaleX(0.92); opacity: 0.78; }
+    50%  { transform: scaleX(1.08); opacity: 1.00; }
+    100% { transform: scaleX(0.92); opacity: 0.78; }
 }
 .contact-btns { display: flex; gap: 8px; }
 .contact-btn-sms, .contact-btn-tel {
@@ -4667,115 +4667,4 @@ async function submitRsvp() {
 
 
 
-<!-- ============================================================
-     꽃잎(방명록) 파티클 생성
-     ============================================================ -->
-<script>
-(function () {
-    'use strict';
-
-    var rnd = Math.random.bind(Math);
-
-    function injectStyle(css) {
-        var s = document.createElement('style');
-        s.textContent = css;
-        document.head.appendChild(s);
-    }
-
-    /* ══════════════════════════════════════════════════════
-       방명록 꽃잎 – 봄바람 포물선 궤적 (수평 이동 강조)
-       ══════════════════════════════════════════════════════ */
-    var petalMount = document.getElementById('petal-rain');
-    if (petalMount) {
-        var PT_N = 14;
-
-        var PT_PAL = [
-            ['#ffe4ec', '#f9a8be'],
-            ['#ffd6e7', '#ff8fa3'],
-            ['#fce4f0', '#f4a0c0'],
-            ['#ffe8f0', '#ffb3c6'],
-            ['#ffc0cb', '#e8709a'],
-            ['#ffd0dc', '#ffb7c5']
-        ];
-
-        var PT_SHP = [
-            '68% 32% 63% 37% / 41% 44% 56% 59%',
-            '54% 46% 38% 62% / 60% 44% 56% 40%',
-            '72% 28% 55% 45% / 45% 60% 40% 55%',
-            '42% 58% 70% 30% / 55% 38% 62% 45%',
-            '60% 40% 45% 55% / 50% 65% 35% 50%'
-        ];
-
-        var ptCss  = '';
-        var ptFrag = document.createDocumentFragment();
-
-        for (var j = 0; j < PT_N; j++) {
-            var pw  = (rnd() * 10 + 10).toFixed(1);
-            var ph  = (parseFloat(pw) * (rnd() * 0.3 + 0.55)).toFixed(1);
-            var pal = PT_PAL[Math.floor(rnd() * PT_PAL.length)];
-            var shp = PT_SHP[Math.floor(rnd() * PT_SHP.length)];
-            var ga  = Math.floor(rnd() * 60 + 110);
-            var pop = (rnd() * 0.25 + 0.40).toFixed(2);   // 0.40-0.65
-            var pdu = (rnd() * 6 + 10).toFixed(1);        // 10-16s (느리게)
-            var pd  = (rnd() * 13).toFixed(2);            // 0-13s 딜레이
-
-            // ── 바람 방향: 짝수=왼쪽→오른쪽, 홀수=오른쪽→왼쪽 ──
-            var dir = (j % 2 === 0) ? 1 : -1;
-
-            // 시작 위치: 바람 방향 반대편 모서리 근처
-            var pl = dir === 1
-                ? (rnd() * 18).toFixed(1)               // 0-18% (왼쪽)
-                : (rnd() * 18 + 74).toFixed(1);         // 74-92% (오른쪽)
-
-            // 수평 이동 거리 (주 동력) – 방향 반영
-            var hMax  = (rnd() * 170 + 200) * dir;      // ±200-370px
-            var hx1   = (hMax * 0.22).toFixed(0);
-            var hx2   = (hMax * 0.48).toFixed(0);
-            var hx3   = (hMax * 0.76).toFixed(0);
-            var hxEnd = (hMax * 1.02).toFixed(0);
-
-            // 수직 이동 – 물결 효과(비선형): 초반 완만 → 중반 감속 → 후반 가속
-            var wu = (rnd() * 16 - 8).toFixed(0);       // ±8px 미세 파동
-
-            // 회전 – 바람 방향으로 팽그르르 (누적 큰 값)
-            var r0 = (rnd() * 40 - 20).toFixed(0);
-            var r1 = (parseInt(r0) + dir * (rnd() * 80 + 55)).toFixed(0);
-            var r2 = (parseInt(r1) + dir * (rnd() * 95 + 65)).toFixed(0);
-            var r3 = (parseInt(r2) + dir * (rnd() * 110 + 75)).toFixed(0);
-            var r4 = (parseInt(r3) + dir * (rnd() * 130 + 90)).toFixed(0);
-
-            // 크기 Flutter (바람에 휘어지는 느낌)
-            var sc1 = (rnd() * 0.28 + 0.82).toFixed(2);
-            var sc2 = (rnd() * 0.22 + 0.88).toFixed(2);
-            var sc3 = (rnd() * 0.18 + 0.90).toFixed(2);
-
-            ptCss += '@keyframes pt' + j + '{' +
-                '0%{transform:translate(0,0) rotate(' + r0 + 'deg) scale(1);opacity:0;}' +
-                '7%{opacity:' + pop + ';}' +
-                // 초반: 수평 빠르게, 수직 완만 (바람에 실림)
-                '22%{transform:translate(' + hx1 + 'px,calc(5vh + ' + wu + 'px)) rotate(' + r1 + 'deg) scale(' + sc1 + ');}' +
-                // 중반: 위로 살짝 튀는 물결 (수직 감속 = 바람에 떠오름)
-                '44%{transform:translate(' + hx2 + 'px,calc(16vh - ' + Math.abs(parseInt(wu)) + 'px)) rotate(' + r2 + 'deg) scale(' + sc2 + ');}' +
-                // 중후반: 다시 낙하 재개
-                '68%{transform:translate(' + hx3 + 'px,32vh) rotate(' + r3 + 'deg) scale(' + sc3 + ');}' +
-                '88%{transform:translate(' + hxEnd + 'px,52vh) rotate(' + r4 + 'deg) scale(0.90);opacity:' + pop + ';}' +
-                // 퇴장: 섹션 아래로 사라짐
-                '100%{transform:translate(' + Math.round(parseFloat(hxEnd)*1.08) + 'px,1200px) rotate(' + (parseInt(r4)+dir*70) + 'deg) scale(0.82);opacity:0;}}';
-
-            var pel = document.createElement('div');
-            pel.style.cssText =
-                'position:absolute;left:' + pl + '%;top:0;' +
-                'width:' + pw + 'px;height:' + ph + 'px;' +
-                'background:linear-gradient(' + ga + 'deg,' + pal[0] + ',' + pal[1] + ');' +
-                'border-radius:' + shp + ';' +
-                'will-change:transform,opacity;' +
-                'animation:pt' + j + ' ' + pdu + 's ' + pd + 's ease-in-out infinite;';
-            ptFrag.appendChild(pel);
-        }
-
-        injectStyle(ptCss);
-        petalMount.appendChild(ptFrag);
-    }
-})();
-</script>
 </html>
