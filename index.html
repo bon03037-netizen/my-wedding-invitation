@@ -55,7 +55,7 @@
         <div style="background-color:#f8f8f4;min-height:100%">
             <div
                 style="background:#f8f8f4;color:#2a2420;font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;min-height:100%;position:relative;overflow:hidden;line-height:1.85;letter-spacing:0.035em">
-                <section
+                <section id="hero-section"
                     style="position:relative;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden">
                     <div style="position:absolute;top:0;left:0;right:0;z-index:3">
                         <div
@@ -489,7 +489,7 @@
                                     <div
                                         style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:20px">
                                         <div style="flex:1;max-width:48px;height:1px;background:rgba(107,76,42,0.2)">
-                                        </div><span
+                                        </div><span id="dday-counter"
                                             style="font-family:monospace;font-size:14px;letter-spacing:0.35em;color:#6b4c2a">D-71</span>
                                         <div style="flex:1;max-width:48px;height:1px;background:rgba(107,76,42,0.2)">
                                         </div>
@@ -498,7 +498,7 @@
                             </div>
                         </section>
                     </div>
-                    <div style="order:2">
+                    <div style="order:5">
                         <section style="padding:56px 28px;text-align:center">
                             <div style="opacity: 1; transform: none;">
                                 <p
@@ -2619,7 +2619,7 @@
                             </div>
                         </section>
                     </div>
-                    <div style="order:3">
+                    <div style="order:2">
                         <section style="padding:20px 10px">
                             <div style="opacity: 1; transform: none;">
                                 <p
@@ -2658,7 +2658,7 @@
                             </div>
                         </section>
                     </div>
-                    <div style="order:4">
+                    <div style="order:3">
                         <section style="padding:56px 28px">
                             <div style="opacity: 1; transform: none;">
                                 <p
@@ -2681,7 +2681,7 @@
                             </div>
                         </section>
                     </div>
-                    <div style="order:5">
+                    <div style="order:4">
                         <section style="padding:56px 28px">
                             <div style="opacity: 1; transform: none;">
                                 <p
@@ -2769,6 +2769,75 @@
                                 <button onclick="submitGuestbook()" style="font-family:monospace;font-size:11px;letter-spacing:0.25em;color:#6b4c2a;background:none;border:1px solid #6b4c2a;border-radius:800px;margin-top:16px;margin-bottom:8px;padding:8px 0;cursor:pointer;text-transform:uppercase">방명록 남기기 🌹</button>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- ══ RSVP 섹션 (order:7) ══ -->
+                    <div id="rsvp-section" style="order:7;position:relative;padding:56px 28px 64px;background:linear-gradient(168deg,#1e2b1e 0%,#111a11 100%);overflow:hidden;">
+                        <div style="position:absolute;inset:0;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.72%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix type=%22saturate%22 values=%220%22/%3E%3C/filter%3E%3Crect width=%22180%22 height=%22180%22 filter=%22url(%23n)%22 opacity=%220.05%22/%3E%3C/svg%3E');background-size:180px;pointer-events:none;z-index:0;"></div>
+                        <div style="position:relative;z-index:1;text-align:center;">
+                            <div style="display:inline-flex;align-items:center;gap:14px;padding:13px 32px;border:1px solid rgba(212,175,55,0.35);border-radius:14px;background:rgba(255,255,255,0.04);box-shadow:0 0 24px rgba(212,175,55,0.08),inset 0 1px 0 rgba(255,255,255,0.06);margin-bottom:8px;">
+                                <span style="color:rgba(212,175,55,0.55);font-size:11px;">✦</span>
+                                <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:22px;letter-spacing:0.38em;color:#f0e6c8;margin:0;text-shadow:0 0 18px rgba(212,175,55,0.25);">참석 의사</p>
+                                <span style="color:rgba(212,175,55,0.55);font-size:11px;">✦</span>
+                            </div>
+                            <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:13px;color:rgba(212,175,55,0.55);letter-spacing:0.18em;margin:0 0 32px;">RSVP</p>
+                            <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:14px;color:rgba(240,236,228,0.72);letter-spacing:0.06em;line-height:1.85;margin-bottom:32px;">모든 분들을 소중히 모실 수 있도록<br>참석 의사를 전해주세요</p>
+                            <button onclick="openRsvpModal()"
+                                style="display:inline-flex;align-items:center;gap:10px;padding:14px 36px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.45);border-radius:999px;color:#f0e6c8;font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:14px;letter-spacing:0.18em;cursor:pointer;transition:background 0.2s;">
+                                💌 참석의사 체크하기
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ══ RSVP 모달 오버레이 ══ -->
+                    <div id="rsvp-overlay" onclick="closeRsvpModal()"
+                        style="display:none;opacity:0;position:fixed;inset:0;background:rgba(0,0,0,0.62);z-index:9600;transition:opacity 0.3s;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);"></div>
+
+                    <!-- ══ RSVP 모달 패널 (아래서 위로 슬라이드) ══ -->
+                    <div id="rsvp-modal"
+                        style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9601;background:linear-gradient(180deg,#1e2b1e,#0f1a0f);border-top-left-radius:24px;border-top-right-radius:24px;padding:28px 24px 40px;box-shadow:0 -12px 40px rgba(0,0,0,0.55);transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.32,1.1,0.64,1);box-sizing:border-box;max-height:92vh;overflow-y:auto;">
+                        <!-- 드래그 핸들 -->
+                        <div style="width:40px;height:4px;background:rgba(255,255,255,0.15);border-radius:99px;margin:0 auto 24px;"></div>
+                        <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:18px;letter-spacing:0.22em;color:#f0e6c8;text-align:center;margin:0 0 28px;">참석 의사 전달하기</p>
+
+                        <!-- 1. 하객 구분 -->
+                        <p style="font-family:var(--font-gowun),serif;font-size:12px;color:rgba(212,175,55,0.75);letter-spacing:0.18em;margin:0 0 12px;">어느 분의 하객이신가요?</p>
+                        <div style="display:flex;gap:10px;margin-bottom:24px;">
+                            <label id="rsvp-side-groom" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.15);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#f0ece4;transition:all 0.2s;">
+                                <input type="radio" name="rsvp-side" value="groom" style="display:none;" onchange="rsvpRadioStyle()"> 🤵 신랑측
+                            </label>
+                            <label id="rsvp-side-bride" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.15);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#f0ece4;transition:all 0.2s;">
+                                <input type="radio" name="rsvp-side" value="bride" style="display:none;" onchange="rsvpRadioStyle()"> 👰 신부측
+                            </label>
+                        </div>
+
+                        <!-- 2. 참석 여부 -->
+                        <p style="font-family:var(--font-gowun),serif;font-size:12px;color:rgba(212,175,55,0.75);letter-spacing:0.18em;margin:0 0 12px;">참석하실 수 있나요?</p>
+                        <div style="display:flex;gap:10px;margin-bottom:24px;">
+                            <label id="rsvp-att-yes" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.15);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#f0ece4;transition:all 0.2s;">
+                                <input type="radio" name="rsvp-att" value="yes" style="display:none;" onchange="rsvpRadioStyle()"> ✓ 참석
+                            </label>
+                            <label id="rsvp-att-no" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.15);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#f0ece4;transition:all 0.2s;">
+                                <input type="radio" name="rsvp-att" value="no" style="display:none;" onchange="rsvpRadioStyle()"> ✗ 불참
+                            </label>
+                        </div>
+
+                        <!-- 3. 성함 -->
+                        <p style="font-family:var(--font-gowun),serif;font-size:12px;color:rgba(212,175,55,0.75);letter-spacing:0.18em;margin:0 0 10px;">성함</p>
+                        <input id="rsvp-name" type="text" placeholder="성함을 입력해 주세요"
+                            style="width:100%;box-sizing:border-box;padding:13px 14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:10px;color:#f0ece4;font-family:var(--font-gowun),serif;font-size:14px;outline:none;margin-bottom:20px;letter-spacing:0.06em;">
+
+                        <!-- 4. 휴대폰 뒤 4자리 -->
+                        <p style="font-family:var(--font-gowun),serif;font-size:12px;color:rgba(212,175,55,0.75);letter-spacing:0.18em;margin:0 0 10px;">휴대폰 뒤 4자리 <span style="color:rgba(255,255,255,0.35);font-size:11px;">(동명이인 구분용)</span></p>
+                        <input id="rsvp-phone" type="number" inputmode="numeric" maxlength="4" placeholder="0000"
+                            style="width:100%;box-sizing:border-box;padding:13px 14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:10px;color:#f0ece4;font-family:monospace;font-size:16px;outline:none;margin-bottom:28px;letter-spacing:0.3em;">
+
+                        <!-- 제출 버튼 -->
+                        <button id="rsvp-submit-btn" onclick="submitRsvp()"
+                            style="width:100%;padding:15px 0;background:rgba(212,175,55,0.18);border:1px solid rgba(212,175,55,0.5);border-radius:999px;color:#f0e6c8;font-family:var(--font-gowun),serif;font-size:15px;letter-spacing:0.16em;cursor:pointer;transition:background 0.2s;">
+                            전달하기
+                        </button>
+                        <p id="rsvp-msg" style="text-align:center;font-family:var(--font-gowun),serif;font-size:13px;color:rgba(212,175,55,0.8);margin:14px 0 0;min-height:18px;"></p>
                     </div>
 
                     <div id="guestbook-slide">
@@ -3861,6 +3930,136 @@ html, body {
     background: rgba(255,255,255,0.04) !important;
     border-color: rgba(255,255,255,0.08) !important;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   1-FIX. 히어로 섹션 – dvh 픽스 (모바일 주소창 리사이즈 버그)
+   ══════════════════════════════════════════════════════════════ */
+#hero-section {
+    /* dvh: Chrome 108+, Safari 15.4+ 지원 – 주소창 높이 변화에 반응 안 함 */
+    height: 100svh; /* fallback */
+    height: 100dvh; /* 우선 적용 – address bar 고려한 동적 뷰포트 */
+}
+
+/* ══════════════════════════════════════════════════════════════
+   3. 갤러리 필름롤 스프로켓 홀 리얼리티 강화
+   ══════════════════════════════════════════════════════════════ */
+
+/* 필름 스트립 상하 바: 미세 그라데이션 */
+#film-gallery [style*="justify-content:space-between"][style*="background:#090909"] {
+    background: linear-gradient(to bottom, #0e0e0e, #050505) !important;
+    padding: 6px 5px !important;
+    border-top: 0.5px solid rgba(255,255,255,0.04) !important;
+    border-bottom: 0.5px solid rgba(255,255,255,0.04) !important;
+}
+
+/* 스프로켓 홀: 더 넓고 둥글게, 내부 그림자로 깊이감 */
+#film-gallery [style*="width:9px"] {
+    width: 11px !important;
+    height: 8px !important;
+    border-radius: 2.5px !important;
+    background: #060606 !important;
+    border: 0.5px solid rgba(255,255,255,0.10) !important;
+    box-shadow:
+        inset 0 1px 3px rgba(0,0,0,0.98),
+        inset 0 -0.5px 1px rgba(255,255,255,0.03),
+        0 0 0 0.5px rgba(0,0,0,0.5) !important;
+    flex-shrink: 0 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   5. 전역 다크 테마 – body·wrapper 배경, 텍스트, 박스 UI
+   ══════════════════════════════════════════════════════════════ */
+
+/* 최상위 래퍼 배경 덮어쓰기 */
+body {
+    background: #0f1a0f !important;
+}
+body > div > div[style*="background-color:#f8f8f4"],
+body > div > div > div[style*="background:#f8f8f4"] {
+    background: linear-gradient(168deg, #1a2714 0%, #0f1a0f 60%, #0a130a 100%) !important;
+    color: #f0ece4 !important;
+}
+
+/* 날짜/장소 표시줄 */
+div[style*="border-top:1px solid rgba(0,0,0,0.07)"][style*="border-bottom:1px solid"] {
+    border-color: rgba(212,175,55,0.15) !important;
+    background: rgba(0,0,0,0.22) !important;
+}
+div[style*="border-top:1px solid rgba(0,0,0,0.07)"][style*="border-bottom:1px solid"] p {
+    color: #d4c8b0 !important;
+}
+
+/* 초대문구 박스 */
+#invitation-box {
+    background: rgba(20,35,20,0.82) !important;
+    border-color: rgba(212,175,55,0.18) !important;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.45),
+                inset 0 1px 0 rgba(212,175,55,0.08) !important;
+}
+#invitation-box p { color: #e8e0d0 !important; }
+#invitation-box [style*="rgba(107,76,42"] { color: rgba(212,175,55,0.5) !important; }
+#invitation-box [style*="background:rgba(107,76,42"] { background: rgba(212,175,55,0.18) !important; }
+
+/* 달력 컨테이너 */
+div[style*="font-family:monospace;font-size:11px"][style*="letter-spacing:0.4em"] {
+    color: rgba(212,175,55,0.55) !important;
+}
+div[style*="display:grid;grid-template-columns:repeat(7"] {
+    background: rgba(0,0,0,0) !important;
+}
+
+/* D-Day 카운터 */
+#dday-counter {
+    color: rgba(212,175,55,0.9) !important;
+    text-shadow: 0 0 12px rgba(212,175,55,0.3);
+}
+
+/* LOCATION / 오시는 길 / 계좌번호 박스 */
+div[style*="background:rgba(255,255,255,0.78)"] {
+    background: rgba(15,26,15,0.88) !important;
+    border-color: rgba(212,175,55,0.15) !important;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.45),
+                inset 0 1px 0 rgba(212,175,55,0.07) !important;
+}
+div[style*="background:rgba(255,255,255,0.78)"] p,
+div[style*="background:rgba(255,255,255,0.78)"] span {
+    color: #d4c8b0 !important;
+}
+
+/* 계좌 아코디언 */
+#groom-accordion, #bride-accordion {
+    background: rgba(20,35,20,0.75) !important;
+    border-color: rgba(212,175,55,0.18) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+}
+#groom-accordion p, #bride-accordion p { color: #e8e0d0 !important; }
+
+/* 이름/날짜 텍스트 전체 밝게 */
+p[style*="color:#4a4440"], span[style*="color:#4a4440"] { color: #d4c8b0 !important; }
+p[style*="color:#9a8e82"], p[style*="color:#9a9490"]   { color: rgba(212,175,55,0.65) !important; }
+p[style*="color:#b0a898"]                              { color: rgba(212,175,55,0.55) !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   6. RSVP 모달 입력창 포커스 스타일
+   ══════════════════════════════════════════════════════════════ */
+#rsvp-name:focus, #rsvp-phone:focus {
+    border-color: rgba(212,175,55,0.5) !important;
+    background: rgba(255,255,255,0.10) !important;
+}
+#rsvp-name::placeholder, #rsvp-phone::placeholder {
+    color: rgba(240,236,228,0.32);
+}
+/* 라디오 선택 활성 스타일 */
+.rsvp-radio-active {
+    border-color: rgba(212,175,55,0.7) !important;
+    background: rgba(212,175,55,0.12) !important;
+    color: #f0e6c8 !important;
+}
+/* 제출 버튼 hover */
+#rsvp-submit-btn:active { background: rgba(212,175,55,0.28) !important; }
+/* RSVP 섹션 노이즈 레이어 */
+#rsvp-section > div:first-child { z-index: 0; }
+#rsvp-section > div:last-child  { position: relative; z-index: 1; }
 </style>
 
 
@@ -4048,12 +4247,170 @@ function shareKakao() {
                     mobileWebUrl: SITE_URL,
                     webUrl:       SITE_URL
                 }
+            },
+            {
+                title: '참석여부 전달하기',
+                link: {
+                    mobileWebUrl: SITE_URL + '?openRsvp=true',
+                    webUrl:       SITE_URL + '?openRsvp=true'
+                }
             }
         ]
     });
 }
 </script>
 
+
+<!-- ============================================================
+     추가 기능 4차: 히어로 고정 / D-Day / RSVP
+     ============================================================ -->
+<script>
+/* ─────────────────────────────────────────────────────────
+   1. 히어로 섹션 높이 고정 (모바일 주소창 리사이즈 버그 방어)
+   JS로 페이지 로드 시점의 window.innerHeight를 고정값으로 박아버림.
+   CSS dvh가 지원되지 않는 구형 브라우저의 최후 보루.
+───────────────────────────────────────────────────────── */
+(function () {
+    var hero = document.getElementById('hero-section');
+    if (!hero) return;
+    // dvh 지원 여부 확인 후 미지원 시만 JS 고정 적용
+    var supportsDvh = CSS && CSS.supports && CSS.supports('height', '100dvh');
+    if (!supportsDvh) {
+        var h = window.innerHeight;
+        hero.style.setProperty('height', h + 'px', 'important');
+    }
+})();
+
+/* ─────────────────────────────────────────────────────────
+   2. D-Day 카운터 동적 계산
+───────────────────────────────────────────────────────── */
+(function () {
+    var el = document.getElementById('dday-counter');
+    if (!el) return;
+    var wedding = new Date('2026-06-20T00:00:00');
+    var today   = new Date();
+    today.setHours(0, 0, 0, 0);
+    wedding.setHours(0, 0, 0, 0);
+    var diff = Math.round((wedding - today) / (1000 * 60 * 60 * 24));
+    if      (diff > 0) el.textContent = 'D-' + diff;
+    else if (diff === 0) el.textContent = 'D-Day';
+    else               el.textContent = 'D+' + Math.abs(diff);
+})();
+
+/* ─────────────────────────────────────────────────────────
+   3. RSVP 모달 제어
+───────────────────────────────────────────────────────── */
+function openRsvpModal() {
+    var overlay = document.getElementById('rsvp-overlay');
+    var modal   = document.getElementById('rsvp-modal');
+    if (!overlay || !modal) return;
+    overlay.style.display = 'block';
+    modal.style.display   = 'block';
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+            overlay.style.opacity   = '1';
+            modal.style.transform   = 'translateY(0)';
+        });
+    });
+}
+
+function closeRsvpModal() {
+    var overlay = document.getElementById('rsvp-overlay');
+    var modal   = document.getElementById('rsvp-modal');
+    if (!overlay || !modal) return;
+    overlay.style.opacity = '0';
+    modal.style.transform = 'translateY(100%)';
+    setTimeout(function () {
+        overlay.style.display = 'none';
+        modal.style.display   = 'none';
+        document.body.style.overflow = '';
+    }, 420);
+}
+
+/* 라디오 버튼 시각 업데이트 */
+function rsvpRadioStyle() {
+    ['rsvp-side-groom','rsvp-side-bride'].forEach(function (id) {
+        var el  = document.getElementById(id);
+        var inp = el ? el.querySelector('input') : null;
+        if (!el || !inp) return;
+        if (inp.checked) el.classList.add('rsvp-radio-active');
+        else             el.classList.remove('rsvp-radio-active');
+    });
+    ['rsvp-att-yes','rsvp-att-no'].forEach(function (id) {
+        var el  = document.getElementById(id);
+        var inp = el ? el.querySelector('input') : null;
+        if (!el || !inp) return;
+        if (inp.checked) el.classList.add('rsvp-radio-active');
+        else             el.classList.remove('rsvp-radio-active');
+    });
+}
+
+/* ─────────────────────────────────────────────────────────
+   4. RSVP Supabase 제출
+   ▶ Supabase 테이블 스키마 (한 번만 실행):
+   ─────────────────────────────────────────────────────────
+   CREATE TABLE rsvp (
+       id          UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+       created_at  TIMESTAMPTZ DEFAULT NOW(),
+       side        TEXT        NOT NULL CHECK (side IN ('groom','bride')),
+       attendance  TEXT        NOT NULL CHECK (attendance IN ('yes','no')),
+       name        TEXT        NOT NULL,
+       phone_last4 TEXT        NOT NULL
+   );
+   ─────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────── */
+async function submitRsvp() {
+    var msgEl   = document.getElementById('rsvp-msg');
+    var btnEl   = document.getElementById('rsvp-submit-btn');
+    var nameVal = (document.getElementById('rsvp-name').value || '').trim();
+    var phoneVal= (document.getElementById('rsvp-phone').value || '').trim();
+    var sideEl  = document.querySelector('input[name="rsvp-side"]:checked');
+    var attEl   = document.querySelector('input[name="rsvp-att"]:checked');
+
+    // 유효성 검사
+    if (!sideEl)         { msgEl.textContent = '신랑/신부측을 선택해 주세요.'; return; }
+    if (!attEl)          { msgEl.textContent = '참석 여부를 선택해 주세요.';   return; }
+    if (!nameVal)        { msgEl.textContent = '성함을 입력해 주세요.';         return; }
+    if (phoneVal.length !== 4) { msgEl.textContent = '휴대폰 뒤 4자리를 정확히 입력해 주세요.'; return; }
+
+    btnEl.disabled = true;
+    btnEl.textContent = '전송 중...';
+    msgEl.textContent = '';
+
+    try {
+        var res = await _supabase.from('rsvp').insert({
+            side:        sideEl.value,
+            attendance:  attEl.value,
+            name:        nameVal,
+            phone_last4: phoneVal
+        });
+        if (res.error) throw res.error;
+        msgEl.textContent = attEl.value === 'yes'
+            ? '✓ 참석 의사가 전달되었습니다. 감사합니다 💛'
+            : '✓ 전달되었습니다. 마음만으로도 감사합니다 💛';
+        btnEl.textContent = '전달 완료';
+        setTimeout(closeRsvpModal, 2200);
+    } catch (e) {
+        console.error('RSVP error', e);
+        msgEl.textContent = '전송에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+        btnEl.disabled = false;
+        btnEl.textContent = '전달하기';
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   5. URL ?openRsvp=true 시 자동 팝업 열기
+───────────────────────────────────────────────────────── */
+(function () {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('openRsvp') === 'true') {
+        window.addEventListener('load', function () {
+            setTimeout(openRsvpModal, 600);
+        });
+    }
+})();
+</script>
 
 <!-- ============================================================
      배경음악
