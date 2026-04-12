@@ -52,9 +52,9 @@
     class="noto_serif_kr_5d56114b-module__fkw0lW__variable nanum_myeongjo_2f668448-module__CKVyzG__variable gowun_dodum_9e6b329d-module__sZX-pq__variable nanum_gothic_38833b3e-module__LYJIua__variable antialiased">
     <div hidden=""><!--$--><!--/$--></div>
     <div style="opacity: 1;">
-        <div style="background-color:#f8f8f4;min-height:100%">
+        <div style="background:linear-gradient(168deg,#243324 0%,#1a2a1a 60%,#0f1f0f 100%);min-height:100%">
             <div
-                style="background:#f8f8f4;color:#2a2420;font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;min-height:100%;position:relative;overflow:hidden;line-height:1.85;letter-spacing:0.035em">
+                style="background:transparent;color:#e8f0e8;font-family:var(--font-gowun), 'Gowun Dodum', sans-serif;min-height:100%;position:relative;overflow:hidden;line-height:1.85;letter-spacing:0.035em">
                 <section id="hero-section"
                     style="position:relative;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden">
                     <div style="position:absolute;top:0;left:0;right:0;z-index:3">
@@ -3471,7 +3471,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 13px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(212,175,55,0.12);
     gap: 12px;
 }
 .account-row:last-child {
@@ -3486,27 +3486,67 @@
 .account-holder {
     font-family: var(--font-gowun), 'Gowun Dodum', serif;
     font-size: 14px;
-    color: #4a4440;
+    color: #e8e0cc;
     letter-spacing: 0.05em;
 }
 .account-number {
     font-family: monospace;
     font-size: 12px;
-    color: #9a9490;
-    letter-spacing: 0.03em;
+    color: rgba(212,175,55,0.65);
+    letter-spacing: 0.06em;
 }
-.copy-btn {
+
+/* ── 전역 CTA 버튼 통일 스타일 ──────────────────────────────── */
+/* '참석의사 체크하기' 와 동일한 골든 무드 */
+.copy-btn,
+button[onclick="openContactSheet()"],
+button[onclick*="toggleAccordion"] {
     flex-shrink: 0;
-    padding: 6px 14px;
-    background: rgba(107,76,42,0.08);
-    border: 1px solid rgba(107,76,42,0.22);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 20px;
+    background: rgba(212,175,55,0.10);
+    border: 1px solid rgba(212,175,55,0.42);
     border-radius: 999px;
-    font-family: var(--font-gowun), serif;
-    font-size: 12px;
-    color: #6b4c2a;
+    font-family: var(--font-gowun), 'Gowun Dodum', serif;
+    font-size: 13px;
+    color: #f0e6c8;
+    letter-spacing: 0.12em;
     cursor: pointer;
-    letter-spacing: 0.05em;
+    transition: background 0.2s, border-color 0.2s;
 }
+.copy-btn:active,
+button[onclick="openContactSheet()"]:active {
+    background: rgba(212,175,55,0.22);
+}
+
+/* 아코디언 토글 버튼은 전체 너비 유지 */
+button[onclick*="toggleAccordion"] {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    justify-content: space-between;
+    border-color: transparent;
+    background: transparent;
+}
+button[onclick*="toggleAccordion"]:active {
+    background: rgba(212,175,55,0.08);
+}
+
+/* 아코디언 컨테이너 다크 테마 */
+#groom-accordion,
+#bride-accordion {
+    background: rgba(10,22,10,0.82) !important;
+    border: 1px solid rgba(212,175,55,0.22) !important;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.50),
+                inset 0 1px 0 rgba(212,175,55,0.06) !important;
+}
+
+/* 연락하기 버튼 텍스트·아이콘 색상 보정 */
+button[onclick="openContactSheet()"] svg { stroke: rgba(212,175,55,0.75) !important; }
+button[onclick="openContactSheet()"] { color: #f0e6c8 !important; }
 </style>
 
 
@@ -4272,13 +4312,34 @@ function shareKakao() {
 ───────────────────────────────────────────────────────── */
 (function () {
     var hero = document.getElementById('hero-section');
+    var img  = document.getElementById('hero-img');
     if (!hero) return;
-    // dvh 지원 여부 확인 후 미지원 시만 JS 고정 적용
-    var supportsDvh = CSS && CSS.supports && CSS.supports('height', '100dvh');
-    if (!supportsDvh) {
+
+    /* ── 핵심: 스크립트 실행 즉시(동기적) innerHeight를 px로 고정 ──
+       - CSS dvh/svh에 의존하지 않음
+       - 이후 주소창 show/hide 로 인한 viewport 재계산이 일어나도
+         hero 섹션·이미지 높이가 절대 변하지 않음 → 꿀렁거림 원천 차단 */
+    function lockHeight() {
         var h = window.innerHeight;
         hero.style.setProperty('height', h + 'px', 'important');
+        if (img) {
+            img.style.setProperty('height', h + 'px', 'important');
+            /* object-fit:cover 가 재계산될 컨테이너 높이 자체를 고정 */
+            img.style.setProperty('min-height', h + 'px', 'important');
+        }
     }
+
+    lockHeight(); /* 즉시 실행 */
+
+    /* 실제 화면 방향 전환(가로↔세로) 시만 갱신.
+       스크롤로 인한 resize(높이만 바뀜)는 무시 → 이미지 재확대 방지 */
+    var lastWidth = window.innerWidth;
+    window.addEventListener('resize', function () {
+        if (window.innerWidth !== lastWidth) {
+            lastWidth = window.innerWidth;
+            lockHeight();
+        }
+    }, { passive: true });
 })();
 
 /* ─────────────────────────────────────────────────────────
