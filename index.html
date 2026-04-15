@@ -2848,14 +2848,21 @@
                             </div>
 
                             <!-- 3. 성함 -->
-                            <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;">성함</p>
-                            <input id="rsvp-name" type="text" placeholder="성함을 입력해 주세요" ontouchstart="event.stopPropagation()"
-                                style="width:100%;box-sizing:border-box;padding:11px 12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:10px;color:#3a2f28;font-family:var(--font-gowun),serif;font-size:16px;outline:none;margin-bottom:14px;letter-spacing:0.06em;touch-action:manipulation;-webkit-user-select:auto !important;user-select:auto !important;">
+                            <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">성함</p>
+                            <input id="rsvp-name" type="text"
+                                placeholder="성함을 입력해 주세요"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                spellcheck="false"
+                                style="width:100%;box-sizing:border-box;padding:11px 12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:10px;color:#3a2f28;font-family:var(--font-gowun),serif;font-size:16px;outline:none;margin-bottom:14px;letter-spacing:0.06em;touch-action:manipulation;-webkit-user-select:text !important;user-select:text !important;">
 
                             <!-- 4. 휴대폰 뒤 4자리 -->
-                            <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;">휴대폰 뒤 4자리 <span style="color:rgba(0,0,0,0.35);font-size:11px;">(동명이인 구분용)</span></p>
-                            <input id="rsvp-phone" type="number" inputmode="numeric" maxlength="4" placeholder="0000" ontouchstart="event.stopPropagation()"
-                                style="width:100%;box-sizing:border-box;padding:11px 12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:10px;color:#3a2f28;font-family:monospace;font-size:16px;outline:none;margin-bottom:4px;letter-spacing:0.3em;touch-action:manipulation;">
+                            <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">휴대폰 뒤 4자리 <span style="color:rgba(0,0,0,0.35);font-size:11px;">(동명이인 구분용)</span></p>
+                            <input id="rsvp-phone" type="number" inputmode="numeric" maxlength="4"
+                                placeholder="0000"
+                                autocomplete="off"
+                                style="width:100%;box-sizing:border-box;padding:11px 12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:10px;color:#3a2f28;font-family:monospace;font-size:16px;outline:none;margin-bottom:4px;letter-spacing:0.3em;touch-action:manipulation;-webkit-user-select:text !important;user-select:text !important;">
 
                         </div>
 
@@ -4132,11 +4139,8 @@ p[style*="color:#b0a898"]                              { color: #b0a898 !importa
    ══════════════════════════════════════════════════════════════ */
 #rsvp-name, #rsvp-phone {
     touch-action: manipulation;
-    -webkit-user-select: auto !important;
-    user-select: auto !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    position: relative;
-    z-index: 1;
+    -webkit-user-select: text !important;
+    user-select: text !important;
     font-size: 16px !important;
 }
 #rsvp-name:focus, #rsvp-phone:focus {
@@ -4449,19 +4453,6 @@ function openRsvpModal() {
     });
 }
 
-/* rsvp-name 포커스 시 키보드에 가리지 않도록 스크롤 보정 */
-(function () {
-    document.addEventListener('DOMContentLoaded', function () {
-        var nameInput = document.getElementById('rsvp-name');
-        if (!nameInput) return;
-        nameInput.addEventListener('focus', function () {
-            var el = this;
-            setTimeout(function () {
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
-        });
-    });
-})();
 
 function closeRsvpModal() {
     var overlay = document.getElementById('rsvp-overlay');
