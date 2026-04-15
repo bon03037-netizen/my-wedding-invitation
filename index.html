@@ -2801,10 +2801,67 @@
                             </div>
                             <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:13px;color:rgba(212,175,55,0.55);letter-spacing:0.18em;margin:0 0 32px;">RSVP</p>
                             <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:14px;color:rgba(240,236,228,0.72);letter-spacing:0.06em;line-height:1.85;margin-bottom:32px;">모든 분들을 소중히 모실 수 있도록<br>참석 의사를 전해주세요</p>
-                            <button onclick="openRsvpModal()"
-                                style="display:inline-flex;align-items:center;gap:10px;padding:14px 36px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.45);border-radius:999px;color:#f0e6c8;font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:14px;letter-spacing:0.18em;cursor:pointer;transition:background 0.2s;">
+                            <button id="rsvp-toggle-btn" onclick="toggleRsvpForm()"
+                                style="display:inline-flex;align-items:center;gap:10px;padding:14px 36px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.45);border-radius:999px;color:#f0e6c8;font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:14px;letter-spacing:0.18em;cursor:pointer;touch-action:manipulation;">
                                 💌 참석의사 체크하기
                             </button>
+
+                            <!-- ══ RSVP 아코디언 폼 (인라인, 팝업 없음) ══ -->
+                            <div id="rsvp-accordion" style="max-height:0;overflow:hidden;transition:max-height 0.45s ease-in-out;">
+                                <div style="margin-top:20px;background:rgba(255,255,255,0.97);border-radius:16px;padding:20px 20px 24px;text-align:left;box-shadow:0 4px 24px rgba(0,0,0,0.18);">
+
+                                    <!-- 1. 하객 구분 -->
+                                    <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">어느 분의 하객이신가요?</p>
+                                    <div style="display:flex;gap:8px;margin-bottom:14px;">
+                                        <label id="rsvp-side-groom" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#3a2f28;touch-action:manipulation;">
+                                            <input type="radio" name="rsvp-side" value="groom" style="display:none;" onchange="rsvpRadioStyle()"> 🤵 신랑측
+                                        </label>
+                                        <label id="rsvp-side-bride" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#3a2f28;touch-action:manipulation;">
+                                            <input type="radio" name="rsvp-side" value="bride" style="display:none;" onchange="rsvpRadioStyle()"> 👰 신부측
+                                        </label>
+                                    </div>
+
+                                    <!-- 2. 참석 여부 -->
+                                    <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">참석하실 수 있나요?</p>
+                                    <div style="display:flex;gap:8px;margin-bottom:14px;">
+                                        <label id="rsvp-att-yes" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#3a2f28;touch-action:manipulation;">
+                                            <input type="radio" name="rsvp-att" value="yes" style="display:none;" onchange="rsvpRadioStyle()"> ✓ 참석
+                                        </label>
+                                        <label id="rsvp-att-no" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#3a2f28;touch-action:manipulation;">
+                                            <input type="radio" name="rsvp-att" value="no" style="display:none;" onchange="rsvpRadioStyle()"> ✗ 불참
+                                        </label>
+                                    </div>
+
+                                    <!-- 3. 성함 -->
+                                    <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">성함</p>
+                                    <input id="rsvp-name" type="text"
+                                        placeholder="성함을 입력해 주세요"
+                                        autocomplete="off"
+                                        autocorrect="off"
+                                        autocapitalize="off"
+                                        spellcheck="false"
+                                        style="width:100%;box-sizing:border-box;padding:11px 12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:10px;color:#3a2f28;font-family:var(--font-gowun),serif;font-size:16px;outline:none;margin-bottom:14px;letter-spacing:0.06em;touch-action:manipulation;-webkit-user-select:text !important;user-select:text !important;">
+
+                                    <!-- 4. 휴대폰 뒤 4자리 -->
+                                    <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">휴대폰 뒤 4자리 <span style="color:rgba(0,0,0,0.35);font-size:11px;">(동명이인 구분용)</span></p>
+                                    <input id="rsvp-phone" type="number" inputmode="numeric" maxlength="4"
+                                        placeholder="0000"
+                                        autocomplete="off"
+                                        style="width:100%;box-sizing:border-box;padding:11px 12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:10px;color:#3a2f28;font-family:monospace;font-size:16px;outline:none;margin-bottom:20px;letter-spacing:0.3em;touch-action:manipulation;-webkit-user-select:text !important;user-select:text !important;">
+
+                                    <!-- 버튼 영역 -->
+                                    <button id="rsvp-submit-btn" onclick="submitRsvp()"
+                                        style="width:100%;padding:13px 0;background:rgba(107,76,42,0.1);border:1px solid rgba(107,76,42,0.35);border-radius:999px;color:#3a2f28;font-family:var(--font-gowun),serif;font-size:15px;letter-spacing:0.16em;cursor:pointer;touch-action:manipulation;margin-bottom:10px;">
+                                        전달하기
+                                    </button>
+                                    <button onclick="closeRsvpForm()"
+                                        style="width:100%;padding:11px 0;background:transparent;border:1px solid rgba(0,0,0,0.1);border-radius:999px;color:rgba(0,0,0,0.4);font-family:var(--font-gowun),serif;font-size:14px;letter-spacing:0.12em;cursor:pointer;touch-action:manipulation;">
+                                        닫기
+                                    </button>
+                                    <p id="rsvp-msg" style="text-align:center;font-family:var(--font-gowun),serif;font-size:13px;color:#6b4c2a;margin:10px 0 0;min-height:18px;"></p>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -3031,74 +3088,6 @@
         window.addEventListener('load', loadGuestbook);
     </script>
 
-<!-- ══ RSVP 모달 오버레이 (body 직속 자식 — transform 없음) ══ -->
-<div id="rsvp-overlay" onclick="closeRsvpModal()"
-    style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.62);z-index:9600;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);"></div>
-
-<!-- ══ RSVP 모달 패널 (body 직속 자식 — transform 없음, 애니메이션 없음) ══ -->
-<div id="rsvp-modal"
-    style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9601;background:#ffffff;border-top-left-radius:24px;border-top-right-radius:24px;box-shadow:0 -12px 40px rgba(0,0,0,0.25);box-sizing:border-box;max-height:85vh;flex-direction:column;">
-
-    <!-- 헤더 -->
-    <div style="padding:16px 24px 10px;flex-shrink:0;">
-        <div style="width:40px;height:4px;background:rgba(0,0,0,0.12);border-radius:99px;margin:0 auto 12px;"></div>
-        <p style="font-family:var(--font-gowun),'Gowun Dodum',serif;font-size:16px;letter-spacing:0.22em;color:#3a2f28;text-align:center;margin:0;">참석 의사 전달하기</p>
-    </div>
-
-    <!-- 스크롤 영역 -->
-    <div id="rsvp-scroll-body" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 24px 4px;min-height:0;">
-
-        <!-- 1. 하객 구분 -->
-        <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">어느 분의 하객이신가요?</p>
-        <div style="display:flex;gap:8px;margin-bottom:14px;">
-            <label id="rsvp-side-groom" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#3a2f28;touch-action:manipulation;">
-                <input type="radio" name="rsvp-side" value="groom" style="display:none;" onchange="rsvpRadioStyle()"> 🤵 신랑측
-            </label>
-            <label id="rsvp-side-bride" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#3a2f28;touch-action:manipulation;">
-                <input type="radio" name="rsvp-side" value="bride" style="display:none;" onchange="rsvpRadioStyle()"> 👰 신부측
-            </label>
-        </div>
-
-        <!-- 2. 참석 여부 -->
-        <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">참석하실 수 있나요?</p>
-        <div style="display:flex;gap:8px;margin-bottom:14px;">
-            <label id="rsvp-att-yes" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#3a2f28;touch-action:manipulation;">
-                <input type="radio" name="rsvp-att" value="yes" style="display:none;" onchange="rsvpRadioStyle()"> ✓ 참석
-            </label>
-            <label id="rsvp-att-no" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:var(--font-gowun),serif;font-size:14px;color:#3a2f28;touch-action:manipulation;">
-                <input type="radio" name="rsvp-att" value="no" style="display:none;" onchange="rsvpRadioStyle()"> ✗ 불참
-            </label>
-        </div>
-
-        <!-- 3. 성함 -->
-        <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">성함</p>
-        <input id="rsvp-name" type="text"
-            placeholder="성함을 입력해 주세요"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="off"
-            spellcheck="false"
-            style="width:100%;box-sizing:border-box;padding:11px 12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:10px;color:#3a2f28;font-family:var(--font-gowun),serif;font-size:16px;outline:none;margin-bottom:14px;letter-spacing:0.06em;touch-action:manipulation;-webkit-user-select:text !important;user-select:text !important;">
-
-        <!-- 4. 휴대폰 뒤 4자리 -->
-        <p style="font-family:var(--font-gowun),serif;font-size:12px;color:#6b4c2a;letter-spacing:0.18em;margin:0 0 8px;pointer-events:none;">휴대폰 뒤 4자리 <span style="color:rgba(0,0,0,0.35);font-size:11px;">(동명이인 구분용)</span></p>
-        <input id="rsvp-phone" type="number" inputmode="numeric" maxlength="4"
-            placeholder="0000"
-            autocomplete="off"
-            style="width:100%;box-sizing:border-box;padding:11px 12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);border-radius:10px;color:#3a2f28;font-family:monospace;font-size:16px;outline:none;margin-bottom:4px;letter-spacing:0.3em;touch-action:manipulation;-webkit-user-select:text !important;user-select:text !important;">
-
-    </div>
-
-    <!-- 푸터 -->
-    <div style="padding:12px 24px 28px;flex-shrink:0;border-top:1px solid rgba(0,0,0,0.06);background:#ffffff;">
-        <button id="rsvp-submit-btn" onclick="submitRsvp()"
-            style="width:100%;padding:14px 0;background:rgba(212,175,55,0.18);border:1px solid rgba(212,175,55,0.5);border-radius:999px;color:#6b4c2a;font-family:var(--font-gowun),serif;font-size:15px;letter-spacing:0.16em;cursor:pointer;touch-action:manipulation;">
-            전달하기
-        </button>
-        <p id="rsvp-msg" style="text-align:center;font-family:var(--font-gowun),serif;font-size:13px;color:#6b4c2a;margin:10px 0 0;min-height:18px;"></p>
-    </div>
-
-</div>
 
 </body>
 
@@ -4126,7 +4115,7 @@ p[style*="color:#b0a898"]                              { color: #b0a898 !importa
 #rsvp-section span[style*="color:rgba(212,175,55"] {
     color: rgba(107,76,42,0.4) !important;
 }
-#rsvp-section button[onclick="openRsvpModal()"] {
+#rsvp-toggle-btn {
     background: rgba(107,76,42,0.08) !important;
     border-color: rgba(107,76,42,0.35) !important;
     color: #3a2f28 !important;
@@ -4425,26 +4414,32 @@ function shareKakao() {
 })();
 
 /* ─────────────────────────────────────────────────────────
-   3. RSVP 모달 제어
+   3. RSVP 아코디언 제어 (팝업 없음 — 인라인 펼치기/접기)
 ───────────────────────────────────────────────────────── */
-function openRsvpModal() {
-    var overlay = document.getElementById('rsvp-overlay');
-    var modal   = document.getElementById('rsvp-modal');
-    if (!overlay || !modal) return;
-
-    document.body.style.overflow = 'hidden';
-    overlay.style.display = 'block';
-    modal.style.display   = 'flex';
+function openRsvpForm() {
+    var acc = document.getElementById('rsvp-accordion');
+    if (!acc) return;
+    acc.style.maxHeight = acc.scrollHeight + 'px';
+    setTimeout(function () {
+        acc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 80);
 }
 
-function closeRsvpModal() {
-    var overlay = document.getElementById('rsvp-overlay');
-    var modal   = document.getElementById('rsvp-modal');
-    if (!overlay || !modal) return;
+function closeRsvpForm() {
+    var acc = document.getElementById('rsvp-accordion');
+    if (!acc) return;
+    acc.style.maxHeight = '0';
+}
 
-    overlay.style.display = 'none';
-    modal.style.display   = 'none';
-    document.body.style.overflow = '';
+function toggleRsvpForm() {
+    var acc = document.getElementById('rsvp-accordion');
+    if (!acc) return;
+    var isOpen = acc.style.maxHeight && acc.style.maxHeight !== '0px';
+    if (isOpen) {
+        closeRsvpForm();
+    } else {
+        openRsvpForm();
+    }
 }
 
 /* 라디오 버튼 시각 업데이트 */
@@ -4521,7 +4516,7 @@ async function submitRsvp() {
         btnEl.textContent = '전달하기';
         msgEl.textContent = '';
 
-        closeRsvpModal();
+        closeRsvpForm();
     } catch (e) {
         console.error('RSVP error', e);
         msgEl.textContent = '전송에 실패했습니다. 잠시 후 다시 시도해 주세요.';
@@ -4537,7 +4532,7 @@ async function submitRsvp() {
     var params = new URLSearchParams(window.location.search);
     if (params.get('openRsvp') === 'true') {
         window.addEventListener('load', function () {
-            setTimeout(openRsvpModal, 600);
+            setTimeout(openRsvpForm, 600);
         });
     }
 })();
