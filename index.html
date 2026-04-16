@@ -11,26 +11,29 @@
 
 
         <style>
-            /* 장미 공통 필터 (Green interior + Gold glow) */
+            /* 장미 등장 애니메이션 (색상 원본 유지, 골드 글로우만) */
             @keyframes sparkleAndPop {
-                0%   { transform: translate(-50%, -50%) scale(0);   filter: hue-rotate(120deg) saturate(1.4) brightness(1) drop-shadow(0 0 0px rgba(212,175,55,0)); }
-                50%  { transform: translate(-50%, -50%) scale(1.4); filter: hue-rotate(120deg) saturate(2.2) brightness(1.5) drop-shadow(0 0 18px rgba(212,175,55,1)) drop-shadow(0 0 36px rgba(212,175,55,0.7)); }
-                100% { transform: translate(-50%, -50%) scale(1);   filter: hue-rotate(120deg) saturate(1.4) brightness(0.85) drop-shadow(rgba(212,175,55,0.9) 0px 0px 7px) drop-shadow(rgba(212,175,55,0.5) 0px 0px 16px); }
+                0%   { transform: translate(-50%, -50%) scale(0);   filter: drop-shadow(0 0 0px rgba(212,175,55,0)); }
+                50%  { transform: translate(-50%, -50%) scale(1.4); filter: brightness(1.3) drop-shadow(0 0 18px rgba(212,175,55,1)) drop-shadow(0 0 36px rgba(212,175,55,0.7)); }
+                100% { transform: translate(-50%, -50%) scale(1);   filter: drop-shadow(rgba(212,175,55,0.9) 0px 0px 7px) drop-shadow(rgba(212,175,55,0.5) 0px 0px 16px); }
             }
 
             /* 방명록 제출 후 천천히 피어나는 장미 애니메이션 */
             @keyframes slowBloom {
-                0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0; filter: hue-rotate(120deg) saturate(2.2) brightness(2) drop-shadow(0 0 28px rgba(212,175,55,1)); }
-                40%  { transform: translate(-50%, -50%) scale(1.35); opacity: 1; filter: hue-rotate(120deg) saturate(2) brightness(1.5) drop-shadow(0 0 20px rgba(212,175,55,0.9)); }
-                100% { transform: translate(-50%, -50%) scale(1);   opacity: 1; filter: hue-rotate(120deg) saturate(1.4) brightness(0.85) drop-shadow(rgba(212,175,55,0.9) 0px 0px 7px) drop-shadow(rgba(212,175,55,0.5) 0px 0px 16px); }
+                0%   { transform: translate(-50%, -50%) scale(0);    opacity: 0; filter: brightness(2) drop-shadow(0 0 28px rgba(212,175,55,1)); }
+                40%  { transform: translate(-50%, -50%) scale(1.35); opacity: 1; filter: brightness(1.4) drop-shadow(0 0 20px rgba(212,175,55,0.9)); }
+                100% { transform: translate(-50%, -50%) scale(1);    opacity: 1; filter: drop-shadow(rgba(212,175,55,0.9) 0px 0px 7px) drop-shadow(rgba(212,175,55,0.5) 0px 0px 16px); }
             }
 
-            /* 제출 성공 시 가슴 한가운데 하트 */
-            @keyframes heartBoom {
-                0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0; }
-                15%  { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
-                75%  { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
-                100% { transform: translate(-50%, -50%) scale(1.3);  opacity: 0; }
+            /* 스파클 파티클 */
+            @keyframes sparkleFloat {
+                0%   { opacity: 1; transform: translate(-50%, -50%) translate(0px, 0px) scale(1); }
+                100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) scale(0); }
+            }
+            @keyframes sparkleGlow {
+                0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+                35%  { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
             }
 
             .rose-new {
@@ -43,19 +46,15 @@
             }
             .rose-static {
                 transform: translate(-50%, -50%) scale(1);
-                filter: hue-rotate(120deg) saturate(1.4) brightness(0.85) drop-shadow(rgba(212,175,55,0.9) 0px 0px 7px) drop-shadow(rgba(212,175,55,0.5) 0px 0px 16px);
+                filter: drop-shadow(rgba(212,175,55,0.9) 0px 0px 7px) drop-shadow(rgba(212,175,55,0.5) 0px 0px 16px);
                 z-index: 10;
             }
-            #guestbook-heart {
+            #guestbook-sparkle {
                 position: absolute;
-                top: 50%; left: 50%;
-                font-size: 82px;
-                line-height: 1;
+                inset: 0;
                 z-index: 20;
                 display: none;
                 pointer-events: none;
-                filter: drop-shadow(0 0 22px rgba(255,80,80,0.85));
-                animation: heartBoom 2s ease-in-out forwards;
             }
 
             /* 슬라이드 패널 CSS (수정 완료: 확실하게 숨기고 부드럽게 올림) */
@@ -2807,7 +2806,7 @@
                                 <!-- 몽환적 가장자리 블러 비네트 -->
                                 <div style="position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(ellipse 95% 95% at 50% 50%, transparent 48%, rgba(248,246,241,0.45) 62%, rgba(248,246,241,0.82) 82%, rgba(248,246,241,0.97) 100%);"></div>
                                 <div id="roses-container" style="position:absolute; inset:0; z-index:10; pointer-events:none;"></div>
-                                <div id="guestbook-heart">❤️</div>
+                                <div id="guestbook-sparkle"></div>
                                 <div style="position:absolute;bottom:6px;right:8px;font-family:monospace;font-size:7px;color:rgba(255,255,255,0.7);letter-spacing:0.18em;pointer-events:none;z-index:11;">TAP TO READ</div>
                             </div>
 
@@ -3104,18 +3103,10 @@
             _supabase.from('guestbook').select('*').order('created_at', { ascending: false })
                 .then(function(res) { if (res.data) updateSlideList(res.data); });
 
-            // Step 1: 하트 애니메이션 (2초)
-            var heart = document.getElementById('guestbook-heart');
-            heart.style.animation = 'none';
-            heart.style.display   = 'block';
-            void heart.offsetWidth; // reflow 강제 (애니메이션 재시작)
-            heart.style.animation = 'heartBoom 2s ease-in-out forwards';
-
-            // Step 2: 하트 종료 직후 → 장미 천천히 피어남
-            setTimeout(function () {
-                heart.style.display = 'none';
+            // Step 1: 스파클 효과 (1.5초) → 완료 후 장미 피어남
+            showSparkle(function () {
                 addRoseToGarden(data, false, true); // slowBloom
-            }, 2000);
+            });
         }
 
         // 삭제
@@ -3130,6 +3121,61 @@
         }
 
         window.addEventListener('load', loadGuestbook);
+
+        /* ── 스파클(반짝임) 효과 ─────────────────────────────────── */
+        function showSparkle(callback) {
+            var container = document.getElementById('guestbook-sparkle');
+            container.innerHTML = '';
+            container.style.display = 'block';
+
+            var cx = container.offsetWidth  / 2;
+            var cy = container.offsetHeight / 2;
+            var count = 20;
+
+            for (var i = 0; i < count; i++) {
+                (function(idx) {
+                    var angle    = (idx / count) * 360;
+                    var dist     = 35 + Math.random() * 65;
+                    var tx       = Math.cos(angle * Math.PI / 180) * dist;
+                    var ty       = Math.sin(angle * Math.PI / 180) * dist;
+                    var size     = 2 + Math.random() * 5;
+                    var delay    = (Math.random() * 0.35).toFixed(3);
+                    var dur      = (1.0 + Math.random() * 0.5).toFixed(3);
+                    var colors   = ['rgba(255,220,180,0.95)', 'rgba(212,175,55,0.9)', 'rgba(255,200,200,0.85)', 'rgba(255,240,210,0.95)'];
+                    var color    = colors[Math.floor(Math.random() * colors.length)];
+
+                    var p = document.createElement('div');
+                    p.style.cssText =
+                        'position:absolute;' +
+                        'top:' + cy + 'px;left:' + cx + 'px;' +
+                        'width:' + size + 'px;height:' + size + 'px;' +
+                        'border-radius:50%;' +
+                        'background:' + color + ';' +
+                        'box-shadow:0 0 ' + (size * 2) + 'px ' + color + ';' +
+                        '--tx:' + tx + 'px;--ty:' + ty + 'px;' +
+                        'animation:sparkleFloat ' + dur + 's ease-out ' + delay + 's forwards;' +
+                        'opacity:0;';
+                    container.appendChild(p);
+                })(i);
+            }
+
+            /* 중앙 빛 퍼짐 */
+            var glow = document.createElement('div');
+            glow.style.cssText =
+                'position:absolute;' +
+                'top:' + cy + 'px;left:' + cx + 'px;' +
+                'width:100px;height:100px;' +
+                'border-radius:50%;' +
+                'background:radial-gradient(circle, rgba(255,230,190,0.55) 0%, rgba(212,175,55,0.25) 45%, transparent 70%);' +
+                'animation:sparkleGlow 1.4s ease-in-out forwards;';
+            container.appendChild(glow);
+
+            setTimeout(function () {
+                container.style.display = 'none';
+                container.innerHTML = '';
+                if (callback) callback();
+            }, 1550);
+        }
     </script>
 
 
@@ -4370,6 +4416,7 @@ async function deleteRoseFromPopup() {
     if (res.data && res.data.length > 0) {
         closeRosePopup();
         loadGuestbook();
+        alert('삭제되었습니다!');
     } else {
         alert('비밀번호가 틀렸습니다.');
     }
