@@ -87,6 +87,86 @@
                 box-sizing: border-box;
                 padding: 24px;
             }
+
+            /* ── 필름 캐러셀 ──────────────────────────────────────── */
+            .fc-frame {
+                position: absolute; inset: 0;
+                display: flex; flex-direction: column;
+                background: #141414;
+                border-radius: 3px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+                transform-origin: center center;
+                will-change: transform, opacity;
+            }
+            .fc-active { opacity:1; transform:rotateY(0deg); z-index:2; }
+            .fc-hidden { opacity:0; transform:rotateY(0deg); z-index:0; pointer-events:none; }
+
+            .film-bar {
+                height: 20px; flex-shrink:0;
+                display:flex; align-items:center; justify-content:center;
+            }
+            .film-bar-top {
+                background: repeating-linear-gradient(to right,
+                    #141414 0px 4px, rgba(215,208,180,0.72) 4px 16px, #141414 16px 22px);
+                border-radius: 3px 3px 0 0;
+            }
+            .film-bar-bot {
+                background: repeating-linear-gradient(to right,
+                    #141414 0px 4px, rgba(215,208,180,0.72) 4px 16px, #141414 16px 22px);
+                border-radius: 0 0 3px 3px;
+            }
+            .film-row { flex:1; display:flex; overflow:hidden; }
+            .film-perfs {
+                width: 16px; flex-shrink:0;
+                background: repeating-linear-gradient(to bottom,
+                    #141414 0px 4px, rgba(215,208,180,0.72) 4px 14px, #141414 14px 20px);
+            }
+            .film-inner {
+                flex:1; position:relative;
+                background: linear-gradient(160deg,#fffcf0,#f8f4db);
+                padding: 14px 13px 34px;
+                overflow: hidden;
+            }
+            .film-from { margin-bottom:9px; line-height:1.3; }
+            .film-from-label {
+                font-family:monospace; font-size:7.5px;
+                color:rgba(100,72,32,0.5); letter-spacing:0.1em;
+            }
+            .film-from-name {
+                font-family:monospace; font-size:8.5px;
+                color:rgba(100,72,32,0.82); letter-spacing:0.12em;
+                overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+                display:inline-block; max-width:calc(100% - 38px); vertical-align:bottom;
+                margin-left:3px;
+            }
+            .film-msg {
+                font-family:'Gowun Dodum',serif; font-size:13px;
+                color:#2e2416; letter-spacing:0.02em;
+                line-height:1.8; word-break:keep-all;
+                overflow:hidden; display:-webkit-box;
+                -webkit-line-clamp:6; -webkit-box-orient:vertical;
+            }
+            .film-del {
+                position:absolute; bottom:8px; right:8px;
+                background:rgba(170,50,50,0.08); border:1px solid rgba(170,50,50,0.2);
+                border-radius:999px; color:rgba(170,50,50,0.65);
+                font-size:8px; cursor:pointer; padding:3px 9px;
+                letter-spacing:0.04em; line-height:1.5;
+            }
+            .film-date {
+                font-family:monospace; font-size:7px;
+                color:rgba(215,208,180,0.58); letter-spacing:0.18em;
+            }
+            .fc-dot {
+                width:5px; height:5px; border-radius:50%;
+                background:rgba(212,175,55,0.28);
+                transition:background 0.3s, transform 0.3s;
+                flex-shrink:0;
+            }
+            .fc-dot.fc-dot-on {
+                background:rgba(212,175,55,0.85);
+                transform:scale(1.3);
+            }
             </style>
 </head>
 
@@ -2912,7 +2992,7 @@
                             <h3 style="font-family:monospace; margin:0; font-size:10px; letter-spacing:0.28em; color:rgba(212,175,55,0.75); text-transform:uppercase;">Rose Garden 🌹</h3>
                             <button onclick="closeGuestbookSlide()" style="background:none; border:none; color:rgba(212,175,55,0.65); font-size:28px; line-height:1; cursor:pointer; padding:0; outline:none;">&times;</button>
                         </div>
-                        <div id="guestbook-list" style="flex:1;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start;padding-bottom:8px;"></div>
+                        <div id="guestbook-list" style="flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column;"></div>
                     </div>
 
 
@@ -3068,25 +3148,152 @@
             }
         }
 
-        // 슬라이드 리스트 생성 (데이터가 없을 때 방어 코드 추가)
+        // 슬라이드 리스트 — 필름 캐러셀 렌더링
         function updateSlideList(data) {
-            const listDiv = document.getElementById('guestbook-list');
+            var listDiv = document.getElementById('guestbook-list');
+            listDiv.innerHTML = '';
+
             if (!data || data.length === 0) {
-                listDiv.innerHTML = '<div style="grid-column:1/-1;font-family:\'Gowun Dodum\',serif;color:rgba(212,175,55,0.45);text-align:center;margin-top:50px;font-size:13px;letter-spacing:0.08em;">가장 먼저 장미를 피워주세요.</div>';
+                listDiv.innerHTML = '<div style="flex:1;display:flex;align-items:center;justify-content:center;font-family:\'Gowun Dodum\',serif;color:rgba(212,175,55,0.45);font-size:13px;letter-spacing:0.08em;text-align:center;">가장 먼저 장미를 피워주세요.</div>';
                 return;
             }
-            const rotations = [-1.2, 0.9, -0.6, 1.4, -1.0, 0.7, -1.5, 0.5];
-            listDiv.innerHTML = data.map((item, i) => {
-                const rot = rotations[i % rotations.length];
-                return `
-                <div style="background:linear-gradient(145deg,rgba(255,252,240,0.97),rgba(248,244,220,0.94));border:1px solid rgba(212,175,55,0.48);border-radius:6px;padding:11px 11px 28px;position:relative;min-height:108px;box-shadow:2px 4px 14px rgba(0,0,0,0.38),inset 0 1px 0 rgba(255,255,255,0.65);transform:rotate(${rot}deg);">
-                    <div style="margin-bottom:7px;">
-                        <span style="font-family:monospace;font-size:7.5px;color:rgba(100,72,32,0.55);letter-spacing:0.1em;">From.</span><span style="font-family:monospace;font-size:8.5px;color:rgba(100,72,32,0.82);letter-spacing:0.12em;margin-left:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:calc(100% - 36px);display:inline-block;vertical-align:bottom;">${item.name || '익명'}</span>
-                    </div>
-                    <div style="font-family:'Gowun Dodum',serif;font-size:11.5px;color:#2e2416;letter-spacing:0.02em;line-height:1.7;word-break:keep-all;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">${item.content || ''}</div>
-                    <button onclick="deleteMsg('${item.id}')" style="position:absolute;bottom:7px;right:8px;background:rgba(170,50,50,0.08);border:1px solid rgba(170,50,50,0.2);border-radius:999px;color:rgba(170,50,50,0.65);font-size:8px;cursor:pointer;padding:3px 8px;letter-spacing:0.04em;line-height:1.5;">삭제</button>
-                </div>`;
-            }).join('');
+
+            // 뷰포트
+            var vp = document.createElement('div');
+            vp.id = 'film-vp';
+            vp.style.cssText = 'flex:1;position:relative;overflow:hidden;perspective:1000px;';
+
+            // 각 필름 프레임
+            data.forEach(function(item, i) {
+                var dateStr = '';
+                if (item.created_at) {
+                    var d = new Date(item.created_at);
+                    dateStr = d.getFullYear() + '.' +
+                        String(d.getMonth()+1).padStart(2,'0') + '.' +
+                        String(d.getDate()).padStart(2,'0');
+                }
+                var frame = document.createElement('div');
+                frame.className = 'fc-frame ' + (i === 0 ? 'fc-active' : 'fc-hidden');
+                frame.innerHTML =
+                    '<div class="film-bar film-bar-top"></div>' +
+                    '<div class="film-row">' +
+                        '<div class="film-perfs"></div>' +
+                        '<div class="film-inner">' +
+                            '<div class="film-from">' +
+                                '<span class="film-from-label">From.</span>' +
+                                '<span class="film-from-name">' + (item.name || '익명') + '</span>' +
+                            '</div>' +
+                            '<div class="film-msg">' + (item.content || '') + '</div>' +
+                            '<button class="film-del" onclick="event.stopPropagation();deleteMsg(\'' + item.id + '\')">삭제</button>' +
+                        '</div>' +
+                        '<div class="film-perfs"></div>' +
+                    '</div>' +
+                    '<div class="film-bar film-bar-bot">' +
+                        '<span class="film-date">' + dateStr + '</span>' +
+                    '</div>';
+                vp.appendChild(frame);
+            });
+
+            // 하단 네비게이션 (도트 or 카운터)
+            var nav = document.createElement('div');
+            nav.style.cssText = 'flex-shrink:0;display:flex;justify-content:center;align-items:center;gap:7px;padding:9px 0 2px;';
+            var useDots = data.length <= 12;
+            if (useDots) {
+                data.forEach(function(_, i) {
+                    var dot = document.createElement('div');
+                    dot.className = 'fc-dot' + (i === 0 ? ' fc-dot-on' : '');
+                    nav.appendChild(dot);
+                });
+            } else {
+                var counter = document.createElement('span');
+                counter.id = 'film-counter';
+                counter.style.cssText = 'font-family:monospace;font-size:9px;color:rgba(212,175,55,0.65);letter-spacing:0.2em;';
+                counter.textContent = '1 / ' + data.length;
+                nav.appendChild(counter);
+            }
+
+            listDiv.appendChild(vp);
+            listDiv.appendChild(nav);
+            initFilmCarousel(data.length, useDots);
+        }
+
+        // 필름 캐러셀 인터랙션
+        function initFilmCarousel(total, useDots) {
+            var cur = 0;
+            var busy = false;
+            var touchX = 0;
+
+            var vp = document.getElementById('film-vp');
+            if (!vp) return;
+
+            function getFrames() { return vp.querySelectorAll('.fc-frame'); }
+            function getDots()   { return document.querySelectorAll('#guestbook-list .fc-dot'); }
+
+            function goTo(next) {
+                if (busy || next === cur || next < 0 || next >= total) return;
+                busy = true;
+
+                var dir = next > cur ? 1 : -1;
+                var fList = getFrames();
+                var exitEl  = fList[cur];
+                var enterEl = fList[next];
+
+                // 진입 프레임: 오프스크린 위치 설정
+                enterEl.style.transition = 'none';
+                enterEl.style.transform  = 'rotateY(' + (dir > 0 ? 88 : -88) + 'deg)';
+                enterEl.style.opacity    = '0';
+                enterEl.classList.remove('fc-active', 'fc-hidden');
+                void enterEl.offsetWidth; // reflow
+
+                // 퇴장 프레임 애니메이션
+                exitEl.style.transition  = 'transform 0.44s cubic-bezier(0.4,0,0.2,1), opacity 0.44s';
+                exitEl.style.transform   = 'rotateY(' + (dir > 0 ? -88 : 88) + 'deg)';
+                exitEl.style.opacity     = '0';
+
+                // 진입 프레임 애니메이션 (0.06s 딜레이로 교차)
+                enterEl.style.transition = 'transform 0.44s cubic-bezier(0.4,0,0.2,1) 0.06s, opacity 0.44s 0.06s';
+                enterEl.style.transform  = 'rotateY(0deg)';
+                enterEl.style.opacity    = '1';
+
+                // 네비게이터 업데이트
+                if (useDots) {
+                    var dList = getDots();
+                    if (dList[cur])  dList[cur].classList.remove('fc-dot-on');
+                    if (dList[next]) dList[next].classList.add('fc-dot-on');
+                } else {
+                    var c = document.getElementById('film-counter');
+                    if (c) c.textContent = (next + 1) + ' / ' + total;
+                }
+
+                setTimeout(function() {
+                    exitEl.classList.remove('fc-active');
+                    exitEl.classList.add('fc-hidden');
+                    exitEl.style.cssText = '';
+                    enterEl.classList.add('fc-active');
+                    enterEl.style.transition = '';
+                    cur = next;
+                    busy = false;
+                }, 560);
+            }
+
+            // 클릭: 좌반 = 이전 / 우반 = 다음
+            vp.addEventListener('click', function(e) {
+                var rect = vp.getBoundingClientRect();
+                if (e.clientX - rect.left < rect.width / 2) goTo(cur - 1);
+                else goTo(cur + 1);
+            });
+
+            // 터치 스와이프
+            vp.addEventListener('touchstart', function(e) {
+                touchX = e.touches[0].clientX;
+            }, {passive: true});
+            vp.addEventListener('touchend', function(e) {
+                var diff = touchX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 38) {
+                    if (diff > 0) goTo(cur + 1);
+                    else          goTo(cur - 1);
+                }
+            }, {passive: true});
         }
 
         // 방명록 쓰기
