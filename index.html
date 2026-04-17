@@ -68,6 +68,19 @@
                 filter: drop-shadow(rgba(212,175,55,0.9) 0px 0px 7px) drop-shadow(rgba(212,175,55,0.5) 0px 0px 16px);
                 z-index: 10;
             }
+            .rose-name-tag {
+                display: block;
+                margin-top: 3px;
+                font-family: 'Gowun Dodum', sans-serif;
+                font-size: 10px;
+                color: rgba(255, 252, 220, 0.82);
+                text-shadow: 0 1px 4px rgba(0,0,0,0.65);
+                letter-spacing: 0.06em;
+                white-space: nowrap;
+                text-align: center;
+                pointer-events: none;
+                line-height: 1;
+            }
             /* 슬라이드 패널 CSS */
             #guestbook-slide {
                 position: fixed;
@@ -2822,7 +2835,7 @@
                             </div>
 
                             <div style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:2px 18px;display:flex;flex-direction:column;gap:5px;margin-top:16px;text-align: center">
-                                <p style="font-family:var(--font-gowun);font-size:13px;letter-spacing:0.2em;color:#9a9490;text-transform:uppercase">장미를 만들어주세요 🌹</p>
+                                <p style="font-family:var(--font-gowun);font-size:13px;letter-spacing:0.2em;color:#9a9490;text-transform:uppercase"> 장미를 만들어주세요 🌹</p>
                                 <input id="guestName" placeholder="이름" style="font-family:var(--font-gowun);font-size:13px;color:#9a9490;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
                                 <textarea id="guestContent" placeholder="축하 메시지를 남겨주세요" rows="3" style="font-family:var(--font-gowun);font-size:13px;color:#9a9490;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box;resize:none;line-height:1.65"></textarea>
                                 <input id="guestPw" placeholder="삭제용 비밀번호" type="password" style="font-family:var(--font-gowun);font-size:12px;color:#9a9490;background:rgba(255,255,255,0.78);border:1px solid rgba(0,0,0,0.07);border-radius:8px;padding:9px 12px;outline:none;width:100%;box-sizing:border-box">
@@ -3026,9 +3039,9 @@
             rose.style.position = 'absolute';
             rose.style.left = item.pos_x + '%';
             rose.style.top = item.pos_y + '%';
-            rose.style.width = '34px';
-            rose.style.height = '34px';
-            rose.style.transform = 'translate(-50%, -50%)';
+            rose.style.display = 'flex';
+            rose.style.flexDirection = 'column';
+            rose.style.alignItems = 'center';
             rose.style.pointerEvents = 'auto';
             rose.style.cursor = 'pointer';
 
@@ -3042,10 +3055,15 @@
             const roseTypes = ['./images/rose-icon1.png', './images/rose-icon2.png'];
             const typeIndex = (item.pos_x + item.pos_y) % 2;
             img.src = roseTypes[typeIndex];
-            img.style.width = '100%';
-            img.style.height = '100%';
+            img.style.width = '40px';
+            img.style.height = '40px';
+            img.style.display = 'block';
             img.style.objectFit = 'contain';
             img.style.pointerEvents = 'none';
+
+            const nameTag = document.createElement('span');
+            nameTag.className = 'rose-name-tag';
+            nameTag.textContent = item.name || '익명';
 
             rose.addEventListener('click', function (e) {
                 e.stopPropagation();
@@ -3053,6 +3071,7 @@
             });
 
             rose.appendChild(img);
+            rose.appendChild(nameTag);
             container.appendChild(rose);
             return rose;
         }
@@ -3068,8 +3087,12 @@
             }
         }
 
-        // 슬라이드 리스트 생성 (데이터가 없을 때 방어 코드 추가)
+        // 메모 상세 팝업용 데이터 캐시
+        var _memoListData = [];
+
+        // 슬라이드 리스트 생성
         function updateSlideList(data) {
+            _memoListData = data || [];
             const listDiv = document.getElementById('guestbook-list');
             if (!data || data.length === 0) {
                 listDiv.innerHTML = '<div style="grid-column:1/-1;font-family:\'Gowun Dodum\',serif;color:rgba(212,175,55,0.45);text-align:center;margin-top:50px;font-size:13px;letter-spacing:0.08em;">가장 먼저 장미를 피워주세요.</div>';
@@ -3079,12 +3102,12 @@
             listDiv.innerHTML = data.map((item, i) => {
                 const rot = rotations[i % rotations.length];
                 return `
-                <div style="background:linear-gradient(145deg,rgba(255,252,240,0.97),rgba(248,244,220,0.94));border:1px solid rgba(212,175,55,0.48);border-radius:6px;padding:11px 11px 28px;position:relative;min-height:108px;box-shadow:2px 4px 14px rgba(0,0,0,0.38),inset 0 1px 0 rgba(255,255,255,0.65);transform:rotate(${rot}deg);">
+                <div onclick="openMemoDetail(${i})" style="background:linear-gradient(145deg,rgba(255,252,240,0.97),rgba(248,244,220,0.94));border:1px solid rgba(212,175,55,0.48);border-radius:6px;padding:11px 11px 28px;position:relative;min-height:108px;box-shadow:2px 4px 14px rgba(0,0,0,0.38),inset 0 1px 0 rgba(255,255,255,0.65);transform:rotate(${rot}deg);cursor:pointer;">
                     <div style="margin-bottom:7px;">
-                        <span style="font-family:monospace;font-size:7.5px;color:rgba(100,72,32,0.55);letter-spacing:0.1em;">From.</span><span style="font-family:monospace;font-size:8.5px;color:rgba(100,72,32,0.82);letter-spacing:0.12em;margin-left:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:calc(100% - 36px);display:inline-block;vertical-align:bottom;">${item.name || '익명'}</span>
+                        <span style="font-family:monospace;font-size:9px;color:rgba(100,72,32,0.55);letter-spacing:0.1em;">From.</span><span style="font-family:monospace;font-size:10px;color:rgba(100,72,32,0.82);letter-spacing:0.12em;margin-left:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:calc(100% - 36px);display:inline-block;vertical-align:bottom;">${item.name || '익명'}</span>
                     </div>
-                    <div style="font-family:'Gowun Dodum',serif;font-size:11.5px;color:#2e2416;letter-spacing:0.02em;line-height:1.7;word-break:keep-all;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">${item.content || ''}</div>
-                    <button onclick="deleteMsg('${item.id}')" style="position:absolute;bottom:7px;right:8px;background:rgba(170,50,50,0.08);border:1px solid rgba(170,50,50,0.2);border-radius:999px;color:rgba(170,50,50,0.65);font-size:8px;cursor:pointer;padding:3px 8px;letter-spacing:0.04em;line-height:1.5;">삭제</button>
+                    <div style="font-family:'Gowun Dodum',serif;font-size:13px;color:#2e2416;letter-spacing:0.02em;line-height:1.7;word-break:keep-all;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">${item.content || ''}</div>
+                    <button onclick="event.stopPropagation();deleteMsg('${item.id}')" style="position:absolute;bottom:7px;right:8px;background:rgba(170,50,50,0.08);border:1px solid rgba(170,50,50,0.2);border-radius:999px;color:rgba(170,50,50,0.65);font-size:8px;cursor:pointer;padding:3px 8px;letter-spacing:0.04em;line-height:1.5;">삭제</button>
                 </div>`;
             }).join('');
         }
@@ -3143,6 +3166,58 @@
         }
 
         window.addEventListener('load', loadGuestbook);
+
+        /* ── 메모 상세 팝업 ────────────────────────────────────── */
+        var _memoDetailId = null;
+
+        function openMemoDetail(index) {
+            var item = _memoListData[index];
+            if (!item) return;
+            _memoDetailId = item.id;
+
+            document.getElementById('memo-detail-from').textContent = 'From.  ' + (item.name || '익명');
+            document.getElementById('memo-detail-msg').textContent  = item.content || '';
+
+            var overlay = document.getElementById('memo-detail-overlay');
+            var popup   = document.getElementById('memo-detail-popup');
+
+            // stacking context 완전 분리: body 직계 자식으로 이동
+            if (overlay.parentNode !== document.body) document.body.appendChild(overlay);
+            if (popup.parentNode   !== document.body) document.body.appendChild(popup);
+
+            overlay.style.display = 'block';
+            popup.style.display   = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    overlay.style.opacity = '1';
+                    popup.style.opacity   = '1';
+                    popup.style.transform = 'translate(-50%,-50%) scale(1)';
+                });
+            });
+        }
+
+        function closeMemoDetail() {
+            var overlay = document.getElementById('memo-detail-overlay');
+            var popup   = document.getElementById('memo-detail-popup');
+            overlay.style.opacity = '0';
+            popup.style.opacity   = '0';
+            popup.style.transform = 'translate(-50%,-54%) scale(0.9)';
+            setTimeout(function () {
+                overlay.style.display = 'none';
+                popup.style.display   = 'none';
+                document.body.style.overflow = '';
+                _memoDetailId = null;
+            }, 320);
+        }
+
+        function deleteMemoFromDetail() {
+            if (!_memoDetailId) return;
+            var id = _memoDetailId;
+            closeMemoDetail();
+            setTimeout(function () { deleteMsg(id); }, 360);
+        }
     </script>
 
 
@@ -4317,6 +4392,37 @@ window.addEventListener('load', function () {
 <!-- ============================================================
      추가 기능 3차: 장미 팝업 / 카카오 공유
      ============================================================ -->
+
+<!-- ── 메모 상세 보기 팝업 ── -->
+<div id="memo-detail-overlay" onclick="closeMemoDetail()"
+    style="display:none;opacity:0;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10000;transition:opacity 0.3s;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);"></div>
+
+<div id="memo-detail-popup"
+    style="display:none;opacity:0;flex-direction:column;position:fixed;top:50%;left:50%;transform:translate(-50%,-54%) scale(0.9);z-index:10001;width:min(340px,88vw);max-height:72vh;background:linear-gradient(145deg,#fffcf0,#f8f4db);border:1px solid rgba(212,175,55,0.55);border-radius:10px;padding:22px 20px 18px;box-shadow:3px 6px 28px rgba(0,0,0,0.48),inset 0 1px 0 rgba(255,255,255,0.7);transition:opacity 0.3s,transform 0.32s cubic-bezier(0.34,1.1,0.64,1);">
+
+    <!-- 닫기 버튼 (우상단) -->
+    <button onclick="closeMemoDetail()"
+        style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;line-height:1;color:rgba(100,72,32,0.45);cursor:pointer;padding:0;">&times;</button>
+
+    <!-- 작성자 -->
+    <div id="memo-detail-from"
+        style="font-family:monospace;font-size:9px;color:rgba(100,72,32,0.52);letter-spacing:0.18em;margin-bottom:14px;padding-right:24px;"></div>
+
+    <!-- 구분선 -->
+    <div style="border-top:1px solid rgba(212,175,55,0.25);margin-bottom:14px;"></div>
+
+    <!-- 본문 (내부 스크롤) -->
+    <div id="memo-detail-msg"
+        style="flex:1;overflow-y:auto;font-family:'Gowun Dodum',serif;font-size:14px;color:#2e2416;letter-spacing:0.03em;line-height:1.85;word-break:keep-all;margin-bottom:18px;"></div>
+
+    <!-- 하단 버튼 -->
+    <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(212,175,55,0.18);padding-top:13px;margin-top:auto;">
+        <button onclick="deleteMemoFromDetail()"
+            style="background:rgba(170,50,50,0.07);border:1px solid rgba(170,50,50,0.22);border-radius:999px;color:rgba(150,40,40,0.72);font-family:'Gowun Dodum',sans-serif;font-size:11px;cursor:pointer;padding:6px 16px;letter-spacing:0.06em;">삭제</button>
+        <button onclick="closeMemoDetail()"
+            style="background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:999px;color:rgba(100,72,32,0.82);font-family:'Gowun Dodum',sans-serif;font-size:11px;cursor:pointer;padding:6px 16px;letter-spacing:0.06em;">닫기</button>
+    </div>
+</div>
 
 <!-- ── 장미 메시지 팝업 모달 ── -->
 <div id="rose-popup-overlay" onclick="closeRosePopup()"
