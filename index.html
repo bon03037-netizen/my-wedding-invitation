@@ -3079,12 +3079,12 @@
             listDiv.innerHTML = data.map((item, i) => {
                 const rot = rotations[i % rotations.length];
                 return `
-                <div style="background:linear-gradient(145deg,rgba(255,252,240,0.97),rgba(248,244,220,0.94));border:1px solid rgba(212,175,55,0.48);border-radius:6px;padding:13px 11px 10px;position:relative;min-height:108px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:2px 4px 14px rgba(0,0,0,0.38),inset 0 1px 0 rgba(255,255,255,0.65);transform:rotate(${rot}deg);">
-                    <div style="font-family:'Gowun Dodum',serif;font-size:11.5px;color:#2e2416;letter-spacing:0.02em;line-height:1.7;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">${item.content || ''}</div>
-                    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:9px;">
-                        <button onclick="deleteMsg('${item.id}')" style="background:rgba(170,50,50,0.08);border:1px solid rgba(170,50,50,0.2);border-radius:999px;color:rgba(170,50,50,0.65);font-size:8px;cursor:pointer;padding:3px 8px;letter-spacing:0.04em;line-height:1.5;flex-shrink:0;">삭제</button>
-                        <span style="font-family:monospace;font-size:8px;color:rgba(100,72,32,0.72);letter-spacing:0.12em;text-align:right;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:6px;">— ${item.name || '익명'}</span>
+                <div style="background:linear-gradient(145deg,rgba(255,252,240,0.97),rgba(248,244,220,0.94));border:1px solid rgba(212,175,55,0.48);border-radius:6px;padding:11px 11px 28px;position:relative;min-height:108px;box-shadow:2px 4px 14px rgba(0,0,0,0.38),inset 0 1px 0 rgba(255,255,255,0.65);transform:rotate(${rot}deg);">
+                    <div style="margin-bottom:7px;">
+                        <span style="font-family:monospace;font-size:7.5px;color:rgba(100,72,32,0.55);letter-spacing:0.1em;">From.</span><span style="font-family:monospace;font-size:8.5px;color:rgba(100,72,32,0.82);letter-spacing:0.12em;margin-left:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:calc(100% - 36px);display:inline-block;vertical-align:bottom;">${item.name || '익명'}</span>
                     </div>
+                    <div style="font-family:'Gowun Dodum',serif;font-size:11.5px;color:#2e2416;letter-spacing:0.02em;line-height:1.7;word-break:keep-all;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">${item.content || ''}</div>
+                    <button onclick="deleteMsg('${item.id}')" style="position:absolute;bottom:7px;right:8px;background:rgba(170,50,50,0.08);border:1px solid rgba(170,50,50,0.2);border-radius:999px;color:rgba(170,50,50,0.65);font-size:8px;cursor:pointer;padding:3px 8px;letter-spacing:0.04em;line-height:1.5;">삭제</button>
                 </div>`;
             }).join('');
         }
