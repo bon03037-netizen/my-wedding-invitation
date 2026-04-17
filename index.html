@@ -68,23 +68,24 @@
                 filter: drop-shadow(rgba(212,175,55,0.9) 0px 0px 7px) drop-shadow(rgba(212,175,55,0.5) 0px 0px 16px);
                 z-index: 10;
             }
-            /* 슬라이드 패널 CSS (수정 완료: 확실하게 숨기고 부드럽게 올림) */
+            /* 슬라이드 패널 CSS */
             #guestbook-slide {
                 position: fixed;
-                bottom: -100%; /* 처음엔 무조건 화면 아래에 숨김 */
+                bottom: -100%;
                 left: 0;
                 width: 100%;
                 height: 75vh;
-                background: rgba(218, 210, 183, 0.95);
-                z-index: 9999;
+                background: linear-gradient(160deg, #2a3a2a, #182818);
+                border-top: 1px solid rgba(212,175,55,0.32);
                 border-top-left-radius: 24px;
                 border-top-right-radius: 24px;
-                transition: bottom 0.4s ease-in-out; /* 스르륵 닫히고 열리는 속도 */
+                box-shadow: 0 -8px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+                z-index: 9999;
+                transition: bottom 0.4s ease-in-out;
                 display: flex;
                 flex-direction: column;
                 box-sizing: border-box;
                 padding: 24px;
-                box-shadow: 0 -6px 24px rgba(0,0,0,0.12);
             }
             </style>
 </head>
@@ -2907,9 +2908,9 @@
 
 
                     <div id="guestbook-slide">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:15px;">
-                            <h3 style="color:#ffd700; font-family:var(--font-gowun), serif; margin:0; font-size:18px;">피어난 장미들 🌹</h3>
-                            <button onclick="closeGuestbookSlide()" style="background:none; border:none; color:white; font-size:32px; line-height:1; cursor:pointer; padding:0; outline:none;">&times;</button>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(212,175,55,0.2); padding-bottom:15px;">
+                            <h3 style="font-family:monospace; margin:0; font-size:10px; letter-spacing:0.28em; color:rgba(212,175,55,0.75); text-transform:uppercase;">Rose Garden 🌹</h3>
+                            <button onclick="closeGuestbookSlide()" style="background:none; border:none; color:rgba(212,175,55,0.65); font-size:28px; line-height:1; cursor:pointer; padding:0; outline:none;">&times;</button>
                         </div>
                         <div id="guestbook-list" style="flex:1; overflow-y:auto; padding-right:5px;"></div>
                     </div>
@@ -3071,14 +3072,14 @@
         function updateSlideList(data) {
             const listDiv = document.getElementById('guestbook-list');
             if (!data || data.length === 0) {
-                listDiv.innerHTML = '<div style="color:linear-gradient(160deg,#2a3a2a,#182818); text-align:center; margin-top:50px;">가장 먼저 장미를 피워주세요.</div>';
+                listDiv.innerHTML = '<div style="font-family:\'Gowun Dodum\',serif;color:rgba(212,175,55,0.45);text-align:center;margin-top:50px;font-size:13px;letter-spacing:0.08em;">가장 먼저 장미를 피워주세요.</div>';
                 return;
             }
             listDiv.innerHTML = data.map(item => `
-            <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:16px; margin-bottom:12px; color:white; font-size:14px; position:relative; line-height:1.5;">
-                <div style="font-weight:bold; margin-bottom:6px; font-size:12px; color:#ffd700;">${item.name || '이름 없음'}</div>
-                <div>${item.content || '내용이 없습니다.'}</div>
-                <button onclick="deleteMsg('${item.id}')" style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.2); border:none; color:white; font-size:10px; cursor:pointer; padding:4px 8px; border-radius:4px;">삭제</button>
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:16px 16px 14px;margin-bottom:10px;position:relative;line-height:1.6;">
+                <div style="font-family:monospace;font-size:9px;color:rgba(212,175,55,0.72);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:8px;">${item.name || '익명'}</div>
+                <div style="font-family:'Gowun Dodum',serif;font-size:14px;color:#f0ece4;letter-spacing:0.04em;padding-right:40px;">${item.content || ''}</div>
+                <button onclick="deleteMsg('${item.id}')" style="position:absolute;top:12px;right:12px;background:rgba(180,60,60,0.1);border:1px solid rgba(180,60,60,0.22);border-radius:999px;color:rgba(210,80,80,0.75);font-size:9px;cursor:pointer;padding:4px 9px;letter-spacing:0.05em;">삭제</button>
             </div>
             `).join('');
         }
@@ -4056,10 +4057,6 @@ html, body {
     background: rgba(255,255,255,0.55) !important;
     border-color: rgba(107,76,42,0.1) !important;
 }
-/* 방명록 슬라이드 패널 */
-#guestbook-slide h3 { color: #3a2f28 !important; }
-#guestbook-slide > div:first-child { border-bottom-color: rgba(107,76,42,0.12) !important; }
-#guestbook-slide > div:first-child button { color: #6b4c2a !important; }
 
 /* ══════════════════════════════════════════════════════════════
    1-FIX. 히어로 섹션 – dvh 픽스 (모바일 주소창 리사이즈 버그)
